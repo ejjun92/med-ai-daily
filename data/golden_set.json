@@ -217,5 +217,65 @@
    "note": "MICCAI 2025. 수술영상 + explainability 교차 — 축 경계 사례"
   }
  ],
- "_f13_status": "F-13 (2026-08-31 조사): expected_source=unknown 5건의 소속을 확정하지 못했다. arXiv 제목 검색이 5건 모두에서 아무것도 찾지 못했고, 같은 코드로 ImageBind를 찾는 양성 대조는 통과했으므로 검색 방법의 문제는 아니다. 다만 CheXagent는 arXiv에서 다른 제목으로 개명된 판본이 확인돼(제목 검색이 실패한 이유로 보인다), 'arXiv에 없음'이라고 단정하지 않는다. 결론: 이 골든셋은 비-arXiv 수집 경로(PubMed/S2)를 강하게 검증하지 못한다. 확정된 비-arXiv 표본은 CurConMix 1건뿐이다. 다만 2026-08-31 전체 실행에서 세 소스 모두 실제로 동작했다 (arXiv 242 / PubMed 45 / S2 500). 재현율 회귀를 소스별로 보려면 저널 전용 논문 3~4편을 추가해야 한다."
+ "_f13_status": "F-13 (2026-08-31 조사): expected_source=unknown 5건의 소속을 확정하지 못했다. arXiv 제목 검색이 5건 모두에서 아무것도 찾지 못했고, 같은 코드로 ImageBind를 찾는 양성 대조는 통과했으므로 검색 방법의 문제는 아니다. 다만 CheXagent는 arXiv에서 다른 제목으로 개명된 판본이 확인돼(제목 검색이 실패한 이유로 보인다), 'arXiv에 없음'이라고 단정하지 않는다. 결론: 이 골든셋은 비-arXiv 수집 경로(PubMed/S2)를 강하게 검증하지 못한다. 확정된 비-arXiv 표본은 CurConMix 1건뿐이다. 다만 2026-08-31 전체 실행에서 세 소스 모두 실제로 동작했다 (arXiv 242 / PubMed 45 / S2 500). 재현율 회귀를 소스별로 보려면 저널 전용 논문 3~4편을 추가해야 한다.",
+ "negatives": [
+  {
+   "title": "Oblique Genomics Mixture of Experts: Prediction of Brain Disorder With Aging-Related Changes",
+   "must_not_be_axis": "brain_decoding",
+   "why": "뇌질환·노화 예측 — 진단이 목적이다"
+  },
+  {
+   "title": "NeuroXVocal: Detection and Explanation of Alzheimer's Disease through Non-invasive Analysis",
+   "must_not_be_axis": "brain_decoding",
+   "why": "치매 진단. 게다가 입력이 음성이지 뇌 신호가 아니다"
+  },
+  {
+   "title": "TReND: Transformer derived features and Regularized NMF for neonatal functional network Delineation",
+   "must_not_be_axis": "brain_decoding",
+   "why": "신생아 기능 네트워크 분할 — 영상 처리"
+  },
+  {
+   "title": "Lifespan Cortical Surface Reconstruction from Thick-Slice Clinical MRI",
+   "must_not_be_axis": "brain_decoding",
+   "why": "피질 표면 재구성 — 영상 처리"
+  },
+  {
+   "title": "Unpaired Multi-Site Brain MRI Harmonization with Image Style-Guided Latent Diffusion",
+   "must_not_be_axis": "brain_decoding",
+   "why": "MRI harmonization — 영상 처리"
+  },
+  {
+   "title": "DHGFormer: Dynamic Hierarchical Graph Transformer for Disorder Brain Disease Diagnosis",
+   "must_not_be_axis": "brain_decoding",
+   "why": "뇌질환 진단"
+  },
+  {
+   "title": "Investigating Voxel-Level Brain Age Prediction as a Pretext Task for Brain MRI Segmentation",
+   "must_not_be_axis": "brain_decoding",
+   "why": "뇌 나이 예측 + 분할 — 영상 처리"
+  },
+  {
+   "title": "Core-Periphery Principle Guided State Space Model for Functional Connectome Classification",
+   "must_not_be_axis": "brain_decoding",
+   "why": "커넥톰으로 환자군 분류"
+  }
+ ],
+ "_negatives_note": "정밀도 표본. 골든셋 20편이 전부 '진짜 brain decoding'이라 잘못된 규칙('뇌 신호를 다루면 brain_decoding')으로도 재현율 20/20이 나왔다 — 재현율만 재는 표본은 과잉포섭을 못 잡는다. v3에서 축을 '뇌신호 AI'로 넓히면서 경계를 '목적'으로 다시 그었다: 정보를 읽어내거나 표현을 배우면 포함, 질환 진단·영상 처리면 제외. negatives는 제외돼야 할 것, positives_broadened는 v3에서 새로 포함돼야 할 것이다.",
+ "positives_broadened": [
+  {
+   "title": "EEG-DINO: Learning EEG Foundation Models via Hierarchical Self-distillation",
+   "must_be_axis": "brain_decoding",
+   "why": "EEG 표현학습 — v3에서 포함으로 바뀌었다"
+  },
+  {
+   "title": "Improving Motor Imagery EEG Signal Quality with Dynamic Visual Cues",
+   "must_be_axis": "brain_decoding",
+   "why": "BCI/motor imagery"
+  },
+  {
+   "title": "MindLink: Subject-Agnostic Cross-Subject Brain Decoding Framework",
+   "must_be_axis": "brain_decoding",
+   "why": "피험자 간 디코딩 일반화"
+  }
+ ]
 }

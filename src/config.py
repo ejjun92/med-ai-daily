@@ -36,7 +36,7 @@ class Axis:
 
 
 AXES: tuple[Axis, ...] = (
-    Axis("brain_decoding",  "Brain Decoding",   0.35),
+    Axis("brain_decoding",  "뇌신호 AI",   0.35),
     Axis("surgical_video",  "수술영상",          0.30),
     Axis("dl_methodology",  "딥러닝 방법론",      0.20),
     Axis("medical_imaging", "의료영상 AI",       0.15),
@@ -46,8 +46,8 @@ AXIS_BY_KEY = {a.key: a for a in AXES}
 
 
 # ─────────────────────────────────────────────────────────────────
-# 카테고리 (17개) — 각 카테고리는 정확히 한 축에 속한다
-#   카테고리 수는 축 비중에 비례하게 배분했다: brain 4 / 수술 4 /
+# 카테고리 (18개) — 각 카테고리는 정확히 한 축에 속한다
+#   카테고리 수는 축 비중에 비례하게 배분했다: brain 5 / 수술 4 /
 #   방법론 6 / 의료영상 3. 방법론은 8~12편을 6칸에 나눠 칸당 1~2편으로
 #   얇다 — 1주차 결과를 보고 병합 검토 (계획 F-12).
 # ─────────────────────────────────────────────────────────────────
@@ -63,13 +63,15 @@ class Category:
 CATEGORIES: tuple[Category, ...] = (
     # ■ Brain Decoding (35%)
     Category("fmri_visual_decoding", "fMRI Visual Decoding & Reconstruction", "brain_decoding",
-             "fMRI 신호에서 이미지·장면을 복원하거나 mental imagery를 디코딩"),
-    Category("eeg_meg_decoding", "EEG/MEG Decoding", "brain_decoding",
-             "EEG·MEG 기반 시각·인지 상태 디코딩"),
+             "fMRI에서 피험자가 본·상상한 이미지·장면을 복원(reconstruction)한다"),
+    Category("eeg_meg_decoding", "EEG/MEG Decoding & BCI", "brain_decoding",
+             "EEG·MEG에서 자극 내용이나 인지·운동 의도를 읽어낸다. motor imagery, BCI, neurofeedback 포함"),
     Category("brain_to_language", "Brain-to-Language & Multimodal Decoding", "brain_decoding",
-             "뇌 신호에서 텍스트 생성, 통합 멀티모달 디코딩"),
+             "뇌 신호에서 문장·단어·의미를 생성한다 (speech/text decoding)"),
     Category("cross_subject_alignment", "Cross-Subject Generalization & Neural Alignment", "brain_decoding",
-             "subject-agnostic 일반화, 뇌-모델 표현 정렬, BCI"),
+             "디코딩 모델을 학습에 없던 피험자로 일반화(subject-agnostic)하거나, 뇌 표현과 딥러닝 모델 표현을 정렬·비교한다. 다기관 데이터 조화나 피험자 변이 보정 자체가 목적이면 여기가 아니다"),
+    Category("brain_representation", "Brain Signal Representation & Foundation Models", "brain_decoding",
+             "EEG·fMRI **원신호 자체**(시계열·볼륨)의 표현학습·자기지도학습·foundation model. 연결성 그래프·커넥톰·메타분석처럼 신호에서 뽑아낸 2차 산물을 다루면 여기가 아니다"),
 
     # ■ 수술영상 (30%)
     Category("surgical_scene", "Surgical Scene Understanding", "surgical_video",
@@ -189,7 +191,9 @@ TRUNCATION_SORT_KEY = {"arxiv": "submitted_date", "pubmed": "pdat", "s2": "publi
 DEFERRED_TTL_DAYS = 14
 # 이 값이 바뀌어야 보류분이 재진입한다. 같은 프롬프트로 재분류하면
 # 같은 판정이 나오므로 순수 낭비다 (계획 D-4).
-CLASSIFY_PROMPT_VERSION = "v1"
+CLASSIFY_PROMPT_VERSION = "v3"   # v2: brain_decoding 정의를 "복원·해독"으로
+# 좁혔다. v1은 "뇌 신호를 다루면 brain_decoding"이라 연결성·질환분류·감정인식이
+# 전부 끌려 들어와 51칸 중 18칸을 낭비했다 (2026-08-31 실측).
 
 # arXiv DataCite DOI. 모든 제출물에 발급되며 저널 DOI와 절대 일치하지
 # 않는다. 제외하지 않으면 제목 매칭이 도달 불가능한 죽은 코드가 된다.

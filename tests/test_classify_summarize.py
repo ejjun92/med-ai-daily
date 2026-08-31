@@ -20,7 +20,7 @@ def test_prompt_lists_every_category():
     p = c_prompt(paper(abstract="x"))
     for c in config.CATEGORIES:
         assert c.id in p, c.id
-    assert len(config.CATEGORY_IDS) == 17
+    assert len(config.CATEGORY_IDS) == 18
 
 
 def test_schema_enums_match_config():
@@ -129,3 +129,50 @@ def test_degenerate_tails_rejected_but_technical_terms_kept(tail, ok):
     """
     got = validate({"korean_summary": _BASE + tail, "tags": ["a"]})
     assert (got is not None) is ok
+
+
+# ── 축 경계: 과잉포섭 방지 (2026-08-31 사용자 지적으로 발견) ──
+def test_prompt_states_what_brain_decoding_is_not():
+    """v1은 "뇌 신호를 다루면 brain_decoding"이라고만 썼다.
+
+    그 결과 뇌 연결성·질환분류·감정인식이 전부 끌려 들어와, 실제 페이지의
+    brain_decoding 18건 중 진짜 디코딩 논문은 1건이었다. 골든셋 20편이 전부
+    '진짜'라서 재현율 20/20으로도 이 실패가 보이지 않았다.
+
+    프롬프트가 경계를 명시하는지 확인한다 — 정의만 주면 모델은 넓게 잡는다.
+    """
+    p = c_prompt(paper(abstract="x"))
+    assert "뇌를 다룬다는 것만으로는 부족하다" in p
+    for excluded in ("질환 진단", "harmonization", "환자군을 분류"):
+        assert excluded in p, f"제외 대상 '{excluded}'가 프롬프트에 없다"
+    for included in ("BCI", "foundation model", "표현학습"):
+        assert included in p, f"포함 대상 '{included}'가 프롬프트에 없다"
+
+
+def test_negative_samples_exist_in_golden_set():
+    """재현율만 재는 표본은 과잉포섭을 잡지 못한다.
+
+    이 파일이 검사하는 것은 표본의 존재다. 실제 판정은 GPU가 필요하므로
+    tests/test_golden_recall.py(@pytest.mark.llm)가 본다.
+    """
+    import json
+    import pathlib
+    g = json.loads((pathlib.Path(__file__).parent.parent
+                    / "data" / "golden_set.json").read_text())
+    negs = g.get("negatives", [])
+    assert len(negs) >= 8, "brain_decoding 음성 표본이 부족하다"
+    assert all(n["must_not_be_axis"] == "brain_decoding" for n in negs)
+    assert all(n.get("why") for n in negs), "왜 아닌지 남겨야 다음 사람이 판단할 수 있다"
+    # 경계를 넓혔으면 '새로 포함돼야 할 것'도 표본으로 남긴다 — 안 그러면
+    # 다음 사람이 다시 좁히면서 조용히 되돌린다.
+    pos = g.get("positives_broadened", [])
+    assert len(pos) >= 3 and all(x["must_be_axis"] == "brain_decoding" for x in pos)
+
+
+def test_prompt_version_bumped_when_rules_change():
+    """프롬프트를 고치면 버전을 올려야 보류분이 재분류된다 (원장 버전 게이트).
+
+    안 올리면 v1으로 잘못 걸러진 논문들이 영원히 회수되지 않는다.
+    """
+    assert config.CLASSIFY_PROMPT_VERSION not in ("v1", "v2"), \
+        "brain_decoding 규칙을 고쳤으면 CLASSIFY_PROMPT_VERSION을 올려야 한다"

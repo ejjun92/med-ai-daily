@@ -5,6 +5,11 @@ import pytest
 
 import config
 from ledger import DeferredLedger, PublishedLedger
+
+# 실제 프롬프트 버전이 무엇이든 '바뀐 버전'이어야 한다.
+# "v2"를 하드코딩했다가 config가 v2로 올라가면서 테스트 4개가 조용히
+# 의미를 잃었다 — 재진입이 0건인데 통과하는 상태가 됐다.
+CHANGED = config.CLASSIFY_PROMPT_VERSION + "-changed"
 from models import Paper, normalize_arxiv_id, normalize_doi, normalize_title
 
 
@@ -84,7 +89,7 @@ def test_no_reentry_while_prompt_unchanged(deferred):
 
 def test_reentry_only_after_prompt_change(deferred):
     last = _fill(deferred, days=5, per_day=50)
-    got = deferred.active(last, prompt_version="v2")
+    got = deferred.active(last, prompt_version=CHANGED)
     assert 0 < len(got) <= config.DEFERRED_DAILY_MAX
 
 
@@ -94,12 +99,12 @@ def test_pool_stays_bounded_over_20_days(deferred):
     last = _fill(deferred, days=20, per_day=240)
     assert len(deferred) > 4000                                   # 누적은 크지만
     assert deferred.active(last) == []                            # 재진입은 0
-    assert len(deferred.active(last, prompt_version="v2")) <= config.DEFERRED_DAILY_MAX
+    assert len(deferred.active(last, prompt_version=CHANGED)) <= config.DEFERRED_DAILY_MAX
 
 
 def test_reentry_is_oldest_first(deferred):
     last = _fill(deferred, days=10, per_day=50)
-    got = deferred.active(last, prompt_version="v2")
+    got = deferred.active(last, prompt_version=CHANGED)
     assert got == sorted(got, key=lambda r: r.first_seen)
 
 
@@ -126,7 +131,7 @@ def test_deferred_record_carries_enough_to_reclassify(deferred):
               announced_date="2026-05-16", url="https://arxiv.org/abs/2605.17198")
     deferred.defer([(p, "not_relevant")], "2026-08-31")
 
-    rec = DeferredLedger(deferred.root).active("2026-08-31", prompt_version="v2")[0]
+    rec = DeferredLedger(deferred.root).active("2026-08-31", prompt_version=CHANGED)[0]
     back = Paper.from_payload(rec.payload)
     assert back.title == p.title
     assert back.abstract == p.abstract
@@ -151,7 +156,7 @@ def test_old_records_without_payload_still_load(deferred, tmp_path):
         f.write(json.dumps({"primary_id": "arxiv:1", "first_seen": "2026-08-31",
                             "prompt_version": "v1", "reason": "quota",
                             "title": "T"}) + "\n")
-    recs = DeferredLedger(root).active("2026-08-31", prompt_version="v2")
+    recs = DeferredLedger(root).active("2026-08-31", prompt_version=CHANGED)
     assert len(recs) == 1 and recs[0].payload is None
 
 
@@ -186,7 +191,7 @@ def test_quota_records_carry_no_payload(deferred):
     """
     p = Paper(title="T", source="arxiv", arxiv_id="1", abstract="긴 초록" * 200)
     deferred.defer([(p, "quota")], "2026-08-31")
-    rec = DeferredLedger(deferred.root).active("2026-08-31", prompt_version="v2")[0]
+    rec = DeferredLedger(deferred.root).active("2026-08-31", prompt_version=CHANGED)[0]
     assert rec.payload is None
     assert rec.title == "T", "식별 정보는 남는다 — 본 적 있는지 추적은 된다"
 
@@ -195,5 +200,5 @@ def test_not_relevant_records_keep_payload(deferred):
     """프롬프트를 고쳤을 때 회수할 대상은 바로 이쪽이다."""
     p = Paper(title="T", source="arxiv", arxiv_id="1", abstract="초록")
     deferred.defer([(p, "not_relevant")], "2026-08-31")
-    rec = DeferredLedger(deferred.root).active("2026-08-31", prompt_version="v2")[0]
+    rec = DeferredLedger(deferred.root).active("2026-08-31", prompt_version=CHANGED)[0]
     assert rec.payload and rec.payload["abstract"] == "초록"

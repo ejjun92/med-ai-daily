@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<title>Medical AI Daily — 아카이브</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    color-scheme: light dark;
+    --fg: #16181d; --muted: #5f6672; --line: #e2e5ea;
+    --bg: #ffffff; --card: #f7f8fa; --accent: #1a56b8; --warn-bg: #fff4e0; --warn-fg: #7a4a00;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fg: #e6e8ec; --muted: #9aa1ad; --line: #2b2f37;
+      --bg: #14161a; --card: #1c1f26; --accent: #7fb0ff; --warn-bg: #3a2b12; --warn-fg: #ffd79a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    max-width: 54rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem;
+    line-height: 1.7; color: var(--fg); background: var(--bg);
+    overflow-wrap: break-word; word-break: break-word;   /* 긴 제목·URL이 가로 스크롤을 만들지 않게 */
+  }
+  a { color: var(--accent); }
+  h1 { font-size: 1.7rem; margin: 0 0 .3rem; }
+  h2 { font-size: 1.25rem; margin: 2.6rem 0 .2rem; padding-bottom: .35rem;
+       border-bottom: 2px solid var(--line); }
+  h3 { font-size: .96rem; margin: 1.6rem 0 .6rem; color: var(--muted);
+       font-weight: 600; letter-spacing: .01em; }
+  .muted { color: var(--muted); font-size: .9rem; }
+  .banner { background: var(--warn-bg); color: var(--warn-fg); border-radius: .5rem;
+            padding: .8rem 1rem; margin: 1.2rem 0; font-size: .95rem; }
+  .entry { border-top: 1px solid var(--line); padding: .95rem 0; }
+  .entry:first-of-type { border-top: none; }
+  .entry-title { font-size: 1.02rem; font-weight: 600; line-height: 1.45; margin: 0 0 .3rem; }
+  .stars { color: #d99a00; letter-spacing: .06em; margin-right: .4rem; font-size: .95rem; }
+  .meta { font-size: .84rem; color: var(--muted); margin: .1rem 0 .45rem; }
+  .meta span + span::before { content: " · "; }
+  .summary { margin: .35rem 0 .5rem; font-size: .95rem; }
+  .no-abstract { color: var(--muted); font-style: italic; font-size: .92rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .35rem; }
+  .tag { background: var(--card); border: 1px solid var(--line); border-radius: 1rem;
+         padding: .08rem .55rem; font-size: .77rem; color: var(--muted); }
+  .tag.venue { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+  footer { margin-top: 4rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
+           font-size: .82rem; color: var(--muted); }
+  footer dl { display: grid; grid-template-columns: max-content 1fr; gap: .15rem .8rem; margin: .5rem 0; }
+  footer dt { font-weight: 600; }
+  footer dd { margin: 0; }
+  nav { margin: .6rem 0 0; font-size: .9rem; }
+</style>
+<body>
+<h1>아카이브</h1>
+<p class="muted">1일치</p>
+<ul>
+  <li><a href="2026-08-31.html">2026-08-31</a></li>
+</ul>
+
+<footer>
+  <dl>
+    <dt>데이터 기준일</dt><dd>2026-08-31</dd>
+    <dt>생성 시각</dt><dd>2026-08-31 21:24 KST</dd>
+    <dt>수집</dt><dd>arXiv 242건 · PubMed 45건 · Semantic Scholar 500건</dd>
+    <dt>게시</dt><dd>51건 (그중 초록 미확보 4건)</dd>
+<dt>요약 실패</dt><dd>6건 (논문은 게시, 제목만 표시)</dd><dt>제외</dt><dd>179건 (요약 검증 실패·판정 불가)</dd><dt>학회 부스트</dt><dd>32건</dd>  </dl>
+  <nav><a href="../index.html">최신</a> · <a href="../archive/index.html">아카이브</a></nav>
+</footer>

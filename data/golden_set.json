@@ -1,220 +1,221 @@
 {
-  "_schema": "golden_set/v1",
-  "_note": "AC-12 재현율 회귀용. 파이프라인과 독립적으로 사용자가 선정한다.",
-  "_requirements": {
-    "min_entries": 20,
-    "min_non_arxiv": 5
+ "_schema": "golden_set/v1",
+ "_note": "AC-12 재현율 회귀용. 파이프라인과 독립적으로 사용자가 선정한다.",
+ "_requirements": {
+  "min_entries": 20,
+  "min_non_arxiv": 5
+ },
+ "entries": [
+  {
+   "primary_id": "arxiv:2410.00263",
+   "ids": {
+    "arxiv_id": "2410.00263"
+   },
+   "title": "Procedure-Aware Surgical Video-language Pretraining with Hierarchical Knowledge Augmentation",
+   "expected_axis": "surgical_video",
+   "expected_source": "arxiv",
+   "window_date": "2024-09-30",
+   "note": "NeurIPS 2024. comments에 'NeurIPS' 문자열 없이 정식명칭만 표기됨"
   },
-  "entries": [
-    {
-      "primary_id": "arxiv:2410.00263",
-      "ids": {
-        "arxiv_id": "2410.00263"
-      },
-      "title": "Procedure-Aware Surgical Video-language Pretraining with Hierarchical Knowledge Augmentation",
-      "expected_axis": "surgical_video",
-      "expected_source": "arxiv",
-      "window_date": "2024-09-30",
-      "note": "NeurIPS 2024. comments에 'NeurIPS' 문자열 없이 정식명칭만 표기됨"
-    },
-    {
-      "primary_id": "doi:10.1007/978-3-032-05114-1_15",
-      "ids": {
-        "doi": "10.1007/978-3-032-05114-1_15"
-      },
-      "title": "CurConMix: A Curriculum Contrastive Learning Framework for Enhancing Surgical Action Triplet Recognition",
-      "expected_axis": "surgical_video",
-      "expected_source": "s2",
-      "window_date": "2025-09",
-      "note": "MICCAI 2025 (LNCS). arXiv 없음 + PubMed 화이트리스트 밖 → S2 경로 전용 테스트. window_date 정밀화 필요"
-    },
-    {
-      "primary_id": "arxiv:2503.19670",
-      "ids": {
-        "arxiv_id": "2503.19670"
-      },
-      "title": "fine-CLIP: Enhancing Zero-Shot Fine-Grained Surgical Action Recognition with Vision-Language Models",
-      "expected_axis": "surgical_video",
-      "expected_source": "arxiv",
-      "window_date": "2025-03-25",
-      "note": "comments에 학회 정보 없음 → venue 라벨 미부여 예상"
-    },
-    {
-      "primary_id": "arxiv:2509.12893",
-      "ids": {
-        "arxiv_id": "2509.12893"
-      },
-      "title": "MEJO: MLLM-Engaged Surgical Triplet Recognition via Inter- and Intra-Task Joint Optimization",
-      "expected_axis": "surgical_video",
-      "expected_source": "arxiv",
-      "window_date": "2025-09-16",
-      "note": "comments 없음"
-    },
-    {
-      "primary_id": "arxiv:2505.08581",
-      "ids": {
-        "arxiv_id": "2505.08581"
-      },
-      "title": "ReSurgSAM2: Referring Segment Anything in Surgical Video via Credible Long-term Tracking",
-      "expected_axis": "surgical_video",
-      "expected_source": "arxiv",
-      "window_date": "2025-05-13",
-      "note": "'Early accepted by MICCAI 2025' → D-13 정상 추출 케이스"
-    },
-    {
-      "primary_id": "arxiv:2604.18134",
-      "ids": {
-        "arxiv_id": "2604.18134"
-      },
-      "title": "Can LLM-Generated Text Empower Surgical Vision-Language Pre-training?",
-      "expected_axis": "surgical_video",
-      "expected_source": "arxiv",
-      "window_date": "2026-04-20",
-      "note": "CVPRW(워크숍) 2026 — 본회의 CVPR과 구분해야 함. 'presentationn' 오타 포함"
-    },
-    {
-      "primary_id": "arxiv:2605.17198",
-      "ids": {
-        "arxiv_id": "2605.17198"
-      },
-      "title": "MIRAGE: Robust multi-modal architectures translate fMRI-to-image models from vision to mental imagery",
-      "expected_axis": "brain_decoding",
-      "expected_source": "arxiv",
-      "window_date": "2026-05-16",
-      "note": "comments 없음"
-    },
-    {
-      "primary_id": "arxiv:2409.00121",
-      "ids": {
-        "arxiv_id": "2409.00121"
-      },
-      "title": "BELT-2: Bootstrapping EEG-to-Language Representation Alignment for Multi-task Brain Decoding",
-      "expected_axis": "brain_decoding",
-      "expected_source": "arxiv",
-      "window_date": "2024-08-28",
-      "note": "comments 없음"
-    },
-    {
-      "primary_id": "arxiv:2411.14347",
-      "ids": {
-        "arxiv_id": "2411.14347"
-      },
-      "title": "DINO-X: A Unified Vision Model for Open-World Object Detection and Understanding",
-      "expected_axis": "dl_methodology",
-      "expected_source": "arxiv",
-      "window_date": "2024-11-21",
-      "note": "open-world detection. 현재 카테고리 11~14에 해당 없음 → 카테고리 재정의 필요"
-    },
-    {
-      "primary_id": "arxiv:2401.17270",
-      "ids": {
-        "arxiv_id": "2401.17270"
-      },
-      "title": "YOLO-World: Real-Time Open-Vocabulary Object Detection",
-      "expected_axis": "dl_methodology",
-      "expected_source": "arxiv",
-      "window_date": "2024-01-30",
-      "note": "open-vocabulary detection. 카테고리 미매칭"
-    },
-    {
-      "primary_id": "arxiv:2305.05665",
-      "ids": {
-        "arxiv_id": "2305.05665"
-      },
-      "title": "ImageBind: One Embedding Space To Bind Them All",
-      "expected_axis": "dl_methodology",
-      "expected_source": "arxiv",
-      "window_date": "2023-05-09",
-      "note": "CVPR 2023 Highlight. 13번(Representation & SSL)에 부합하는 유일한 항목"
-    },
-    {
-      "primary_id": "arxiv:2604.24625",
-      "ids": {
-        "arxiv_id": "2604.24625"
-      },
-      "title": "Meta-CoT: Enhancing Granularity and Generalization in Image Editing",
-      "expected_axis": "dl_methodology",
-      "expected_source": "arxiv",
-      "window_date": "2026-04-27",
-      "note": "CVPR 2026. image editing — 카테고리 미매칭"
-    },
-    {
-      "primary_id": "title:beyond-brain-decoding",
-      "ids": {},
-      "title": "Beyond Brain Decoding: Visual-Semantic Reconstructions to Mental Creation Extension Based on fMRI",
-      "expected_axis": "brain_decoding",
-      "expected_source": "unknown",
-      "window_date": "unknown",
-      "note": "사용자는 의료영상으로 분류. arXiv 미확인 → 첫 골든 실행에서 소스 판별 필요"
-    },
-    {
-      "primary_id": "title:brena",
-      "ids": {},
-      "title": "BRENA: Brain-Inspired Hierarchical Neural Alignment Framework for Visual Decoding from EEG Signals",
-      "expected_axis": "brain_decoding",
-      "expected_source": "unknown",
-      "window_date": "unknown",
-      "note": "사용자는 의료영상으로 분류. arXiv 미확인"
-    },
-    {
-      "primary_id": "title:chexagent",
-      "ids": {},
-      "title": "CheXagent: Towards a Foundation Model for Chest X-Ray Interpretation",
-      "expected_axis": "medical_imaging",
-      "expected_source": "unknown",
-      "window_date": "unknown",
-      "note": "유일한 순수 의료영상 항목. arXiv 검색 실패했으나 존재 가능성 높음 — 검증 필요"
-    },
-    {
-      "primary_id": "title:mindlink",
-      "ids": {},
-      "title": "MindLink: Subject-agnostic Cross-Subject Brain Decoding Framework",
-      "expected_axis": "brain_decoding",
-      "expected_source": "unknown",
-      "window_date": "unknown",
-      "note": "사용자는 의료영상으로 분류. arXiv 미확인"
-    },
-    {
-      "primary_id": "arxiv:2502.15786",
-      "ids": {
-        "arxiv_id": "2502.15786"
-      },
-      "title": "MindLLM: A Subject-Agnostic and Versatile Model for fMRI-to-Text Decoding",
-      "expected_axis": "brain_decoding",
-      "expected_source": "arxiv",
-      "window_date": "2025-02-18",
-      "note": "ICML 2025. comments가 'International Conference on Machine Learning' 정식명칭 사용 — D-13 토큰 목록에 반영 필요"
-    },
-    {
-      "primary_id": "arxiv:2404.07202",
-      "ids": {
-        "arxiv_id": "2404.07202"
-      },
-      "title": "UMBRAE: Unified Multimodal Brain Decoding",
-      "expected_axis": "brain_decoding",
-      "expected_source": "arxiv",
-      "window_date": "2024-04-10",
-      "note": "ECCV 2024"
-    },
-    {
-      "primary_id": "title:skit",
-      "ids": {},
-      "title": "SKiT: a Fast Key Information Video Transformer for Online Surgical Phase Recognition",
-      "expected_axis": "surgical_video",
-      "expected_source": "unknown",
-      "window_date": "unknown",
-      "note": "사용자는 의료영상으로 분류했으나 수술 phase recognition. arXiv 미확인"
-    },
-    {
-      "primary_id": "arxiv:2507.15418",
-      "ids": {
-        "arxiv_id": "2507.15418"
-      },
-      "title": "SurgX: Neuron-Concept Association for Explainable Surgical Phase Recognition",
-      "expected_axis": "surgical_video",
-      "expected_source": "arxiv",
-      "window_date": "2025-07-21",
-      "note": "MICCAI 2025. 수술영상 + explainability 교차 — 축 경계 사례"
-    }
-  ]
+  {
+   "primary_id": "doi:10.1007/978-3-032-05114-1_15",
+   "ids": {
+    "doi": "10.1007/978-3-032-05114-1_15"
+   },
+   "title": "CurConMix: A Curriculum Contrastive Learning Framework for Enhancing Surgical Action Triplet Recognition",
+   "expected_axis": "surgical_video",
+   "expected_source": "s2",
+   "window_date": "2025-09",
+   "note": "MICCAI 2025 (LNCS). arXiv 없음 + PubMed 화이트리스트 밖 → S2 경로 전용 테스트. window_date 정밀화 필요"
+  },
+  {
+   "primary_id": "arxiv:2503.19670",
+   "ids": {
+    "arxiv_id": "2503.19670"
+   },
+   "title": "fine-CLIP: Enhancing Zero-Shot Fine-Grained Surgical Action Recognition with Vision-Language Models",
+   "expected_axis": "surgical_video",
+   "expected_source": "arxiv",
+   "window_date": "2025-03-25",
+   "note": "comments에 학회 정보 없음 → venue 라벨 미부여 예상"
+  },
+  {
+   "primary_id": "arxiv:2509.12893",
+   "ids": {
+    "arxiv_id": "2509.12893"
+   },
+   "title": "MEJO: MLLM-Engaged Surgical Triplet Recognition via Inter- and Intra-Task Joint Optimization",
+   "expected_axis": "surgical_video",
+   "expected_source": "arxiv",
+   "window_date": "2025-09-16",
+   "note": "comments 없음"
+  },
+  {
+   "primary_id": "arxiv:2505.08581",
+   "ids": {
+    "arxiv_id": "2505.08581"
+   },
+   "title": "ReSurgSAM2: Referring Segment Anything in Surgical Video via Credible Long-term Tracking",
+   "expected_axis": "surgical_video",
+   "expected_source": "arxiv",
+   "window_date": "2025-05-13",
+   "note": "'Early accepted by MICCAI 2025' → D-13 정상 추출 케이스"
+  },
+  {
+   "primary_id": "arxiv:2604.18134",
+   "ids": {
+    "arxiv_id": "2604.18134"
+   },
+   "title": "Can LLM-Generated Text Empower Surgical Vision-Language Pre-training?",
+   "expected_axis": "surgical_video",
+   "expected_source": "arxiv",
+   "window_date": "2026-04-20",
+   "note": "CVPRW(워크숍) 2026 — 본회의 CVPR과 구분해야 함. 'presentationn' 오타 포함"
+  },
+  {
+   "primary_id": "arxiv:2605.17198",
+   "ids": {
+    "arxiv_id": "2605.17198"
+   },
+   "title": "MIRAGE: Robust multi-modal architectures translate fMRI-to-image models from vision to mental imagery",
+   "expected_axis": "brain_decoding",
+   "expected_source": "arxiv",
+   "window_date": "2026-05-16",
+   "note": "comments 없음"
+  },
+  {
+   "primary_id": "arxiv:2409.00121",
+   "ids": {
+    "arxiv_id": "2409.00121"
+   },
+   "title": "BELT-2: Bootstrapping EEG-to-Language Representation Alignment for Multi-task Brain Decoding",
+   "expected_axis": "brain_decoding",
+   "expected_source": "arxiv",
+   "window_date": "2024-08-28",
+   "note": "comments 없음"
+  },
+  {
+   "primary_id": "arxiv:2411.14347",
+   "ids": {
+    "arxiv_id": "2411.14347"
+   },
+   "title": "DINO-X: A Unified Vision Model for Open-World Object Detection and Understanding",
+   "expected_axis": "dl_methodology",
+   "expected_source": "arxiv",
+   "window_date": "2024-11-21",
+   "note": "open-world detection. 현재 카테고리 11~14에 해당 없음 → 카테고리 재정의 필요"
+  },
+  {
+   "primary_id": "arxiv:2401.17270",
+   "ids": {
+    "arxiv_id": "2401.17270"
+   },
+   "title": "YOLO-World: Real-Time Open-Vocabulary Object Detection",
+   "expected_axis": "dl_methodology",
+   "expected_source": "arxiv",
+   "window_date": "2024-01-30",
+   "note": "open-vocabulary detection. 카테고리 미매칭"
+  },
+  {
+   "primary_id": "arxiv:2305.05665",
+   "ids": {
+    "arxiv_id": "2305.05665"
+   },
+   "title": "ImageBind: One Embedding Space To Bind Them All",
+   "expected_axis": "dl_methodology",
+   "expected_source": "arxiv",
+   "window_date": "2023-05-09",
+   "note": "CVPR 2023 Highlight. 13번(Representation & SSL)에 부합하는 유일한 항목"
+  },
+  {
+   "primary_id": "arxiv:2604.24625",
+   "ids": {
+    "arxiv_id": "2604.24625"
+   },
+   "title": "Meta-CoT: Enhancing Granularity and Generalization in Image Editing",
+   "expected_axis": "dl_methodology",
+   "expected_source": "arxiv",
+   "window_date": "2026-04-27",
+   "note": "CVPR 2026. image editing — 카테고리 미매칭"
+  },
+  {
+   "primary_id": "title:beyond-brain-decoding",
+   "ids": {},
+   "title": "Beyond Brain Decoding: Visual-Semantic Reconstructions to Mental Creation Extension Based on fMRI",
+   "expected_axis": "brain_decoding",
+   "expected_source": "unknown",
+   "window_date": "unknown",
+   "note": "사용자는 의료영상으로 분류. arXiv 미확인 → 첫 골든 실행에서 소스 판별 필요"
+  },
+  {
+   "primary_id": "title:brena",
+   "ids": {},
+   "title": "BRENA: Brain-Inspired Hierarchical Neural Alignment Framework for Visual Decoding from EEG Signals",
+   "expected_axis": "brain_decoding",
+   "expected_source": "unknown",
+   "window_date": "unknown",
+   "note": "사용자는 의료영상으로 분류. arXiv 미확인"
+  },
+  {
+   "primary_id": "title:chexagent",
+   "ids": {},
+   "title": "CheXagent: Towards a Foundation Model for Chest X-Ray Interpretation",
+   "expected_axis": "medical_imaging",
+   "expected_source": "unknown",
+   "window_date": "unknown",
+   "note": "유일한 순수 의료영상 항목. arXiv 검색 실패했으나 존재 가능성 높음 — 검증 필요"
+  },
+  {
+   "primary_id": "title:mindlink",
+   "ids": {},
+   "title": "MindLink: Subject-agnostic Cross-Subject Brain Decoding Framework",
+   "expected_axis": "brain_decoding",
+   "expected_source": "unknown",
+   "window_date": "unknown",
+   "note": "사용자는 의료영상으로 분류. arXiv 미확인"
+  },
+  {
+   "primary_id": "arxiv:2502.15786",
+   "ids": {
+    "arxiv_id": "2502.15786"
+   },
+   "title": "MindLLM: A Subject-Agnostic and Versatile Model for fMRI-to-Text Decoding",
+   "expected_axis": "brain_decoding",
+   "expected_source": "arxiv",
+   "window_date": "2025-02-18",
+   "note": "ICML 2025. comments가 'International Conference on Machine Learning' 정식명칭 사용 — D-13 토큰 목록에 반영 필요"
+  },
+  {
+   "primary_id": "arxiv:2404.07202",
+   "ids": {
+    "arxiv_id": "2404.07202"
+   },
+   "title": "UMBRAE: Unified Multimodal Brain Decoding",
+   "expected_axis": "brain_decoding",
+   "expected_source": "arxiv",
+   "window_date": "2024-04-10",
+   "note": "ECCV 2024"
+  },
+  {
+   "primary_id": "title:skit",
+   "ids": {},
+   "title": "SKiT: a Fast Key Information Video Transformer for Online Surgical Phase Recognition",
+   "expected_axis": "surgical_video",
+   "expected_source": "unknown",
+   "window_date": "unknown",
+   "note": "사용자는 의료영상으로 분류했으나 수술 phase recognition. arXiv 미확인"
+  },
+  {
+   "primary_id": "arxiv:2507.15418",
+   "ids": {
+    "arxiv_id": "2507.15418"
+   },
+   "title": "SurgX: Neuron-Concept Association for Explainable Surgical Phase Recognition",
+   "expected_axis": "surgical_video",
+   "expected_source": "arxiv",
+   "window_date": "2025-07-21",
+   "note": "MICCAI 2025. 수술영상 + explainability 교차 — 축 경계 사례"
+  }
+ ],
+ "_f13_status": "F-13 (2026-08-31 조사): expected_source=unknown 5건의 소속을 확정하지 못했다. arXiv 제목 검색이 5건 모두에서 아무것도 찾지 못했고, 같은 코드로 ImageBind를 찾는 양성 대조는 통과했으므로 검색 방법의 문제는 아니다. 다만 CheXagent는 arXiv에서 다른 제목으로 개명된 판본이 확인돼(제목 검색이 실패한 이유로 보인다), 'arXiv에 없음'이라고 단정하지 않는다. 결론: 이 골든셋은 비-arXiv 수집 경로(PubMed/S2)를 강하게 검증하지 못한다. 확정된 비-arXiv 표본은 CurConMix 1건뿐이다. 다만 2026-08-31 전체 실행에서 세 소스 모두 실제로 동작했다 (arXiv 242 / PubMed 45 / S2 500). 재현율 회귀를 소스별로 보려면 저널 전용 논문 3~4편을 추가해야 한다."
 }

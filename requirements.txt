@@ -1,0 +1,42 @@
+# med-ai-daily 런타임 의존성
+#
+# ⚠️ 아래 버전 고정은 임의가 아니다. 각각 실제로 겪은 실패를 막는다.
+#    전체 동결본은 requirements-lock.txt 참조 (재현 설치용).
+#
+# 설치:
+#   conda create -n meddaily python=3.11 -y
+#   pip install -r requirements.txt
+#   pip uninstall -y flashinfer-python      # ← 아래 (3) 참조, 반드시 실행
+#
+# 검증:
+#   python -c "import torch; assert torch.cuda.is_available()"
+
+# (1) vLLM — 상한 필수
+#     이 서버 드라이버는 535.x (CUDA 12.2까지). 최신 vLLM은 CUDA 13 빌드 torch를
+#     끌어오는데, 그러면 torch.cuda.is_available()이 False가 되면서도 예외는 나지
+#     않는다. GPU 4장이 멀쩡히 보이는 채로 조용히 CPU로 떨어져 실행이 몇 시간씩
+#     걸리다 타임아웃 나는 식으로 발현한다. 0.8.5.post1은 torch 2.6.0+cu124를
+#     가져오고, CUDA minor version compatibility로 드라이버 535에서 동작한다.
+vllm==0.8.5.post1
+
+# (2) transformers — 상한 필수
+#     vLLM 0.8.5는 `transformers>=4.51.1`만 요구하고 상한이 없다. transformers 5.x가
+#     all_special_tokens_extended를 제거해서 토크나이저 로드가 AttributeError로 죽는다.
+transformers==4.51.3
+tokenizers==0.21.4
+
+# (3) flashinfer-python — 설치 금지 (requirements로는 표현 불가)
+#     vLLM 의존성으로 딸려오지만 torch 2.6과 ABI가 맞지 않는다:
+#       libtorch_c_dlpack_addon_torch26-cuda.so: undefined symbol
+#     vLLM은 `except ImportError`로만 감싸는데 이 실패는 OSError라 방어망을 통과하고,
+#     끄는 환경변수 VLLM_USE_FLASHINFER_SAMPLER는 import 이후에 읽혀 무력하다.
+#     제거하면 ImportError가 되어 정상적으로 PyTorch 기본 샘플러로 폴백한다.
+#     우리는 temperature=0 greedy decoding이라 성능 손해도 없다.
+#     → 설치 후 반드시: pip uninstall -y flashinfer-python
+
+# 파이프라인
+jinja2>=3.1
+requests>=2.31
+
+# 개발/테스트
+pytest>=8.0

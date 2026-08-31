@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd /data1/server1/user/ejjun/med-ai-daily\\ncat > src/models.py <<'PYEOF'\\n\\\"\\\"\\\"파이프라인을 흐르는 데이터 구조.\\\"\\\"\\\"\\nfrom __future__ import annotations\\n\\nimport re\\nfrom dataclasses import dataclass...",
+  "error": "Exit code 1\n  File \"<string>\", line 9\n    print(f'  제목+LaTeX : {normalize_title(\"ReSurgSAM2: $\\\\alpha$ Tracking!\")}')\n                                                                              ^\nSyntaxError: f-string expression part cannot include a backslash",
+  "timestamp": "2026-08-31T08:48:19.880Z",
+  "retry_count": 1
+}

@@ -1,0 +1,267 @@
+"""단일 진실 원천 (Single source of truth).
+
+축·카테고리·쿼터·소스·모델 설정이 전부 여기 있다. 주제를 조정할 때
+다른 파일을 건드릴 필요가 없어야 한다 (계획 R-7).
+"""
+from __future__ import annotations
+from dataclasses import dataclass, field
+
+# ─────────────────────────────────────────────────────────────────
+# 축 (Axis) — 비율은 골든셋 실측에 맞춘 값이다 (계획 D-20)
+#
+#   v1~v3은 의료영상 40 / 수술 30 / 방법론 20 / brain 10 이었으나,
+#   사용자가 선정한 골든셋 20편의 실제 분포가 brain 35 / 수술 40 /
+#   방법론 20 / 의료영상 5 로 정반대였다. 골든셋이 "놓치면 안 되는
+#   논문"의 조작적 정의이므로 쿼터를 그쪽에 맞춘다.
+# ─────────────────────────────────────────────────────────────────
+
+DAILY_MIN = 40
+DAILY_MAX = 60
+DAILY_TARGET = 50          # 축별 목표치 계산의 기준
+
+@dataclass(frozen=True)
+class Axis:
+    key: str
+    label: str
+    ratio: float           # 0.0~1.0
+
+    @property
+    def target(self) -> int:
+        return round(DAILY_TARGET * self.ratio)
+
+    @property
+    def bounds(self) -> tuple[int, int]:
+        """일일 총량 범위에 비율을 적용한 하한/상한."""
+        return round(DAILY_MIN * self.ratio), round(DAILY_MAX * self.ratio)
+
+
+AXES: tuple[Axis, ...] = (
+    Axis("brain_decoding",  "Brain Decoding",   0.35),
+    Axis("surgical_video",  "수술영상",          0.30),
+    Axis("dl_methodology",  "딥러닝 방법론",      0.20),
+    Axis("medical_imaging", "의료영상 AI",       0.15),
+)
+AXIS_KEYS = tuple(a.key for a in AXES)
+AXIS_BY_KEY = {a.key: a for a in AXES}
+
+
+# ─────────────────────────────────────────────────────────────────
+# 카테고리 (17개) — 각 카테고리는 정확히 한 축에 속한다
+#   카테고리 수는 축 비중에 비례하게 배분했다: brain 4 / 수술 4 /
+#   방법론 6 / 의료영상 3. 방법론은 8~12편을 6칸에 나눠 칸당 1~2편으로
+#   얇다 — 1주차 결과를 보고 병합 검토 (계획 F-12).
+# ─────────────────────────────────────────────────────────────────
+
+@dataclass(frozen=True)
+class Category:
+    id: str
+    name: str
+    axis: str
+    description: str       # 분류 프롬프트에 그대로 들어간다
+
+
+CATEGORIES: tuple[Category, ...] = (
+    # ■ Brain Decoding (35%)
+    Category("fmri_visual_decoding", "fMRI Visual Decoding & Reconstruction", "brain_decoding",
+             "fMRI 신호에서 이미지·장면을 복원하거나 mental imagery를 디코딩"),
+    Category("eeg_meg_decoding", "EEG/MEG Decoding", "brain_decoding",
+             "EEG·MEG 기반 시각·인지 상태 디코딩"),
+    Category("brain_to_language", "Brain-to-Language & Multimodal Decoding", "brain_decoding",
+             "뇌 신호에서 텍스트 생성, 통합 멀티모달 디코딩"),
+    Category("cross_subject_alignment", "Cross-Subject Generalization & Neural Alignment", "brain_decoding",
+             "subject-agnostic 일반화, 뇌-모델 표현 정렬, BCI"),
+
+    # ■ 수술영상 (30%)
+    Category("surgical_scene", "Surgical Scene Understanding", "surgical_video",
+             "수술 phase/step recognition, action triplet, 행동 인식"),
+    Category("surgical_segmentation", "Instrument & Anatomy Segmentation", "surgical_video",
+             "수술 도구·해부구조 분할 및 추적"),
+    Category("surgical_vlp", "Surgical VLP & Foundation Model", "surgical_video",
+             "수술 video-language pretraining, 수술 특화 기반모델"),
+    Category("robotic_surgery", "Robotic Surgery & Skill Assessment", "surgical_video",
+             "수술 로봇, 술기 평가, 수술 내비게이션"),
+
+    # ■ 딥러닝 방법론 (20%)
+    Category("uncertainty", "Uncertainty Quantification & Calibration", "dl_methodology",
+             "불확실성 정량화, 신뢰도 보정, OOD 탐지"),
+    Category("explainability", "Explainability & Interpretability", "dl_methodology",
+             "XAI, saliency, concept 기반 해석, mechanistic interpretability"),
+    Category("foundation_openvocab", "Foundation Models & Open-Vocabulary Perception", "dl_methodology",
+             "open-world/open-vocabulary 검출, 통합 비전 기반모델"),
+    Category("multimodal_ssl", "Multimodal & Self-Supervised Representation", "dl_methodology",
+             "멀티모달 임베딩, contrastive/masked 표현학습"),
+    Category("generative_editing", "Generative Modeling & Editing", "dl_methodology",
+             "diffusion, 이미지 편집, 생성 제어"),
+    Category("robustness", "Robustness & Domain Generalization", "dl_methodology",
+             "도메인 적응·일반화, distribution shift, continual learning"),
+
+    # ■ 의료영상 AI (15%)
+    Category("medical_foundation", "Medical Foundation Models, VLM & Report Generation", "medical_imaging",
+             "의료 특화 기반모델, 판독문 생성, 의료 VQA, 임상 LLM"),
+    Category("medical_seg_diagnosis", "Segmentation, Detection & Diagnosis", "medical_imaging",
+             "장기·병변 분할/검출, 질환 분류, 예후 예측, screening"),
+    Category("medical_recon_benchmark", "Reconstruction, Generation & Benchmark", "medical_imaging",
+             "MRI/CT 재구성, denoising, 의료 데이터셋·평가체계"),
+)
+CATEGORY_IDS = tuple(c.id for c in CATEGORIES)
+CATEGORY_BY_ID = {c.id: c for c in CATEGORIES}
+
+
+# ─────────────────────────────────────────────────────────────────
+# 중요도 별점 기준 — 분류 프롬프트에 그대로 들어간다
+# ─────────────────────────────────────────────────────────────────
+STAR_RUBRIC = {
+    5: "패러다임 전환 — 분야의 전제를 바꾸는 연구",
+    4: "중요 — 새 SOTA, 새 데이터셋/벤치마크, 널리 쓰일 기법",
+    3: "유의미 — 견고한 개선, 참고 가치 있음",
+    2: "점진적 — 기존 기법의 소폭 개선/응용",
+    1: "제한적 — 관련은 있으나 영향 작음",
+}
+
+
+# ─────────────────────────────────────────────────────────────────
+# 수집 소스 (3종) — 역할이 다르다
+#   arXiv  : 프리프린트 발견 (초록 확실)
+#   PubMed : 저널 5종 (초록 확실)
+#   S2     : 학회 proceedings 발견 + 학회 라벨 공급
+#
+#   MICCAI가 PubMed 화이트리스트에 없는 이유: 2026-08-14 실측에서
+#   PubMed 색인이 연 33~70건으로 실제 발행량(~860편)의 6%에 불과했다.
+#   S2는 MICCAI 2024를 860편 전량 보유(DOI 99%, arXiv ID 52%)한다.
+# ─────────────────────────────────────────────────────────────────
+
+# 모든 날짜 계산의 기준. PubMed EDAT은 NCBI 로컬 기준이므로
+# 질의 전 UTC 날짜로 변환한다 (재현 결정성에 필요).
+TIMEZONE = "UTC"
+
+ARXIV_CATEGORIES = ("cs.CV", "cs.LG", "cs.AI", "eess.IV", "q-bio.NC")
+ARXIV_WINDOW_DAYS = 4        # 주말 발표 공백 + 화요일 몰림 + 발표 지연 흡수
+ARXIV_REQUEST_DELAY_S = 3.0  # arXiv API 권장 간격
+ARXIV_PAGE_SIZE = 2000       # max_results 상한
+
+PUBMED_JOURNALS = (
+    "Med Image Anal",                        # Medical Image Analysis
+    "IEEE Trans Med Imaging",                # IEEE TMI
+    "IEEE Trans Pattern Anal Mach Intell",   # IEEE TPAMI
+    "Radiol Artif Intell",                   # Radiology: Artificial Intelligence
+    "Int J Comput Assist Radiol Surg",       # IJCARS (IPCAI 게재지)
+)
+PUBMED_WINDOW_DAYS = 7       # 저널 색인 지연이 arXiv보다 길다
+PUBMED_BATCH_SIZE = 200      # efetch 1회당 PMID 수 (POST 사용)
+PUBMED_RETMAX = 1000         # esearch 기본값은 20 — 명시하지 않으면 조용히 잘린다
+PUBMED_REQUEST_DELAY_S = 0.34  # 무인증 3 req/s. 키 있으면 10 req/s
+# 원논문과 거의 같은 제목을 달아 교차 중복제거를 오염시킨다
+PUBMED_EXCLUDED_TYPES = (
+    "Published Erratum", "Comment", "Editorial",
+    "Retraction of Publication", "Retracted Publication",
+)
+# NCBI가 모든 E-utility 호출에 요구한다. email은 repo variable로 주입 (원칙 5)
+NCBI_TOOL = "med-ai-daily"
+
+S2_VENUES = (
+    "Medical Image Computing and Computer-Assisted Intervention",  # MICCAI
+    "Information Processing in Computer-Assisted Interventions",   # IPCAI
+    "Computer Vision and Pattern Recognition",                     # CVPR
+    "International Conference on Computer Vision",                 # ICCV
+    "European Conference on Computer Vision",                      # ECCV
+    "Neural Information Processing Systems",                       # NeurIPS
+    "International Conference on Machine Learning",                # ICML
+    "International Conference on Learning Representations",        # ICLR
+)
+S2_YEARS_BACK = 2            # proceedings는 발표 시점에 일괄 등재된다
+S2_REQUEST_DELAY_S = 1.0
+
+# 소스별 상한 — 전역 단일 상한은 대량 색인된 proceedings 볼륨이
+# 그날 arXiv를 통째로 밀어낼 수 있다 (계획 D-11)
+ARXIV_MAX = 2000
+PUBMED_MAX = 500
+S2_MAX = 500
+DEFERRED_DAILY_MAX = 300     # 보류분은 소스 상한과 경쟁하지 않는 별도 레인
+
+# 절삭 정렬키 — PubMed는 EDAT이 아니라 PDAT를 쓴다.
+# 2019년 proceedings가 오늘 대량 색인됐다고 오늘 arXiv보다 앞설 이유가 없다.
+TRUNCATION_SORT_KEY = {"arxiv": "submitted_date", "pubmed": "pdat", "s2": "publication_date"}
+
+
+# ─────────────────────────────────────────────────────────────────
+# 원장 (Ledger)
+# ─────────────────────────────────────────────────────────────────
+DEFERRED_TTL_DAYS = 14
+# 이 값이 바뀌어야 보류분이 재진입한다. 같은 프롬프트로 재분류하면
+# 같은 판정이 나오므로 순수 낭비다 (계획 D-4).
+CLASSIFY_PROMPT_VERSION = "v1"
+
+# arXiv DataCite DOI. 모든 제출물에 발급되며 저널 DOI와 절대 일치하지
+# 않는다. 제외하지 않으면 제목 매칭이 도달 불가능한 죽은 코드가 된다.
+ARXIV_DOI_PREFIX = "10.48550/arxiv."
+
+
+# ─────────────────────────────────────────────────────────────────
+# 학회 라벨 (D-13) — 부스트는 select() 이후에만 적용된다
+# ─────────────────────────────────────────────────────────────────
+# 약칭과 정식 명칭을 모두 넣어야 한다. 골든셋 실측:
+#   PeskaVLP → "the 38th Conference on Neural Information Processing Systems"
+#   MindLLM  → "Forty-Second International Conference on Machine Learning"
+# 둘 다 약칭이 없다. 약칭만 찾는 정규식이면 놓친다.
+VENUE_BOOST_LIST = {
+    "MICCAI":   ("MICCAI", "Medical Image Computing and Computer[- ]Assisted Intervention"),
+    "IPCAI":    ("IPCAI", "Information Processing in Computer[- ]Assisted Interventions"),
+    "CVPR":     ("CVPR", "Computer Vision and Pattern Recognition"),
+    "ICCV":     ("ICCV", "International Conference on Computer Vision"),
+    "ECCV":     ("ECCV", "European Conference on Computer Vision"),
+    "NeurIPS":  ("NeurIPS", "NIPS", "Conference on Neural Information Processing Systems"),
+    "ICML":     ("ICML", "International Conference on Machine Learning"),
+    "ICLR":     ("ICLR", "International Conference on Learning Representations"),
+    "MedIA":    ("Medical Image Analysis", "Med Image Anal"),
+    "IEEE TMI": ("IEEE Trans(actions)? on Med(ical)? Imaging", "IEEE TMI"),
+    "TPAMI":    ("IEEE Trans(actions)? on Pattern Analysis", "TPAMI"),
+    "Radiology: AI": ("Radiology: Artificial Intelligence", "Radiol Artif Intell"),
+    "IJCARS":   ("Int(ernational)? J(ournal)? of Comput(er)? Assist(ed)? Radiol(ogy)? and Surg(ery)?", "IJCARS"),
+}
+# 워크숍은 본회의와 수락 기준이 다르다. CVPRW를 CVPR로 취급하면 과대평가다.
+VENUE_WORKSHOP_SUFFIXES = ("W", " Workshop", "-W")
+# 게재 확정이 아닌 표현 — 부스트하지 않는다
+VENUE_NEGATIVE_CONTEXT = (
+    "submitted to", "under review", "in submission",
+    "extended version of", "follow-up to", "based on our", "dataset from",
+)
+VENUE_YEAR_TOLERANCE = 1     # [올해-1, 올해+1] 밖이면 참조로 보고 부스트하지 않는다
+VENUE_BOOST = 1              # 상한 5, 중첩 없음
+STAR_MAX = 5
+
+
+# ─────────────────────────────────────────────────────────────────
+# 추론 (로컬 vLLM)
+# ─────────────────────────────────────────────────────────────────
+MODEL_PATH = "Qwen/Qwen2.5-32B-Instruct-AWQ"   # 교체는 이 한 줄 (계획 D-18)
+GPU_DEVICE = "0"             # 연구 작업용으로 나머지 3장을 남긴다 (원칙 5)
+TENSOR_PARALLEL_SIZE = 1
+GPU_MEMORY_UTILIZATION = 0.85
+MAX_MODEL_LEN = 4096
+# 같은 입력이면 같은 페이지가 나와야 한다 (원칙 4)
+TEMPERATURE = 0.0
+SEED = 42
+CLASSIFY_MAX_TOKENS = 2048
+SUMMARIZE_MAX_TOKENS = 1024
+# 기동 전 대상 GPU 여유 VRAM이 이 값 미만이면 남의 작업으로 보고 대기·건너뛴다
+GPU_FREE_VRAM_REQUIRED_MB = 24_000
+GPU_WAIT_RETRIES = 3
+GPU_WAIT_SECONDS = 300
+
+
+# ─────────────────────────────────────────────────────────────────
+# 요약 규격 (D-7) — 목적은 "읽고 이해"가 아니라 "열어볼지 판단"
+# ─────────────────────────────────────────────────────────────────
+SUMMARY_MIN_CHARS = 80       # 검증 하한 (규격 150~250자에 여유)
+SUMMARY_MAX_CHARS = 400
+SUMMARY_HANGUL_RATIO_MIN = 0.30   # "ASCII만은 아님" 검사는 무력하다
+SUMMARY_TAGS_MIN = 1
+SUMMARY_TAGS_MAX = 5
+ITEM_RETRY_LIMIT = 5         # 초과 시 구조적 오류로 보고 크게 실패한다 (D-10)
+
+
+# ─────────────────────────────────────────────────────────────────
+# 출력
+# ─────────────────────────────────────────────────────────────────
+DOCS_DIR = "docs"
+STALENESS_WARN_DAYS = 2      # 데이터가 이보다 오래되면 페이지에 배너를 띄운다

@@ -272,4 +272,6 @@ ITEM_RETRY_LIMIT = 5         # 초과 시 구조적 오류로 보고 크게 실�
 # 출력
 # ─────────────────────────────────────────────────────────────────
 DOCS_DIR = "docs"
+SITE_TITLE = "Medical AI Daily"
+
 STALENESS_WARN_DAYS = 2      # 데이터가 이보다 오래되면 페이지에 배너를 띄운다

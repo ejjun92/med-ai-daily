@@ -114,7 +114,8 @@ class Paper:
 @dataclass(frozen=True)
 class Venue:
     """게재 확정이 확인된 학회·저널."""
-    name: str                 # 정규화된 표시명 (예: "MICCAI 2025")
+    name: str                 # 근거가 된 원문 그대로 (arXiv comments·저널명).
+                              # 표시용이 아니다 — 화면에는 tag를 쓴다.
     key: str                  # VENUE_BOOST_LIST의 키
     year: Optional[int] = None
     is_workshop: bool = False  # 워크숍은 본회의와 수락 기준이 다르다
@@ -122,6 +123,8 @@ class Venue:
 
     @property
     def tag(self) -> str:
+        """화면·프롬프트에 쓰는 라벨. key는 VENUE_BOOST_LIST의 키라 이미
+        표시형이다 ("MICCAI", "NeurIPS", "IEEE TMI"). name은 원문이라 못 쓴다."""
         return f"{self.key} {self.year}" if self.year else self.key
 
 

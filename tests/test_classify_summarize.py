@@ -107,3 +107,25 @@ def test_tags_capped():
            "공개 벤치마크에서 기존 방법을 상회했다.",
                   "tags": [f"t{i}" for i in range(20)]})
     assert len(s.tags) == config.SUMMARY_TAGS_MAX
+
+
+# ── 폭주 잔재 걸러내기 (미리보기 육안 검토에서 발견) ────────
+_BASE = ("뇌 신호에서 시각 정보를 추출하는 문제를 다룬다. "
+         "뇌의 계층적 구조를 모방한 정렬 프레임워크를 사용해 EEG에서 특징을 뽑는다. ")
+
+
+@pytest.mark.parametrize("tail,ok", [
+    ("공개 벤치마크에서 기존 방법을 상회했다.", True),
+    ("CLIP과 transformer 기반 self-supervised 학습을 쓴다.", True),
+    ("이 접근법은 뇌 기능의ERRUuser_MetaData ошибки를.", False),      # 키릴
+    ("请确保您的提供的摘要仅基于此论文的摘要内容.", False),            # 한자
+    ("fMRIuser 💬user 내용이 이어진다.", False),                     # 역할 마커
+    ("<|im_start|>assistant 이어서 설명한다.", False),
+])
+def test_degenerate_tails_rejected_but_technical_terms_kept(tail, ok):
+    """길이·한글비율·문장부호를 다 통과하고도 화면에 나간 형태들이다.
+
+    영문 전문용어는 그대로 살려야 하므로 라틴 문자는 건드리지 않는다.
+    """
+    got = validate({"korean_summary": _BASE + tail, "tags": ["a"]})
+    assert (got is not None) is ok

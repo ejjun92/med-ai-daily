@@ -35,11 +35,19 @@ def test_every_degenerate_output_yields_something():
 def test_summary_survives_in_most_cases():
     """요약 회수율. 실측 기준선을 아래로 못 내려가게 못 박는다.
 
-    17/20을 목표가 아니라 하한으로 둔다 — 복구 로직을 건드리다 조용히
+    15/20을 목표가 아니라 하한으로 둔다 — 복구 로직을 건드리다 조용히
     나빠지는 것이 이 테스트가 막으려는 사고다.
+
+    이 픽스처는 프롬프트를 고치기 **전** 출력이라 실제 운영 수준(19/20)보다
+    나쁘다. 일부러 나쁜 표본을 남겨 둔다 — 복구 로직은 최악에서 시험해야 한다.
+    복구 자체는 17건을 살리지만 그중 2건은 키릴·한자가 섞인 폭주 잔재라
+    validate가 정당하게 거부한다. 그 2건은 되살아나면 안 된다.
     """
     kept = sum(1 for c in CASES if validate(_parse(c["raw"])) is not None)
-    assert kept >= 17, f"요약 회수 {kept}/20 — 기준선 17 미만"
+    assert kept >= 15, f"요약 회수 {kept}/20 — 기준선 15 미만"
+
+    recovered = sum(1 for c in CASES if (_parse(c["raw"]) or {}).get("korean_summary"))
+    assert recovered >= 17, f"복구 {recovered}/20 — 복구 단계가 나빠졌다"
 
 
 def test_open_string_recovery_beats_comma_cut():

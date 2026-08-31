@@ -1,0 +1,51 @@
+{% extends "base.html.j2" %}
+{% block body %}
+<h1>{{ site_title }}</h1>
+<p class="muted">{{ meta.data_date }} · {{ meta.published_count }}건</p>
+
+{% if meta.stale_days is not none %}
+<div class="banner">
+  ⚠️ 이 페이지의 데이터는 <strong>{{ meta.data_date }}</strong> 기준으로
+  {{ meta.stale_days }}일 지났습니다. 수집 서버가 멈춰 있을 수 있습니다.
+</div>
+{% endif %}
+
+{% if not sections %}
+<p class="muted">이 날짜에는 게시할 항목이 없습니다.</p>
+{% endif %}
+
+{% for axis, groups in sections %}
+<h2>{{ axis.label }} <span class="muted">{{ groups | map(attribute=1) | map('length') | sum }}건</span></h2>
+{% for category, entries in groups %}
+<h3>{{ category.name }}</h3>
+{% for e in entries %}
+<article class="entry">
+  <p class="entry-title">
+    <span class="stars" title="중요도 {{ e.display_stars }}/5">{{ '★' * e.display_stars }}{{ '☆' * (5 - e.display_stars) }}</span>
+    {% if e.paper.url %}<a href="{{ e.paper.url }}">{{ e.paper.title }}</a>{% else %}{{ e.paper.title }}{% endif %}
+  </p>
+  <p class="meta">
+    <span>{{ source_label(e.paper.source) }}</span>
+    {% set d = display_date(e.paper.announced_date) %}
+    {% if d %}<span>{{ d }}</span>{% endif %}
+    {% if e.paper.authors %}<span>{{ e.paper.authors[0] }}{% if e.paper.authors | length > 1 %} 외 {{ e.paper.authors | length - 1 }}인{% endif %}</span>{% endif %}
+  </p>
+  {% if e.summary %}
+  <p class="summary">{{ e.summary.korean_summary }}</p>
+  {% elif e.title_only %}
+  <p class="no-abstract">초록 미확보 — 원문에서 확인하세요.</p>
+  {% else %}
+  {# 초록은 있는데 요약이 규격을 못 넘긴 경우. 논문을 빼지 않고 이유를 밝힌다 —
+     리스트업이 목적이므로 요약 실패로 논문을 잃는 것이 더 큰 손해다. #}
+  <p class="no-abstract">요약 생성 실패 — 원문에서 확인하세요.</p>
+  {% endif %}
+  {% if e.display_tags %}
+  <div class="tags">
+    {% for t in e.display_tags %}<span class="tag{% if e.paper.venue and t == e.paper.venue.tag %} venue{% endif %}">{{ t }}</span>{% endfor %}
+  </div>
+  {% endif %}
+</article>
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{% endblock %}

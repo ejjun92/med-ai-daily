@@ -73,6 +73,13 @@ def build_prompt(paper: Paper) -> str:
 
 _HANGUL = re.compile(r"[가-힣]")
 
+# 폭주가 남긴 흔적. 길이·한글비율·문장부호 검사를 모두 통과하고도 화면에
+# 나갔다 (실측: "…뇌 기능의ERRUuser_MetaData ошибки를.",
+# "…fMRIuser 💬user您此前的内容已帮助自动完成…").
+# 한국어 요약에 한자·키릴·가나가 섞일 일은 없으므로 셋을 함께 본다.
+_FOREIGN = re.compile(r"[\u4e00-\u9fff\u0400-\u04ff\u3040-\u30ff]")
+_ROLE_MARKER = re.compile(r"(<\|im_(start|end)\|>|💬|\b(user|assistant|system)_?[A-Z])")
+
 
 def hangul_ratio(text: str) -> float:
     """공백 제외 문자 중 한글 비율.
@@ -131,6 +138,10 @@ def validate(raw: dict | None) -> Summary | None:
     if _BAD_TAIL.search(text):
         # 다듬어도 절삭 꼬리가 남았다 — 물러나면 하한 밑으로 떨어지는 경우다.
         # 어중간한 문장을 싣느니 제목만 싣는다.
+        return None
+    if len(_FOREIGN.findall(text)) >= 3 or _ROLE_MARKER.search(text):
+        # 폭주가 문장처럼 보이는 형태로 끝난 경우. 앞부분만 살리려 들지 않는다 —
+        # 어디까지가 진짜인지 판정할 근거가 없다.
         return None
     if hangul_ratio(text) < config.SUMMARY_HANGUL_RATIO_MIN:
         return None    # 모델이 영어로 돌아간 경우

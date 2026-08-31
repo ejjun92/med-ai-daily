@@ -1,0 +1,21 @@
+name: CI
+
+# v4에서 GitHub Actions의 역할은 테스트뿐이다. 수집·추론·배포는 서버 cron이 한다.
+# (배포는 main push → Pages 브랜치 소스가 자동 처리)
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # vLLM·torch는 설치하지 않는다. Phase 2 테스트는 모델·네트워크·API 키
+      # 없이 돌도록 설계했다 (49개 전부 순수 로직).
+      - run: pip install pytest
+      - run: pytest tests/ -q -m "not llm"

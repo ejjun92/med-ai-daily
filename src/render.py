@@ -50,7 +50,8 @@ class PageMeta:
     shortfall_by_axis: dict[str, int] = dataclasses.field(default_factory=dict)
     published_count: int = 0
     title_only_count: int = 0
-    excluded_count: int = 0
+    excluded_count: int = 0       # 관련 없음으로 판정된 수. 요약 실패와 다르다 —
+    # 한동안 푸터에 "제외 276건 (요약 검증 실패)"로 잘못 나갔다.
     summary_failed_count: int = 0
     truncated_count: int = 0
     boosted_count: int = 0

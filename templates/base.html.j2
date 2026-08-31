@@ -63,7 +63,7 @@
     <dt>게시</dt><dd>{{ meta.published_count }}건{% if meta.title_only_count %} (그중 초록 미확보 {{ meta.title_only_count }}건){% endif %}</dd>
     {% if meta.shortfall_line %}<dt>축별 미달</dt><dd>{{ meta.shortfall_line }}</dd>{% endif %}
     {% if meta.summary_failed_count %}<dt>요약 실패</dt><dd>{{ meta.summary_failed_count }}건 (논문은 게시, 제목만 표시)</dd>{% endif %}
-    {% if meta.excluded_count %}<dt>제외</dt><dd>{{ meta.excluded_count }}건 (요약 검증 실패·판정 불가)</dd>{% endif %}
+    {% if meta.excluded_count %}<dt>관련 없음</dt><dd>{{ meta.excluded_count }}건 (분류 단계에서 제외)</dd>{% endif %}
     {% if meta.truncated_count %}<dt>절삭</dt><dd>상한 초과로 {{ meta.truncated_count }}건 제외</dd>{% endif %}
     {% if meta.boosted_count %}<dt>학회 부스트</dt><dd>{{ meta.boosted_count }}건</dd>{% endif %}
   </dl>

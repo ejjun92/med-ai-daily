@@ -185,7 +185,9 @@ def test_footer_reports_counts_and_shortfall(tmp_path):
     assert "arXiv 1200건" in html and "PubMed 80건" in html
     assert "의료영상 AI 3건" in html
     assert "surgical_video" not in html, "0인 축은 노이즈다"
-    assert "2건" in html and "1건" in html and "7건" in html
+    assert "관련 없음" in html and "2건" in html
+    assert "요약 검증 실패" not in html, "관련 없음 건수를 요약 실패로 표시하면 안 된다"
+    assert "1건" in html and "7건" in html
     assert "2026-08-31 09:42 KST" in html
 
 

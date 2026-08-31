@@ -21,3 +21,6 @@ models/
 *.safetensors
 *.gguf
 *.bin
+
+# OMC 세션 상태 (작업 도구가 생성 — 프로젝트 파일 아님)
+.omc/

@@ -241,12 +241,16 @@ MODEL_PATH = "Qwen/Qwen2.5-32B-Instruct-AWQ"   # 교체는 이 한 줄 (계획 D
 GPU_DEVICE = "0"             # 연구 작업용으로 나머지 3장을 남긴다 (원칙 5)
 TENSOR_PARALLEL_SIZE = 1
 GPU_MEMORY_UTILIZATION = 0.85
-MAX_MODEL_LEN = 4096
+MAX_MODEL_LEN = 8192          # 분류 프롬프트가 분류체계 전문을 담아 ~1.3k 토큰
 # 같은 입력이면 같은 페이지가 나와야 한다 (원칙 4)
 TEMPERATURE = 0.0
 SEED = 42
-CLASSIFY_MAX_TOKENS = 2048
-SUMMARIZE_MAX_TOKENS = 1024
+CLASSIFY_MAX_TOKENS = 1024    # 512에서 절삭 발생(골든셋 Meta-CoT) — 실측 후 상향
+SUMMARIZE_MAX_TOKENS = 512    # 상한을 올려도 절삭이 안 줄어든다. 모델이 길게
+# 쓰는 게 아니라, 값을 다 쓴 뒤 종료 토큰 대신 반복 루프에 빠지기 때문이다
+# (실측: 4096 상한에서 원문 50만 자, 그중 쓸모 있는 부분은 앞 360자).
+# 정상 출력이 ~300토큰이므로 512면 충분하고, 폭주는 여기서 잘라 버린다.
+# 잘린 출력은 llm.salvage_json이 되살리고 summarize.trim_to_sentence가 다듬는다.
 # 기동 전 대상 GPU 여유 VRAM이 이 값 미만이면 남의 작업으로 보고 대기·건너뛴다
 GPU_FREE_VRAM_REQUIRED_MB = 24_000
 GPU_WAIT_RETRIES = 3

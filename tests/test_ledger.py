@@ -153,3 +153,47 @@ def test_old_records_without_payload_still_load(deferred, tmp_path):
                             "title": "T"}) + "\n")
     recs = DeferredLedger(root).active("2026-08-31", prompt_version="v2")
     assert len(recs) == 1 and recs[0].payload is None
+
+
+# ── 샤드 정리 (Phase 6, 실측으로 발견) ────────────────────────
+def test_prune_removes_only_shards_past_ttl(deferred, tmp_path):
+    """__init__이 모든 샤드를 읽는다. 안 지우면 로드 시간이 무한히 자란다.
+
+    하루 700건 × 1년이면 25만 건을 매 실행마다 파싱한다.
+    """
+    import os
+    os.makedirs(deferred.root, exist_ok=True)
+    for month in ("2026-03", "2026-06", "2026-07", "2026-08"):
+        with open(os.path.join(deferred.root, f"{month}.jsonl"), "w") as f:
+            f.write('{"primary_id": "x", "first_seen": "%s-01", '
+                    '"prompt_version": "v1", "reason": "quota"}\n' % month)
+
+    DeferredLedger(deferred.root).prune("2026-08-31", log=lambda *_: None)
+    left = sorted(n for n in os.listdir(deferred.root) if n.endswith(".jsonl"))
+    # TTL 14일 + 여유 31일 → 2026-07 이후만 남는다
+    assert left == ["2026-07.jsonl", "2026-08.jsonl"]
+
+
+def test_prune_is_safe_on_empty_dir(tmp_path):
+    assert DeferredLedger(str(tmp_path / "nope")).prune("2026-08-31",
+                                                        log=lambda *_: None) == 0
+
+
+def test_quota_records_carry_no_payload(deferred):
+    """쿼터 탈락분은 같은 프롬프트로 다시 돌려도 같은 판정이다.
+
+    초록까지 보관하면 연 0.31GB가 git에 쌓인다 (실측: 하루 607건 중 556건이 quota).
+    """
+    p = Paper(title="T", source="arxiv", arxiv_id="1", abstract="긴 초록" * 200)
+    deferred.defer([(p, "quota")], "2026-08-31")
+    rec = DeferredLedger(deferred.root).active("2026-08-31", prompt_version="v2")[0]
+    assert rec.payload is None
+    assert rec.title == "T", "식별 정보는 남는다 — 본 적 있는지 추적은 된다"
+
+
+def test_not_relevant_records_keep_payload(deferred):
+    """프롬프트를 고쳤을 때 회수할 대상은 바로 이쪽이다."""
+    p = Paper(title="T", source="arxiv", arxiv_id="1", abstract="초록")
+    deferred.defer([(p, "not_relevant")], "2026-08-31")
+    rec = DeferredLedger(deferred.root).active("2026-08-31", prompt_version="v2")[0]
+    assert rec.payload and rec.payload["abstract"] == "초록"

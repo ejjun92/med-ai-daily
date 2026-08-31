@@ -21,6 +21,12 @@ DEFERRED_DIR = os.path.join("data", "deferred")
 
 _ID_FIELDS = ("arxiv_id", "doi", "pmid", "norm_title")
 
+# 재분류로 결과가 달라질 수 있는 사유만 payload를 싣는다.
+# quota 탈락분은 '관련 있다고 판정됐으나 자리가 없었던' 것이라, 같은 프롬프트로
+# 다시 돌려도 같은 판정이 나온다 — 초록까지 보관할 값어치가 없다.
+# 실측: 하루 607건 중 556건이 quota다. 전부 실으면 연 0.31GB가 git에 쌓인다.
+_REPLAYABLE = ("not_relevant", "undecided")
+
 
 def _shard(root: str, day: str) -> str:
     return os.path.join(root, f"{day[:7]}.jsonl")   # YYYY-MM.jsonl
@@ -154,12 +160,12 @@ class DeferredLedger:
             self._latest[rec.primary_id] = rec
             # payload를 안 실으면 재진입 대상을 골라낸 뒤 재분류할 방법이 없다
             # — 플래그만 있고 동작하지 않는 기능이 된다.
-            rec.payload = paper.to_payload()
-            recs.append({
-                "primary_id": rec.primary_id, "first_seen": day,
-                "prompt_version": pv, "reason": reason, "title": paper.title,
-                "payload": rec.payload,
-            })
+            rec.payload = paper.to_payload() if reason in _REPLAYABLE else None
+            out = {"primary_id": rec.primary_id, "first_seen": day,
+                   "prompt_version": pv, "reason": reason, "title": paper.title}
+            if rec.payload:
+                out["payload"] = rec.payload
+            recs.append(out)
         return _append(self.root, day, recs)
 
     def active(self, today: str, prompt_version: str | None = None,
@@ -176,6 +182,31 @@ class DeferredLedger:
                if r.first_seen >= cutoff and (force or r.prompt_version != pv)]
         out.sort(key=lambda r: r.first_seen)      # 오래된 것부터
         return out[:lim]
+
+    def prune(self, today: str, log=print) -> int:
+        """TTL을 넘긴 월별 샤드를 지운다.
+
+        __init__이 모든 샤드를 읽으므로 지우지 않으면 매 실행의 로드 시간과
+        메모리가 무한히 자란다 (하루 700건 × 1년 = 25만 건). git 이력에는
+        남으므로 기록을 잃는 것이 아니라 작업본만 가볍게 유지하는 것이다.
+
+        여유를 한 달 더 둔다 — 월 경계에서 아직 유효한 기록을 지우지 않기 위해.
+        """
+        cutoff = (date.fromisoformat(today)
+                  - timedelta(days=config.DEFERRED_TTL_DAYS + 31))
+        keep_from = cutoff.strftime("%Y-%m")
+        removed = 0
+        if not os.path.isdir(self.root):
+            return 0
+        for name in sorted(os.listdir(self.root)):
+            if not name.endswith(".jsonl"):
+                continue
+            if name[:-len(".jsonl")] < keep_from:
+                os.remove(os.path.join(self.root, name))
+                removed += 1
+        if removed:
+            log(f"  [ledger] 만료 샤드 {removed}개 삭제 (< {keep_from})")
+        return removed
 
     def expired(self, today: str) -> list[DeferredRecord]:
         """TTL이 지나 영구 폐기되는 항목. 무증상 누수 방지를 위해 센다."""

@@ -170,6 +170,7 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
                for e in left_out],
             cycle_date)
         log(f"  [ledger] 게시 {len(chosen)} / 보류 {len(dropped) + len(left_out)}")
+        DeferredLedger().prune(cycle_date, log=log)
 
     log(f"=== {cycle_date} 완료: {len(chosen)}건 게시 ===")
     return len(chosen)

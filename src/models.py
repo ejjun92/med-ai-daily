@@ -154,6 +154,16 @@ class Entry:
     boosted_stars: Optional[int] = None   # venue 부스트 적용 후 (표시용)
 
     @property
+    def title_only(self) -> bool:
+        """초록 없이 제목만으로 분류된 항목.
+
+        일부 소스(Springer LNCS 등)는 초록을 공개 API로 주지 않는다. MICCAI
+        표본에서 55%가 여기 해당했다. 초록이 없다고 감추면 리스트업 목적과
+        충돌하므로 게시하되, 요약을 지어내지 않고 없다고 표시한다.
+        """
+        return not self.paper.abstract
+
+    @property
     def display_stars(self) -> int:
         return self.boosted_stars if self.boosted_stars is not None else (self.classification.stars or 0)
 

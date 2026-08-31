@@ -94,6 +94,28 @@ class Paper:
             return f"pmid:{self.pmid}"
         return f"title:{self.norm_title[:60]}"
 
+    def to_payload(self) -> dict:
+        """보류 원장에 실을 최소 메타.
+
+        재분류에는 제목·초록·학회가 있으면 충분하다. 저자 목록과 원문
+        코멘트는 싣지 않는다 — 원장이 커지면 매일 push가 무거워진다.
+        """
+        return {k: v for k, v in (
+            ("title", self.title), ("source", self.source), ("url", self.url),
+            ("abstract", self.abstract), ("announced_date", self.announced_date),
+            ("arxiv_id", self.arxiv_id), ("doi", self.doi), ("pmid", self.pmid),
+            ("journal", self.journal),
+        ) if v}
+
+    @classmethod
+    def from_payload(cls, d: dict) -> "Paper":
+        """원장에서 되살린다. 없는 필드는 기본값 — 되살린 논문도 정상 항목이다."""
+        return cls(title=d.get("title", ""), source=d.get("source", "arxiv"),
+                   url=d.get("url", ""), abstract=d.get("abstract"),
+                   announced_date=d.get("announced_date", ""),
+                   arxiv_id=d.get("arxiv_id"), doi=d.get("doi"),
+                   pmid=d.get("pmid"), journal=d.get("journal"))
+
     def identity(self) -> dict[str, str]:
         """식별자 집합. 하나라도 일치하면 같은 논문으로 본다 (계획 D-4).
 

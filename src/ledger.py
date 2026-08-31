@@ -152,9 +152,13 @@ class DeferredLedger:
             rec = DeferredRecord(primary_id=paper.primary_id, first_seen=day,
                                  prompt_version=pv, reason=reason, title=paper.title)
             self._latest[rec.primary_id] = rec
+            # payload를 안 실으면 재진입 대상을 골라낸 뒤 재분류할 방법이 없다
+            # — 플래그만 있고 동작하지 않는 기능이 된다.
+            rec.payload = paper.to_payload()
             recs.append({
                 "primary_id": rec.primary_id, "first_seen": day,
                 "prompt_version": pv, "reason": reason, "title": paper.title,
+                "payload": rec.payload,
             })
         return _append(self.root, day, recs)
 

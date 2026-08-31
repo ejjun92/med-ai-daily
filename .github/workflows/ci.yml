@@ -15,7 +15,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      # vLLM·torch는 설치하지 않는다. Phase 2 테스트는 모델·네트워크·API 키
-      # 없이 돌도록 설계했다 (49개 전부 순수 로직).
-      - run: pip install pytest
+      # vLLM·torch는 설치하지 않는다. 테스트는 모델·네트워크·API 키 없이
+      # 돌도록 설계했다. jinja2는 렌더 테스트가, requests는 수집 모듈이
+      # import 시점에 필요로 한다 (호출은 하지 않는다).
+      - run: pip install pytest jinja2 requests
       - run: pytest tests/ -q -m "not llm"

@@ -112,3 +112,44 @@ def test_ttl_expiry_is_countable(deferred):
 def test_force_replay_ignores_version(deferred):
     last = _fill(deferred, days=5, per_day=50)
     assert len(deferred.active(last, force=True)) > 0
+
+
+# ── 보류분 재분류에 필요한 payload (Phase 6) ──────────────────
+def test_deferred_record_carries_enough_to_reclassify(deferred):
+    """payload가 없으면 --replay-deferred가 동작하지 않는 빈 플래그가 된다.
+
+    재진입 대상을 '골라낼' 수는 있어도 그 논문을 '다시 판정할' 수는 없다 —
+    제목·초록이 없기 때문이다.
+    """
+    p = Paper(title="MIRAGE: fMRI to image", source="arxiv",
+              arxiv_id="2605.17198", abstract="We present MIRAGE...",
+              announced_date="2026-05-16", url="https://arxiv.org/abs/2605.17198")
+    deferred.defer([(p, "not_relevant")], "2026-08-31")
+
+    rec = DeferredLedger(deferred.root).active("2026-08-31", prompt_version="v2")[0]
+    back = Paper.from_payload(rec.payload)
+    assert back.title == p.title
+    assert back.abstract == p.abstract
+    assert back.primary_id == p.primary_id
+
+
+def test_payload_omits_bulky_fields(deferred):
+    """원장은 매일 push된다. 저자 목록과 코멘트 원문까지 실으면 무거워진다."""
+    p = Paper(title="T", source="arxiv", arxiv_id="1", abstract="a",
+              authors=[f"Author {i}" for i in range(30)],
+              raw_comments="Accepted to MICCAI 2025. " * 20)
+    payload = p.to_payload()
+    assert "authors" not in payload and "raw_comments" not in payload
+
+
+def test_old_records_without_payload_still_load(deferred, tmp_path):
+    """payload 이전에 쌓인 기록이 있어도 터지지 않는다 — 복원만 못 할 뿐이다."""
+    import json, os
+    root = str(tmp_path / "old")
+    os.makedirs(root, exist_ok=True)
+    with open(os.path.join(root, "2026-08.jsonl"), "w") as f:
+        f.write(json.dumps({"primary_id": "arxiv:1", "first_seen": "2026-08-31",
+                            "prompt_version": "v1", "reason": "quota",
+                            "title": "T"}) + "\n")
+    recs = DeferredLedger(root).active("2026-08-31", prompt_version="v2")
+    assert len(recs) == 1 and recs[0].payload is None

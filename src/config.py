@@ -204,19 +204,23 @@ ARXIV_DOI_PREFIX = "10.48550/arxiv."
 #   MindLLM  → "Forty-Second International Conference on Machine Learning"
 # 둘 다 약칭이 없다. 약칭만 찾는 정규식이면 놓친다.
 VENUE_BOOST_LIST = {
-    "MICCAI":   ("MICCAI", "Medical Image Computing and Computer[- ]Assisted Intervention"),
-    "IPCAI":    ("IPCAI", "Information Processing in Computer[- ]Assisted Interventions"),
+    # 학회 — 약칭과 정식 명칭 모두. 약칭 뒤 W는 venue.py가 워크숍으로 처리한다.
+    "MICCAI":   ("MICCAI", "Medical Image Computing and Computer[- ]?Assisted Intervention"),
+    "IPCAI":    ("IPCAI", "Information Processing in Computer[- ]?Assisted Intervention"),
     "CVPR":     ("CVPR", "Computer Vision and Pattern Recognition"),
     "ICCV":     ("ICCV", "International Conference on Computer Vision"),
     "ECCV":     ("ECCV", "European Conference on Computer Vision"),
     "NeurIPS":  ("NeurIPS", "NIPS", "Conference on Neural Information Processing Systems"),
     "ICML":     ("ICML", "International Conference on Machine Learning"),
     "ICLR":     ("ICLR", "International Conference on Learning Representations"),
-    "MedIA":    ("Medical Image Analysis", "Med Image Anal"),
-    "IEEE TMI": ("IEEE Trans(actions)? on Med(ical)? Imaging", "IEEE TMI"),
-    "TPAMI":    ("IEEE Trans(actions)? on Pattern Analysis", "TPAMI"),
-    "Radiology: AI": ("Radiology: Artificial Intelligence", "Radiol Artif Intell"),
-    "IJCARS":   ("Int(ernational)? J(ournal)? of Comput(er)? Assist(ed)? Radiol(ogy)? and Surg(ery)?", "IJCARS"),
+    # 저널 — PubMed는 NLM 축약형을 반환한다 ("Med Image Anal", "IEEE Trans Med Imaging").
+    # 연결어(of/and/on)를 필수로 두면 축약형이 매칭되지 않는다.
+    "MedIA":    ("Medical Image Analysis", "Med(ical)? Image Anal(ysis)?"),
+    "IEEE TMI": ("IEEE TMI", r"IEEE Trans(actions)?\.? (on )?Med(ical)? Imaging"),
+    "TPAMI":    ("TPAMI", r"IEEE Trans(actions)?\.? (on )?Pattern Anal(ysis)?"),
+    "Radiology: AI": ("Radiology:? Artificial Intelligence", "Radiol(ogy)?:? Artif(icial)? Intell(igence)?"),
+    "IJCARS":   ("IJCARS",
+                 r"Int(ernational)?\.? J(ournal)?\.? (of )?Comput(er)?\.? Assist(ed)?\.? Radiol(ogy)?\.?( and)? Surg(ery)?"),
 }
 # 워크숍은 본회의와 수락 기준이 다르다. CVPRW를 CVPR로 취급하면 과대평가다.
 VENUE_WORKSHOP_SUFFIXES = ("W", " Workshop", "-W")

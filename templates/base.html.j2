@@ -1,72 +1,284 @@
-{# 페이지 껍데기. 요약·제목·태그는 전부 autoescape로 나간다 — |safe 금지(R-11). #}
-<!doctype html>
+{# 페이지 껍데기.
+
+   디자인은 gist-ailab/gail-daily-news의 뉴모피즘 시스템을 따른다 — 사용자가
+   처음에 그 사이트를 모델로 제시했다. 입체 그림자로 카드를 띄우고, 별점은
+   주황, 강조색은 청록, 푸터는 어둡게 간다.
+
+   요약·제목·태그는 전부 autoescape로 나간다 — |safe 금지 (R-11). #}
+<!DOCTYPE html>
 <html lang="ko">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ page_title }}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+:root {
+  --primary: #006666;
+  --surface: #E7E5E4;
+  --surface-card: #E7E5E4;
+  --text: #1E2938;
+  --text-secondary: #4A5568;
+  --text-tertiary: #8494A7;
+  --accent: #006666;
+  --accent-hover: #004D4D;
+  --star-filled: #FE9900;
+  --star-empty: #C4C4C4;
+  --badge-bg: #D9D7D5;
+  --badge-text: #006666;
+  --warning: #FE9900;
+  --danger: #FF2157;
+  --gradient-start: #006666;
+  --gradient-mid: #008080;
+  --gradient-end: #00A3A3;
+  --header-text: #F1F2F5;
+  --footer-bg: #1E2938;
+  --footer-text: #8494A7;
+  --neu-light: rgba(255,255,255,0.7);
+  --neu-dark: rgba(0,0,0,0.15);
+  --shadow-raised: 6px 6px 12px var(--neu-dark), -6px -6px 12px var(--neu-light);
+  --shadow-raised-sm: 3px 3px 6px var(--neu-dark), -3px -3px 6px var(--neu-light);
+  --shadow-inset: inset 3px 3px 6px var(--neu-dark), inset -3px -3px 6px var(--neu-light);
+  --shadow-hover: 8px 8px 16px var(--neu-dark), -8px -8px 16px var(--neu-light);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+}
+@media (prefers-color-scheme: dark) {
   :root {
-    color-scheme: light dark;
-    --fg: #16181d; --muted: #5f6672; --line: #e2e5ea;
-    --bg: #ffffff; --card: #f7f8fa; --accent: #1a56b8; --warn-bg: #fff4e0; --warn-fg: #7a4a00;
+    --primary: #00CCCC;
+    --surface: #1A202C;
+    --surface-card: #1A202C;
+    --text: #F1F2F5;
+    --text-secondary: #CBD5E0;
+    --text-tertiary: #8494A7;
+    --accent: #00CCCC;
+    --accent-hover: #33E0E0;
+    --badge-bg: #2D3748;
+    --badge-text: #00CCCC;
+    --gradient-start: #004D4D;
+    --gradient-mid: #006666;
+    --gradient-end: #008080;
+    --footer-bg: #0F141C;
+    --neu-light: rgba(255,255,255,0.04);
+    --neu-dark: rgba(0,0,0,0.55);
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --fg: #e6e8ec; --muted: #9aa1ad; --line: #2b2f37;
-      --bg: #14161a; --card: #1c1f26; --accent: #7fb0ff; --warn-bg: #3a2b12; --warn-fg: #ffd79a;
-    }
-  }
-  * { box-sizing: border-box; }
-  body {
-    font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
-    max-width: 54rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem;
-    line-height: 1.7; color: var(--fg); background: var(--bg);
-    overflow-wrap: break-word; word-break: break-word;   /* 긴 제목·URL이 가로 스크롤을 만들지 않게 */
-  }
-  a { color: var(--accent); }
-  h1 { font-size: 1.7rem; margin: 0 0 .3rem; }
-  h2 { font-size: 1.25rem; margin: 2.6rem 0 .2rem; padding-bottom: .35rem;
-       border-bottom: 2px solid var(--line); }
-  h3 { font-size: .96rem; margin: 1.6rem 0 .6rem; color: var(--muted);
-       font-weight: 600; letter-spacing: .01em; }
-  .muted { color: var(--muted); font-size: .9rem; }
-  .banner { background: var(--warn-bg); color: var(--warn-fg); border-radius: .5rem;
-            padding: .8rem 1rem; margin: 1.2rem 0; font-size: .95rem; }
-  .entry { border-top: 1px solid var(--line); padding: .95rem 0; }
-  .entry:first-of-type { border-top: none; }
-  .entry-title { font-size: 1.02rem; font-weight: 600; line-height: 1.45; margin: 0 0 .3rem; }
-  .stars { color: #d99a00; letter-spacing: .06em; margin-right: .4rem; font-size: .95rem; }
-  .meta { font-size: .84rem; color: var(--muted); margin: .1rem 0 .45rem; }
-  .meta span + span::before { content: " · "; }
-  .summary { margin: .35rem 0 .5rem; font-size: .95rem; }
-  .no-abstract { color: var(--muted); font-style: italic; font-size: .92rem; }
-  .tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .35rem; }
-  .tag { background: var(--card); border: 1px solid var(--line); border-radius: 1rem;
-         padding: .08rem .55rem; font-size: .77rem; color: var(--muted); }
-  .tag.venue { border-color: var(--accent); color: var(--accent); font-weight: 600; }
-  footer { margin-top: 4rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
-           font-size: .82rem; color: var(--muted); }
-  footer dl { display: grid; grid-template-columns: max-content 1fr; gap: .15rem .8rem; margin: .5rem 0; }
-  footer dt { font-weight: 600; }
-  footer dd { margin: 0; }
-  nav { margin: .6rem 0 0; font-size: .9rem; }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  line-height: 1.65;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+/* ── hero ─────────────────────────────────────────── */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid) 55%, var(--gradient-end));
+  color: var(--header-text);
+  padding: 2.6rem 1.25rem 2.2rem;
+  text-align: center;
+}
+.hero-nav {
+  position: absolute; top: 1rem; right: 1.25rem;
+  display: flex; gap: .5rem;
+}
+.hero-nav a {
+  color: var(--header-text);
+  font-family: 'Space Mono', monospace; font-size: .72rem;
+  padding: .25rem .7rem; border-radius: 999px;
+  background: rgba(255,255,255,.18);
+}
+.hero-nav a:hover { background: rgba(255,255,255,.3); text-decoration: none; }
+@media (max-width: 30rem) {
+  .hero-nav { position: static; justify-content: center; margin-bottom: .8rem; }
+}
+
+/* ── 지난 뉴스 ────────────────────────────────────── */
+.past-news { margin-top: 2.6rem; }
+.past-news .dates { display: flex; flex-wrap: wrap; gap: .4rem; }
+.past-news .dates a {
+  font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+  padding: .35rem .75rem; border-radius: var(--radius-sm);
+  background: var(--surface-card); box-shadow: var(--shadow-raised-sm);
+  color: var(--text-secondary);
+}
+.past-news .dates a:hover { box-shadow: var(--shadow-raised); color: var(--accent); text-decoration: none; }
+.past-news .dates a.all { color: var(--accent); font-weight: 700; }
+.hero-inner { max-width: 58rem; margin: 0 auto; }
+.hero .icon { font-size: 2rem; line-height: 1; }
+.hero h1 {
+  margin: .5rem 0 .3rem;
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(1.5rem, 4.5vw, 2.3rem);
+  font-weight: 700; letter-spacing: -.01em;
+}
+.hero h1 .title-line { display: block; }
+.hero .subtitle { font-size: .92rem; opacity: .92; }
+.hero .stats {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: .4rem; margin-top: 1rem;
+}
+.hero .stats span {
+  font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+  padding: .2rem .6rem; border-radius: 999px;
+  background: rgba(255,255,255,.16);
+}
+
+/* ── container ────────────────────────────────────── */
+.container { max-width: 58rem; margin: 0 auto; padding: 1.6rem 1.25rem 3rem; }
+
+/* ── 접이식 안내 ──────────────────────────────────── */
+.feed-guide {
+  background: var(--surface-card); border-radius: var(--radius-md);
+  box-shadow: var(--shadow-raised); padding: .9rem 1.2rem; margin-bottom: 1.4rem;
+}
+.feed-guide > summary {
+  cursor: pointer; font-weight: 600; font-size: .9rem; color: var(--text-secondary);
+  list-style: none;
+}
+.feed-guide > summary::-webkit-details-marker { display: none; }
+.feed-guide > summary::before { content: "▸ "; color: var(--accent); }
+.feed-guide[open] > summary::before { content: "▾ "; }
+.guide-body { margin-top: .9rem; font-size: .82rem; color: var(--text-secondary); }
+.guide-title {
+  font-weight: 700; color: var(--text); margin: 1rem 0 .3rem;
+  font-size: .84rem; letter-spacing: .01em;
+}
+.guide-title:first-child { margin-top: 0; }
+.importance-scale div { display: flex; gap: .6rem; align-items: baseline; margin: .15rem 0; }
+.importance-scale strong { color: var(--star-filled); font-size: .78rem; white-space: nowrap; }
+.guide-source-row { display: grid; grid-template-columns: minmax(0,15rem) 1fr; gap: .2rem .9rem; margin: .2rem 0; }
+.guide-source-category { color: var(--text); font-weight: 500; }
+@media (max-width: 34rem) { .guide-source-row { grid-template-columns: 1fr; } }
+
+.banner {
+  background: var(--surface-card); color: var(--warning);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-inset);
+  padding: .85rem 1.1rem; margin-bottom: 1.2rem; font-size: .88rem;
+}
+
+/* ── 섹션 ─────────────────────────────────────────── */
+.section { margin-top: 2.2rem; }
+.section-header h2 {
+  margin: 0 0 .2rem; font-size: 1.12rem; font-weight: 700;
+  display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+}
+.section-header .count {
+  font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+  color: var(--badge-text); background: var(--badge-bg);
+  padding: .1rem .5rem; border-radius: 999px; box-shadow: var(--shadow-raised-sm);
+}
+.section-description { font-size: .8rem; color: var(--text-tertiary); margin: 0 0 .9rem; }
+.subsection {
+  font-size: .82rem; font-weight: 600; color: var(--text-secondary);
+  margin: 1.1rem 0 .5rem; display: flex; align-items: center; gap: .4rem;
+}
+
+/* ── 항목 카드 ────────────────────────────────────── */
+.item {
+  width: 100%; min-width: 0;
+  padding: 1.1rem 1.3rem; margin-bottom: 10px;
+  background: var(--surface-card); border: none;
+  border-radius: var(--radius-md); box-shadow: var(--shadow-raised);
+  transition: box-shadow .25s ease, transform .2s ease;
+}
+.item:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+.item-title { font-size: .98rem; font-weight: 600; line-height: 1.45; margin-bottom: .35rem; }
+.item-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-bottom: .5rem; }
+.badge {
+  font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+  padding: .12rem .5rem; border-radius: 999px;
+  background: var(--badge-bg); color: var(--badge-text);
+  box-shadow: var(--shadow-raised-sm);
+}
+.item-date { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--text-tertiary); }
+.item-authors { font-size: .68rem; color: var(--text-tertiary); }
+.stars { font-size: .78rem; letter-spacing: 1px; white-space: nowrap; cursor: help; }
+.stars .filled { color: var(--star-filled); }
+.stars .empty { color: var(--star-empty); }
+.item.highlight { box-shadow: var(--shadow-hover); }
+.item.highlight .stars .filled { color: var(--danger); }
+.item-summary { font-size: .88rem; color: var(--text-secondary); margin: 0 0 .5rem; }
+.item-summary.missing { font-style: italic; color: var(--text-tertiary); }
+.item-taxonomy { display: flex; flex-wrap: wrap; gap: .28rem; }
+.taxonomy-chip {
+  display: inline-flex; align-items: center; min-width: 0;
+  padding: .16rem .5rem; border-radius: 999px;
+  font-family: 'JetBrains Mono', 'Noto Sans KR', monospace;
+  font-size: .6rem; line-height: 1.35; overflow-wrap: anywhere;
+  background: var(--badge-bg); color: var(--text-secondary);
+  box-shadow: var(--shadow-raised-sm);
+}
+.taxonomy-chip.taxonomy-venue { color: var(--badge-text); font-weight: 700; }
+
+/* ── 푸터 ─────────────────────────────────────────── */
+footer {
+  background: var(--footer-bg); color: var(--footer-text);
+  padding: 2rem 1.25rem 2.6rem; margin-top: 3rem;
+}
+.footer-inner { max-width: 58rem; margin: 0 auto; font-size: .78rem; }
+.footer-inner dl {
+  display: grid; grid-template-columns: max-content 1fr;
+  gap: .18rem .9rem; margin: .6rem 0 1rem;
+}
+.footer-inner dt { font-weight: 600; color: #CBD5E0; }
+.footer-inner dd { margin: 0; }
+.footer-inner nav a { color: var(--primary); margin-right: .8rem; }
+.empty-note { color: var(--text-tertiary); font-size: .9rem; }
 </style>
+</head>
 <body>
+<div class="hero">
+  <div class="hero-nav">
+    <a href="{{ rel }}archive/index.html">지난 뉴스</a>
+    <a href="https://github.com/ejjun92/med-ai-daily" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+  <div class="hero-inner">
+    <div class="icon">🧠</div>
+    <h1><span class="title-line">{{ site_title }}</span></h1>
+    <div class="subtitle">{{ meta.data_date }} — 뇌신호·수술영상 중심, 의료 AI 큐레이션</div>
+    <div class="stats">
+      <span>게시 {{ meta.published_count }}건</span>
+      {% for axis, n in axis_counts %}<span>{{ axis.label }} {{ n }}</span>{% endfor %}
+      <span>소스 3개</span>
+      <span>매일 12:00 KST 업데이트</span>
+      <span>중요도 정렬</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+{% block guide %}{% endblock %}
 {% block body %}{% endblock %}
+</div>
 
 <footer>
-  {# AC-15: 서버가 멈춰도 사이트는 살아 있다. 낡았다는 사실이 여기 보여야 한다. #}
-  <dl>
-    <dt>데이터 기준일</dt><dd>{{ meta.data_date }}</dd>
-    <dt>생성 시각</dt><dd>{{ meta.generated_kst }} KST</dd>
-    <dt>수집</dt><dd>{{ meta.source_line }}</dd>
-    <dt>게시</dt><dd>{{ meta.published_count }}건{% if meta.title_only_count %} (그중 초록 미확보 {{ meta.title_only_count }}건){% endif %}</dd>
-    {% if meta.shortfall_line %}<dt>축별 미달</dt><dd>{{ meta.shortfall_line }}</dd>{% endif %}
-    {% if meta.summary_failed_count %}<dt>요약 실패</dt><dd>{{ meta.summary_failed_count }}건 (논문은 게시, 제목만 표시)</dd>{% endif %}
-    {% if meta.excluded_count %}<dt>관련 없음</dt><dd>{{ meta.excluded_count }}건 (분류 단계에서 제외)</dd>{% endif %}
-    {% if meta.truncated_count %}<dt>절삭</dt><dd>상한 초과로 {{ meta.truncated_count }}건 제외</dd>{% endif %}
-    {% if meta.capped_sources %}<dt>⚠️ 수집 상한</dt><dd>{{ meta.capped_sources | join(", ") }} — 상한에 걸려 일부 논문을 못 가져왔습니다</dd>{% endif %}
-    {% if meta.boosted_count %}<dt>학회 부스트</dt><dd>{{ meta.boosted_count }}건</dd>{% endif %}
-  </dl>
-  <nav><a href="{{ rel }}index.html">최신</a> · <a href="{{ rel }}archive/index.html">아카이브</a></nav>
+  <div class="footer-inner">
+    {# AC-15: 서버가 멈춰도 사이트는 살아 있다. 낡았다는 사실이 여기 보여야 한다. #}
+    <dl>
+      <dt>데이터 기준일</dt><dd>{{ meta.data_date }}</dd>
+      <dt>생성 시각</dt><dd>{{ meta.generated_kst }} KST</dd>
+      <dt>수집</dt><dd>{{ meta.source_line }}</dd>
+      <dt>게시</dt><dd>{{ meta.published_count }}건{% if meta.title_only_count %} (그중 초록 미확보 {{ meta.title_only_count }}건){% endif %}</dd>
+      {% if meta.shortfall_line %}<dt>축별 미달</dt><dd>{{ meta.shortfall_line }}</dd>{% endif %}
+      {% if meta.summary_failed_count %}<dt>요약 실패</dt><dd>{{ meta.summary_failed_count }}건 (논문은 게시, 제목만 표시)</dd>{% endif %}
+      {% if meta.excluded_count %}<dt>관련 없음</dt><dd>{{ meta.excluded_count }}건 (분류 단계에서 제외)</dd>{% endif %}
+      {% if meta.truncated_count %}<dt>절삭</dt><dd>상한 초과로 {{ meta.truncated_count }}건 제외</dd>{% endif %}
+      {% if meta.capped_sources %}<dt>⚠️ 수집 상한</dt><dd>{{ meta.capped_sources | join(", ") }} — 상한에 걸려 일부 논문을 못 가져왔습니다</dd>{% endif %}
+      {% if meta.boosted_count %}<dt>학회 부스트</dt><dd>{{ meta.boosted_count }}건</dd>{% endif %}
+    </dl>
+    <nav><a href="{{ rel }}index.html">최신</a><a href="{{ rel }}archive/index.html">지난 뉴스 전체</a></nav>
+  </div>
 </footer>
+</body>
+</html>

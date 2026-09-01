@@ -24,6 +24,7 @@ class Axis:
     key: str
     label: str
     ratio: float           # 0.0~1.0
+    emoji: str = ""        # 섹션 헤더용. 훑을 때 자리를 기억하게 해준다
 
     @property
     def target(self) -> int:
@@ -36,10 +37,10 @@ class Axis:
 
 
 AXES: tuple[Axis, ...] = (
-    Axis("brain_decoding",  "뇌신호 AI",   0.35),
-    Axis("surgical_video",  "수술영상",          0.30),
-    Axis("dl_methodology",  "딥러닝 방법론",      0.20),
-    Axis("medical_imaging", "의료영상 AI",       0.15),
+    Axis("brain_decoding",  "뇌신호 AI",   0.35, "🧠"),
+    Axis("surgical_video",  "수술영상",          0.30, "🔬"),
+    Axis("dl_methodology",  "딥러닝 방법론",      0.20, "⚙️"),
+    Axis("medical_imaging", "의료영상 AI",       0.15, "🩺"),
 )
 AXIS_KEYS = tuple(a.key for a in AXES)
 AXIS_BY_KEY = {a.key: a for a in AXES}
@@ -58,52 +59,53 @@ class Category:
     name: str
     axis: str
     description: str       # 분류 프롬프트에 그대로 들어간다
+    emoji: str = ""
 
 
 CATEGORIES: tuple[Category, ...] = (
     # ■ Brain Decoding (35%)
     Category("fmri_visual_decoding", "fMRI Visual Decoding & Reconstruction", "brain_decoding",
-             "fMRI에서 피험자가 본·상상한 이미지·장면을 복원(reconstruction)한다"),
+             "fMRI에서 피험자가 본·상상한 이미지·장면을 복원(reconstruction)한다", "👁"),
     Category("eeg_meg_decoding", "EEG/MEG Decoding & BCI", "brain_decoding",
-             "EEG·MEG에서 자극 내용이나 인지·운동 의도를 읽어낸다. motor imagery, BCI, neurofeedback 포함"),
+             "EEG·MEG에서 자극 내용이나 인지·운동 의도를 읽어낸다. motor imagery, BCI, neurofeedback 포함", "⚡"),
     Category("brain_to_language", "Brain-to-Language & Multimodal Decoding", "brain_decoding",
-             "뇌 신호에서 문장·단어·의미를 생성한다 (speech/text decoding)"),
+             "뇌 신호에서 문장·단어·의미를 생성한다 (speech/text decoding)", "💬"),
     Category("cross_subject_alignment", "Cross-Subject Generalization & Neural Alignment", "brain_decoding",
-             "디코딩 모델을 학습에 없던 피험자로 일반화(subject-agnostic)하거나, 뇌 표현과 딥러닝 모델 표현을 정렬·비교한다. 다기관 데이터 조화나 피험자 변이 보정 자체가 목적이면 여기가 아니다"),
+             "디코딩 모델을 학습에 없던 피험자로 일반화(subject-agnostic)하거나, 뇌 표현과 딥러닝 모델 표현을 정렬·비교한다. 다기관 데이터 조화나 피험자 변이 보정 자체가 목적이면 여기가 아니다", "🔗"),
     Category("brain_representation", "Brain Signal Representation & Foundation Models", "brain_decoding",
-             "EEG·fMRI **원신호 자체**(시계열·볼륨)의 표현학습·자기지도학습·foundation model. 연결성 그래프·커넥톰·메타분석처럼 신호에서 뽑아낸 2차 산물을 다루면 여기가 아니다"),
+             "EEG·fMRI **원신호 자체**(시계열·볼륨)의 표현학습·자기지도학습·foundation model. 연결성 그래프·커넥톰·메타분석처럼 신호에서 뽑아낸 2차 산물을 다루면 여기가 아니다", "🧬"),
 
     # ■ 수술영상 (30%)
     Category("surgical_scene", "Surgical Scene Understanding", "surgical_video",
-             "수술 phase/step recognition, action triplet, 행동 인식"),
+             "수술 phase/step recognition, action triplet, 행동 인식", "🎬"),
     Category("surgical_segmentation", "Instrument & Anatomy Segmentation", "surgical_video",
-             "수술 도구·해부구조 분할 및 추적"),
+             "수술 도구·해부구조 분할 및 추적", "✂️"),
     Category("surgical_vlp", "Surgical VLP & Foundation Model", "surgical_video",
-             "수술 video-language pretraining, 수술 특화 기반모델"),
+             "수술 video-language pretraining, 수술 특화 기반모델", "📹"),
     Category("robotic_surgery", "Robotic Surgery & Skill Assessment", "surgical_video",
-             "수술 로봇, 술기 평가, 수술 내비게이션"),
+             "수술 로봇, 술기 평가, 수술 내비게이션", "🦾"),
 
     # ■ 딥러닝 방법론 (20%)
     Category("uncertainty", "Uncertainty Quantification & Calibration", "dl_methodology",
-             "불확실성 정량화, 신뢰도 보정, OOD 탐지"),
+             "불확실성 정량화, 신뢰도 보정, OOD 탐지", "📊"),
     Category("explainability", "Explainability & Interpretability", "dl_methodology",
-             "XAI, saliency, concept 기반 해석, mechanistic interpretability"),
+             "XAI, saliency, concept 기반 해석, mechanistic interpretability", "🔍"),
     Category("foundation_openvocab", "Foundation Models & Open-Vocabulary Perception", "dl_methodology",
-             "open-world/open-vocabulary 검출, 통합 비전 기반모델"),
+             "open-world/open-vocabulary 검출, 통합 비전 기반모델", "🌐"),
     Category("multimodal_ssl", "Multimodal & Self-Supervised Representation", "dl_methodology",
-             "멀티모달 임베딩, contrastive/masked 표현학습"),
+             "멀티모달 임베딩, contrastive/masked 표현학습", "🧩"),
     Category("generative_editing", "Generative Modeling & Editing", "dl_methodology",
-             "diffusion, 이미지 편집, 생성 제어"),
+             "diffusion, 이미지 편집, 생성 제어", "🎨"),
     Category("robustness", "Robustness & Domain Generalization", "dl_methodology",
-             "도메인 적응·일반화, distribution shift, continual learning"),
+             "도메인 적응·일반화, distribution shift, continual learning", "🛡"),
 
     # ■ 의료영상 AI (15%)
     Category("medical_foundation", "Medical Foundation Models, VLM & Report Generation", "medical_imaging",
-             "의료 특화 기반모델, 판독문 생성, 의료 VQA, 임상 LLM"),
+             "의료 특화 기반모델, 판독문 생성, 의료 VQA, 임상 LLM", "🏥"),
     Category("medical_seg_diagnosis", "Segmentation, Detection & Diagnosis", "medical_imaging",
-             "장기·병변 분할/검출, 질환 분류, 예후 예측, screening"),
+             "장기·병변 분할/검출, 질환 분류, 예후 예측, screening", "🫀"),
     Category("medical_recon_benchmark", "Reconstruction, Generation & Benchmark", "medical_imaging",
-             "MRI/CT 재구성, denoising, 의료 데이터셋·평가체계"),
+             "MRI/CT 재구성, denoising, 의료 데이터셋·평가체계", "🧲"),
 )
 CATEGORY_IDS = tuple(c.id for c in CATEGORIES)
 CATEGORY_BY_ID = {c.id: c for c in CATEGORIES}
@@ -283,5 +285,7 @@ ITEM_RETRY_LIMIT = 5         # 초과 시 구조적 오류로 보고 크게 실�
 # ─────────────────────────────────────────────────────────────────
 DOCS_DIR = "docs"
 SITE_TITLE = "Medical AI Daily"
+
+RECENT_DAYS_SHOWN = 14       # 본문 하단 '지난 뉴스'에 띄우는 날짜 수
 
 STALENESS_WARN_DAYS = 2      # 데이터가 이보다 오래되면 페이지에 배너를 띄운다

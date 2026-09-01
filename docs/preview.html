@@ -81,11 +81,32 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   padding: 2.6rem 1.25rem 2.2rem;
   text-align: center;
 }
-.hero .lab-link {
+.hero-nav {
   position: absolute; top: 1rem; right: 1.25rem;
-  color: var(--header-text); opacity: .85;
-  font-family: 'Space Mono', monospace; font-size: .72rem;
+  display: flex; gap: .5rem;
 }
+.hero-nav a {
+  color: var(--header-text);
+  font-family: 'Space Mono', monospace; font-size: .72rem;
+  padding: .25rem .7rem; border-radius: 999px;
+  background: rgba(255,255,255,.18);
+}
+.hero-nav a:hover { background: rgba(255,255,255,.3); text-decoration: none; }
+@media (max-width: 30rem) {
+  .hero-nav { position: static; justify-content: center; margin-bottom: .8rem; }
+}
+
+/* ── 지난 뉴스 ────────────────────────────────────── */
+.past-news { margin-top: 2.6rem; }
+.past-news .dates { display: flex; flex-wrap: wrap; gap: .4rem; }
+.past-news .dates a {
+  font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+  padding: .35rem .75rem; border-radius: var(--radius-sm);
+  background: var(--surface-card); box-shadow: var(--shadow-raised-sm);
+  color: var(--text-secondary);
+}
+.past-news .dates a:hover { box-shadow: var(--shadow-raised); color: var(--accent); text-decoration: none; }
+.past-news .dates a.all { color: var(--accent); font-weight: 700; }
 .hero-inner { max-width: 58rem; margin: 0 auto; }
 .hero .icon { font-size: 2rem; line-height: 1; }
 .hero h1 {
@@ -211,11 +232,14 @@ footer {
 </head>
 <body>
 <div class="hero">
-  <a class="lab-link" href="https://github.com/ejjun92/med-ai-daily" target="_blank" rel="noopener">GitHub ↗</a>
+  <div class="hero-nav">
+    <a href="archive/index.html">지난 뉴스</a>
+    <a href="https://github.com/ejjun92/med-ai-daily" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
   <div class="hero-inner">
     <div class="icon">🧠</div>
     <h1><span class="title-line">Medical AI Daily</span></h1>
-    <div class="subtitle" style="background:rgba(255,255,255,.18);border-radius:8px;padding:.35rem .7rem;display:inline-block;margin-bottom:.4rem">⚠️ 디자인 미리보기 — 내용은 골든셋 20편입니다 (실제 데이터 아님)</div><div class="subtitle">2026-08-31 — 뇌신호·수술영상 중심, 의료 AI 큐레이션</div>
+    <div class="subtitle" style="background:rgba(255,255,255,.18);border-radius:8px;padding:.35rem .7rem;display:inline-block;margin-bottom:.4rem">⚠️ 디자인 미리보기 — 내용은 골든셋 20편, 지난 뉴스 날짜는 예시입니다</div><div class="subtitle">2026-08-31 — 뇌신호·수술영상 중심, 의료 AI 큐레이션</div>
     <div class="stats">
       <span>게시 20건</span>
 <span>뇌신호 AI 7</span><span>수술영상 8</span><span>딥러닝 방법론 4</span><span>의료영상 AI 1</span>      <span>소스 3개</span>
@@ -583,17 +607,24 @@ footer {
 <span class="taxonomy-chip">chest-x-ray</span><span class="taxonomy-chip">foundation-model</span>    </div>
   </div>
 </div>
+
+<div class="past-news">
+  <div class="section-header"><h2>🗂 지난 뉴스</h2></div>
+  <div class="dates">
+<a href="archive/2026-08-30.html">2026-08-30</a><a href="archive/2026-08-29.html">2026-08-29</a><a href="archive/2026-08-28.html">2026-08-28</a>    <a class="all" href="archive/index.html">전체 보기 →</a>
+  </div>
+</div>
 </div>
 
 <footer>
   <div class="footer-inner">
     <dl>
       <dt>데이터 기준일</dt><dd>2026-08-31</dd>
-      <dt>생성 시각</dt><dd>2026-09-01 17:15 KST</dd>
+      <dt>생성 시각</dt><dd>2026-09-01 17:22 KST</dd>
       <dt>수집</dt><dd>arXiv 1243건 · PubMed 86건 · Semantic Scholar 217건</dd>
       <dt>게시</dt><dd>20건 (그중 초록 미확보 6건)</dd>
 <dt>축별 미달</dt><dd>의료영상 AI 4건</dd><dt>요약 실패</dt><dd>4건 (논문은 게시, 제목만 표시)</dd><dt>관련 없음</dt><dd>3건 (분류 단계에서 제외)</dd><dt>학회 부스트</dt><dd>3건</dd>    </dl>
-    <nav><a href="index.html">최신</a><a href="archive/index.html">아카이브</a></nav>
+    <nav><a href="index.html">최신</a><a href="archive/index.html">지난 뉴스 전체</a></nav>
   </div>
 </footer>
 </body>

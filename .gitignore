@@ -10,6 +10,7 @@ venv/
 logs/
 *.log
 data/candidates/
+data/entries/       # 렌더 재실행용 캐시 — 원장과 달리 언제든 다시 만들 수 있다
 
 # 비밀 (원칙 5)
 .env

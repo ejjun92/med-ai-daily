@@ -137,6 +137,13 @@ def _env() -> Environment:
     )
     env.globals["source_label"] = lambda s: _SOURCE_LABEL.get(s, s)
     env.globals["display_date"] = display_date
+    # 안내문은 config에서 뽑는다 — 축·카테고리를 고치면 페이지 설명도 따라간다
+    env.globals.update(
+        axes=config.AXES, categories=config.CATEGORIES,
+        star_rubric=sorted(config.STAR_RUBRIC.items(), reverse=True),
+        window_days=config.ARXIV_WINDOW_DAYS, s2_years=config.S2_YEARS_BACK,
+        daily_min=config.DAILY_MIN, daily_max=config.DAILY_MAX,
+    )
     return env
 
 
@@ -177,6 +184,13 @@ def render(entries: list[Entry], out_root: pathlib.Path | str,
         1 for e in entries if e.summary is None and not e.title_only)
 
     sections = _build_sections(entries)
+    axis_counts = [(a, sum(len(g[1]) for g in groups))
+                   for a, groups in sections]
+    # 오늘 파일을 쓰기 전에 목록을 만들되 오늘도 포함시킨다 — 아카이브 파일은
+    # 아래 루프에서 생기므로 디렉터리만 봐서는 빠진다.
+    past_dates = [d for d in sorted(set(_archive_dates(archive_dir))
+                                    | {meta.data_date}, reverse=True)
+                  if d != meta.data_date][:config.RECENT_DAYS_SHOWN]
     digest = env.get_template("digest.html.j2")
 
     written: list[pathlib.Path] = []
@@ -184,6 +198,7 @@ def render(entries: list[Entry], out_root: pathlib.Path | str,
                       (out_root / "research_latest.html", ""),
                       (archive_dir / f"{meta.data_date}.html", "../")):
         html = digest.render(site_title=config.SITE_TITLE, sections=sections,
+                             axis_counts=axis_counts, past_dates=past_dates,
                              meta=meta, rel=rel,
                              page_title=f"{config.SITE_TITLE} — {meta.data_date}")
         path.write_text(html, encoding="utf-8")
@@ -194,7 +209,8 @@ def render(entries: list[Entry], out_root: pathlib.Path | str,
     idx.write_text(
         env.get_template("archive_index.html.j2").render(
             site_title=config.SITE_TITLE, dates=_archive_dates(archive_dir),
-            meta=meta, rel="../", page_title=f"{config.SITE_TITLE} — 아카이브"),
+            axis_counts=[], meta=meta, rel="../",
+            page_title=f"{config.SITE_TITLE} — 아카이브"),
         encoding="utf-8")
     written.append(idx)
 

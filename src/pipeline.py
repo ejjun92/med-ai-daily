@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
+import os
 import pathlib
 import sys
 import traceback
@@ -24,10 +26,45 @@ import selection
 import summarize as summarize_mod
 import venue as venue_mod
 from ledger import DeferredLedger, PublishedLedger
-from models import Entry, Paper
+from models import Entry, Paper, entry_from_dict, entry_to_dict
 from render import PageMeta
 
 KST = dt.timezone(dt.timedelta(hours=9))
+ENTRIES_DIR = os.path.join("data", "entries")
+
+
+def _entries_path(cycle_date: str) -> str:
+    return os.path.join(ENTRIES_DIR, f"{cycle_date}.json")
+
+
+def save_entries(cycle_date: str, entries: list[Entry], meta: PageMeta) -> str:
+    """선별 결과를 남긴다 — 템플릿을 고칠 때 GPU를 다시 돌리지 않기 위해."""
+    os.makedirs(ENTRIES_DIR, exist_ok=True)
+    path = _entries_path(cycle_date)
+    payload = {
+        "data_date": cycle_date,
+        "meta": {"source_counts": meta.source_counts,
+                 "shortfall_by_axis": meta.shortfall_by_axis,
+                 "excluded_count": meta.excluded_count,
+                 "truncated_count": meta.truncated_count,
+                 "boosted_count": meta.boosted_count,
+                 "capped_sources": meta.capped_sources},
+        "entries": [entry_to_dict(e) for e in entries],
+    }
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False)
+    os.replace(tmp, path)
+    return path
+
+
+def load_entries(cycle_date: str) -> tuple[list[Entry], PageMeta]:
+    with open(_entries_path(cycle_date), encoding="utf-8") as f:
+        d = json.load(f)
+    meta = PageMeta(data_date=d["data_date"],
+                    generated_at=dt.datetime.now(KST).replace(microsecond=0),
+                    **d["meta"])
+    return [entry_from_dict(x) for x in d["entries"]], meta
 
 
 def _today_kst() -> str:
@@ -154,6 +191,7 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
         boosted_count=boosted,
         capped_sources=list(stats.capped),
     )
+    save_entries(cycle_date, chosen, meta)
     render_mod.render(chosen, pathlib.Path(out_dir), meta, log=log)
 
     # 6) 원장 — 렌더가 성공한 뒤에 쓴다.
@@ -192,7 +230,23 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--out-dir", help=f"출력 경로 (기본: {config.DOCS_DIR})")
     r.add_argument("--quiet", action="store_true")
 
+    rr = sub.add_parser("render", help="저장된 선별 결과로 페이지만 다시 만든다 (GPU 불필요)")
+    rr.add_argument("--date", help="기준일 YYYY-MM-DD (기본: 오늘 KST)")
+    rr.add_argument("--out-dir", help=f"출력 경로 (기본: {config.DOCS_DIR})")
+    rr.add_argument("--all", action="store_true", help="저장된 모든 날짜를 다시 렌더")
+    rr.add_argument("--quiet", action="store_true")
+
     args = ap.parse_args(argv)
+    if args.cmd == "render":
+        log = Reporter(quiet=args.quiet)
+        dates = ([f[:-5] for f in sorted(os.listdir(ENTRIES_DIR)) if f.endswith(".json")]
+                 if args.all else [args.date or _today_kst()])
+        for d in dates:
+            entries, meta = load_entries(d)
+            render_mod.render(entries, pathlib.Path(args.out_dir or config.DOCS_DIR),
+                              meta, log=log)
+            log(f"  {d}: {len(entries)}건 재렌더")
+        return 0
     log = Reporter(quiet=args.quiet)
     try:
         run(args.date, dry_run=args.dry_run, ignore_seen=args.ignore_seen,

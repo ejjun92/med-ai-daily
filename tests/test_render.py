@@ -40,6 +40,23 @@ def build(tmp_path, entries, m=None):
             for p in paths}
 
 
+def items_only(html: str) -> str:
+    """항목 영역만 남긴다.
+
+    hero에는 날짜와 축 이름이, 접이식 안내에는 "초록 미확보"·축 이름·별점
+    예시가 들어 있다. 페이지 전체를 대상으로 검사하면 거기에 오염된다.
+    안내가 없는 아카이브 페이지에도 통하도록 container 기준으로 자른다.
+    """
+    body = html.split('<div class="container">')[-1].split("<footer>")[0]
+    return body.split("</details>")[-1] if "</details>" in body else body
+
+
+def stars_text(html: str) -> str:
+    """별점은 filled/empty 두 span으로 나뉜다. 태그를 걷어내고 이어 붙인다."""
+    return re.sub(r"<[^>]+>", "", re.search(
+        r'<span class="stars".*?</span></span>', html, re.S).group(0))
+
+
 # ── 이스케이프 (R-11) ────────────────────────────────────────
 DANGEROUS = [
     ("LaTeX", r"Sparse Coding with $\ell_1$ & $\alpha<\beta$ Regularization"),
@@ -98,7 +115,7 @@ def test_entry_shows_every_required_field(tmp_path):
     assert "https://arxiv.org/abs/2601.00001" in html  # 원문 링크
     assert "arXiv" in html                             # 출처
     assert "2026-08-30" in html                        # 발표일
-    assert "★★★★☆" in html                            # 별점
+    assert stars_text(html) == "★★★★★"                # 별점 4 + 빈 별 1
     assert "수술 장면 분할" in html                     # 한국어 요약
     assert "surgical-video" in html                    # 태그
     assert "MICCAI 2025" in html                       # 학회 라벨
@@ -106,19 +123,20 @@ def test_entry_shows_every_required_field(tmp_path):
 
 
 def test_title_only_entry_says_so_instead_of_inventing(tmp_path):
-    html = build(tmp_path, [entry(abstract=None, summary=None)])["index.html"]
+    html = items_only(build(tmp_path, [entry(abstract=None, summary=None)])["index.html"])
     assert "초록 미확보" in html
 
 
 def test_boosted_stars_win_over_raw(tmp_path):
     html = build(tmp_path, [entry(stars=3, boosted=4)])["index.html"]
-    assert "★★★★☆" in html and "★★★☆☆" not in html
+    filled = re.search(r'<span class="filled">(★*)</span>', html).group(1)
+    assert len(filled) == 4, "부스트된 별점이 표시돼야 한다"
 
 
 # ── 구조와 정렬 (AC-8) ───────────────────────────────────────
 def test_axes_appear_in_config_order(tmp_path):
     es = [entry(cat="surgical_vlp"), entry(cat="fmri_visual_decoding", aid="2601.2")]
-    html = build(tmp_path, es)["index.html"]
+    html = items_only(build(tmp_path, es)["index.html"])
     order = [a.label for a in config.AXES if a.label in html]
     positions = [html.index(lbl) for lbl in order]
     assert positions == sorted(positions), "축 순서가 설정 선언 순서와 다르다"
@@ -133,8 +151,8 @@ def test_entries_sorted_by_stars_desc(tmp_path):
 
 
 def test_empty_axes_and_categories_are_omitted(tmp_path):
-    html = build(tmp_path, [entry(cat="surgical_vlp")])["index.html"]
-    assert "Brain Decoding" not in html
+    html = items_only(build(tmp_path, [entry(cat="surgical_vlp")])["index.html"])
+    assert "뇌신호 AI" not in html
 
 
 def test_renders_with_no_entries(tmp_path):
@@ -149,7 +167,7 @@ def test_archive_file_and_index_created(tmp_path):
     render([entry()], tmp_path, meta(date="2026-08-30"), log=lambda *_: None)
     assert (tmp_path / "archive" / "2026-08-31.html").exists()
     assert (tmp_path / "archive" / "2026-08-30.html").exists()
-    idx = (tmp_path / "archive" / "index.html").read_text()
+    idx = items_only((tmp_path / "archive" / "index.html").read_text())
     assert idx.index("2026-08-31") < idx.index("2026-08-30"), "아카이브는 최신순"
 
 
@@ -157,7 +175,7 @@ def test_archive_index_ignores_non_date_files(tmp_path):
     (tmp_path / "archive").mkdir()
     (tmp_path / "archive" / "notes.html").write_text("x")
     render([entry()], tmp_path, meta(date="2026-08-31"), log=lambda *_: None)
-    assert "notes" not in (tmp_path / "archive" / "index.html").read_text()
+    assert "notes" not in items_only((tmp_path / "archive" / "index.html").read_text())
 
 
 def test_archive_page_links_back_up_one_level(tmp_path):
@@ -225,13 +243,13 @@ def test_long_unbroken_title_wraps(tmp_path):
 def test_only_parseable_dates_are_shown(tmp_path, raw, shown):
     """소스마다 날짜 정밀도가 다르다. 형식에 안 맞으면 지어내지 말고 뺀다."""
     html = build(tmp_path, [entry(date=raw)])["index.html"]
-    assert (f"<span>{raw}</span>" in html) is shown
+    assert (f'<span class="item-date">{raw}</span>' in html) is shown
 
 
 def test_summary_failure_is_stated_not_hidden(tmp_path):
     """초록이 있는데 요약이 실패하면, 빈 카드가 아니라 이유를 보여준다."""
     e = entry(abstract="있음", summary=None)
-    html = build(tmp_path, [e])["index.html"]
+    html = items_only(build(tmp_path, [e])["index.html"])
     assert "요약 생성 실패" in html
     assert "초록 미확보" not in html
 

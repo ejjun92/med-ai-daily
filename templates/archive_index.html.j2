@@ -1,13 +1,10 @@
 {% extends "base.html.j2" %}
 {% block body %}
-<h1>아카이브</h1>
-<p class="muted">{{ dates | length }}일치</p>
-{% if not dates %}
-<p class="muted">아직 보관된 페이지가 없습니다.</p>
-{% endif %}
-<ul>
-{% for d in dates %}
-  <li><a href="{{ d }}.html">{{ d }}</a></li>
-{% endfor %}
-</ul>
+<div class="section">
+  <div class="section-header"><h2>🗂 아카이브 <span class="count">{{ dates | length }}일</span></h2></div>
+  {% if not dates %}<p class="empty-note">아직 보관된 페이지가 없습니다.</p>{% endif %}
+  {% for d in dates %}
+  <div class="item"><div class="item-title"><a href="{{ d }}.html">{{ d }}</a></div></div>
+  {% endfor %}
+</div>
 {% endblock %}

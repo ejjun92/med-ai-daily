@@ -203,6 +203,48 @@ class Entry:
         return tags
 
 
+def entry_to_dict(e: "Entry") -> dict:
+    """렌더 재실행용 직렬화.
+
+    추론은 비싸고(1만 건에 한 시간) 렌더는 공짜다. 둘을 분리해 두지 않으면
+    템플릿 한 줄을 고칠 때마다 GPU를 한 시간 돌려야 한다.
+    """
+    v = e.paper.venue
+    return {
+        "paper": e.paper.to_payload(),
+        "authors": e.paper.authors[:6],
+        "venue": ({"name": v.name, "key": v.key, "year": v.year,
+                   "is_workshop": v.is_workshop, "extras": list(v.extras)}
+                  if v else None),
+        "classification": {"is_relevant": e.classification.is_relevant,
+                           "axis": e.classification.axis,
+                           "category_id": e.classification.category_id,
+                           "stars": e.classification.stars,
+                           "rationale": e.classification.rationale,
+                           "undecided": e.classification.undecided},
+        "summary": ({"korean_summary": e.summary.korean_summary,
+                     "tags": list(e.summary.tags)} if e.summary else None),
+        "boosted_stars": e.boosted_stars,
+    }
+
+
+def entry_from_dict(d: dict) -> "Entry":
+    p = Paper.from_payload(d["paper"])
+    p.authors = list(d.get("authors") or [])
+    v = d.get("venue")
+    if v:
+        p.venue = Venue(name=v["name"], key=v["key"], year=v.get("year"),
+                        is_workshop=v.get("is_workshop", False),
+                        extras=tuple(v.get("extras") or ()))
+    c = d["classification"]
+    su = d.get("summary")
+    return Entry(paper=p,
+                 classification=Classification(**c),
+                 summary=Summary(korean_summary=su["korean_summary"],
+                                 tags=list(su["tags"])) if su else None,
+                 boosted_stars=d.get("boosted_stars"))
+
+
 @dataclass
 class SelectionResult:
     """select()의 반환값. 무엇이 잘렸는지도 함께 보고한다."""

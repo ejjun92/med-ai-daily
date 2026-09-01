@@ -148,10 +148,7 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 @media (max-width: 30rem) { .hero-nav-link { position: static; display: inline-block; margin-bottom: .8rem; } }
 
 /* ── 상단 액션 카드 (지난 뉴스 / GitHub) ──────────── */
-.page-actions {
-  display: grid; grid-template-columns: minmax(0,1.35fr) minmax(240px,.65fr);
-  gap: 1rem; margin-bottom: 2rem;
-}
+.page-actions { margin-bottom: 2rem; }
 .action-card {
   min-width: 0; padding: 1.1rem 1.2rem; border-radius: var(--radius-md);
   background: var(--surface-card); box-shadow: var(--shadow-raised-sm);
@@ -179,19 +176,11 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 .action-button:hover { transform: translateY(-1px); box-shadow: var(--shadow-raised); text-decoration: none; }
 .secondary-links { display: flex; flex-wrap: wrap; gap: .45rem .9rem; margin-top: .7rem; }
 .text-link { color: var(--primary); font-size: .7rem; font-weight: 700; }
-.github-card {
-  display: flex; flex-direction: column; justify-content: space-between;
-  background: var(--surface-highlight);
-}
-.github-actions { display: grid; gap: .55rem; margin-top: .85rem; }
-.github-button { width: 100%; background: #24292f; color: #fff; }
-.feedback-button { width: 100%; }
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 @media (max-width: 46rem) {
-  .page-actions { grid-template-columns: 1fr; gap: .8rem; }
   .archive-controls { align-items: stretch; }
 }
 
@@ -324,7 +313,7 @@ footer {
   <div class="hero-inner">
     <div class="icon">🧠</div>
     <h1><span class="title-line">Medical AI Daily</span></h1>
-    <div class="subtitle" style="background:rgba(255,255,255,.18);border-radius:8px;padding:.35rem .7rem;display:inline-block;margin-bottom:.4rem">⚠️ 디자인 미리보기 — 내용은 골든셋 20편입니다</div><div class="subtitle">2026-08-31 — 뇌신호·수술영상 중심, 의료 AI 큐레이션</div>
+    <div class="subtitle">2026-08-31 — 뇌신호·수술영상 중심, 의료 AI 큐레이션</div>
     <div class="stats">
       <span>게시 20건</span>
 <span>뇌신호 AI 7</span><span>수술영상 8</span><span>딥러닝 방법론 4</span><span>의료영상 AI 1</span>      <span>소스 3개</span>
@@ -351,16 +340,6 @@ min="2026-08-28" max="2026-08-31"
       <a class="text-link" href="archive/index.html">전체 아카이브 목록 →</a>
     </div>
   </div>
-  <aside class="action-card github-card">
-    <div>
-      <h2>⭐ 함께 개선해 주세요</h2>
-      <p>분류가 어긋나거나 놓친 논문이 있으면 Issue로 알려주세요. 큐레이션을 고치는 데 큰 도움이 됩니다.</p>
-    </div>
-    <div class="github-actions">
-      <a class="action-button github-button" href="https://github.com/ejjun92/med-ai-daily" target="_blank" rel="noopener">GitHub에서 Star 남기기 ↗</a>
-      <a class="action-button feedback-button" href="https://github.com/ejjun92/med-ai-daily/issues" target="_blank" rel="noopener">피드백 Issue 남기기 ↗</a>
-    </div>
-  </aside>
 </section>
 <script>
 (function () {
@@ -739,7 +718,7 @@ min="2026-08-28" max="2026-08-31"
   <div class="footer-inner">
     <dl>
       <dt>데이터 기준일</dt><dd>2026-08-31</dd>
-      <dt>생성 시각</dt><dd>2026-09-01 17:28 KST</dd>
+      <dt>생성 시각</dt><dd>2026-09-01 17:37 KST</dd>
       <dt>수집</dt><dd>arXiv 1243건 · PubMed 86건 · Semantic Scholar 217건</dd>
       <dt>게시</dt><dd>20건 (그중 초록 미확보 6건)</dd>
 <dt>축별 미달</dt><dd>의료영상 AI 4건</dd><dt>요약 실패</dt><dd>4건 (논문은 게시, 제목만 표시)</dd><dt>관련 없음</dt><dd>3건 (분류 단계에서 제외)</dd><dt>학회 부스트</dt><dd>3건</dd>    </dl>

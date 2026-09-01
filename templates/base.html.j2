@@ -155,10 +155,7 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 @media (max-width: 30rem) { .hero-nav-link { position: static; display: inline-block; margin-bottom: .8rem; } }
 
 /* ── 상단 액션 카드 (지난 뉴스 / GitHub) ──────────── */
-.page-actions {
-  display: grid; grid-template-columns: minmax(0,1.35fr) minmax(240px,.65fr);
-  gap: 1rem; margin-bottom: 2rem;
-}
+.page-actions { margin-bottom: 2rem; }
 .action-card {
   min-width: 0; padding: 1.1rem 1.2rem; border-radius: var(--radius-md);
   background: var(--surface-card); box-shadow: var(--shadow-raised-sm);
@@ -186,19 +183,11 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 .action-button:hover { transform: translateY(-1px); box-shadow: var(--shadow-raised); text-decoration: none; }
 .secondary-links { display: flex; flex-wrap: wrap; gap: .45rem .9rem; margin-top: .7rem; }
 .text-link { color: var(--primary); font-size: .7rem; font-weight: 700; }
-.github-card {
-  display: flex; flex-direction: column; justify-content: space-between;
-  background: var(--surface-highlight);
-}
-.github-actions { display: grid; gap: .55rem; margin-top: .85rem; }
-.github-button { width: 100%; background: #24292f; color: #fff; }
-.feedback-button { width: 100%; }
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 @media (max-width: 46rem) {
-  .page-actions { grid-template-columns: 1fr; gap: .8rem; }
   .archive-controls { align-items: stretch; }
 }
 
@@ -360,16 +349,6 @@ footer {
       <a class="text-link" href="{{ rel }}archive/index.html">전체 아카이브 목록 →</a>
     </div>
   </div>
-  <aside class="action-card github-card">
-    <div>
-      <h2>⭐ 함께 개선해 주세요</h2>
-      <p>분류가 어긋나거나 놓친 논문이 있으면 Issue로 알려주세요. 큐레이션을 고치는 데 큰 도움이 됩니다.</p>
-    </div>
-    <div class="github-actions">
-      <a class="action-button github-button" href="https://github.com/ejjun92/med-ai-daily" target="_blank" rel="noopener">GitHub에서 Star 남기기 ↗</a>
-      <a class="action-button feedback-button" href="https://github.com/ejjun92/med-ai-daily/issues" target="_blank" rel="noopener">피드백 Issue 남기기 ↗</a>
-    </div>
-  </aside>
 </section>
 <script>
 (function () {

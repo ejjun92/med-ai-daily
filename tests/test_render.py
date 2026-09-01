@@ -350,7 +350,9 @@ def test_today_goes_to_latest_not_archive(tmp_path):
     assert '"index.html"' in html
 
 
-def test_github_card_links_to_repo_and_issues(tmp_path):
+def test_no_github_promo_card(tmp_path):
+    """저장소 홍보 카드는 뺐다. 헤더의 GitHub 링크 하나로 충분하다."""
     html = build(tmp_path, [entry()])["index.html"]
-    assert "github.com/ejjun92/med-ai-daily" in html
-    assert "/issues" in html
+    assert "함께 개선해 주세요" not in html
+    assert "Star 남기기" not in html
+    assert "github.com/ejjun92/med-ai-daily" in html, "헤더 링크는 남는다"

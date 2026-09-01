@@ -20,16 +20,45 @@ from typing import Any, Iterable, Optional
 import config
 
 
-def gpu_free_mb(device: str) -> Optional[int]:
-    """대상 GPU의 여유 VRAM. nvidia-smi가 없으면 None."""
+def gpu_free_mb() -> Optional[dict[str, int]]:
+    """장별 여유 VRAM(MB). nvidia-smi가 없거나 실패하면 None.
+
+    한 번에 전부 조회한다 — 장마다 따로 부르면 그 사이에 상황이 바뀌어
+    "둘 다 비어 있다"고 판단하고 서로 다른 답을 낼 수 있다.
+    """
     try:
         out = subprocess.run(
-            ["nvidia-smi", "--query-gpu=memory.free", "--format=csv,noheader,nounits",
-             f"--id={device}"],
+            ["nvidia-smi", "--query-gpu=index,memory.free",
+             "--format=csv,noheader,nounits"],
             capture_output=True, text=True, timeout=15)
-        return int(out.stdout.strip().splitlines()[0])
+        free = {}
+        for line in out.stdout.strip().splitlines():
+            idx, mb = (x.strip() for x in line.split(","))
+            free[idx] = int(mb)
+        return free or None
     except Exception:       # noqa: BLE001
         return None
+
+
+def pick_gpu(log=print) -> Optional[str]:
+    """쓸 수 있는 GPU 한 장을 고른다. 없으면 None.
+
+    선호 순서대로(0→1→2→3) 훑어 요구 여유를 처음 만족하는 장을 쓴다.
+    가장 여유가 큰 장을 고르지 않는 이유: 순서를 고정해야 같은 상황에서 늘
+    같은 장을 잡아, 어느 장이 이 작업용인지 예측 가능해진다.
+    """
+    free = gpu_free_mb()
+    if free is None:
+        log("  [llm] nvidia-smi 조회 실패 — 가용성 확인을 건너뛰고 "
+            f"GPU{config.GPU_DEVICES[0]}로 진행")
+        return config.GPU_DEVICES[0]
+    for dev in config.GPU_DEVICES:
+        if free.get(dev, 0) >= config.GPU_FREE_VRAM_REQUIRED_MB:
+            return dev
+    log("  [llm] 여유 " + " / ".join(
+        f"GPU{d} {free.get(d, 0):,}MB" for d in config.GPU_DEVICES)
+        + f" — 모두 {config.GPU_FREE_VRAM_REQUIRED_MB:,}MB 미만")
+    return None
 
 
 def salvage_json(text: str) -> Optional[dict]:
@@ -116,30 +145,34 @@ class LocalLLM:
     def __init__(self, log=print):
         self.log = log
         self._llm = None
+        self.device: Optional[str] = None
         self.last_raw: list[str] = []
 
     # ── 수명주기 ──────────────────────────────────────────────
-    def _wait_for_gpu(self) -> bool:
+    def _wait_for_gpu(self) -> Optional[str]:
+        """쓸 장이 생길 때까지 기다린다. 끝내 없으면 None."""
         for attempt in range(config.GPU_WAIT_RETRIES):
-            free = gpu_free_mb(config.GPU_DEVICE)
-            if free is None:
-                self.log("  [llm] nvidia-smi 조회 실패 — 가용성 확인 생략하고 진행")
-                return True
-            if free >= config.GPU_FREE_VRAM_REQUIRED_MB:
-                self.log(f"  [llm] GPU{config.GPU_DEVICE} 여유 {free:,}MB — 기동")
-                return True
-            self.log(f"  [llm] GPU{config.GPU_DEVICE} 여유 {free:,}MB < "
-                     f"{config.GPU_FREE_VRAM_REQUIRED_MB:,}MB — 연구 작업 중으로 보고 "
-                     f"{config.GPU_WAIT_SECONDS}초 대기 ({attempt+1}/{config.GPU_WAIT_RETRIES})")
+            dev = pick_gpu(log=self.log)
+            if dev is not None:
+                free = (gpu_free_mb() or {}).get(dev)
+                self.log(f"  [llm] GPU{dev} 선택"
+                         + (f" (여유 {free:,}MB)" if free else ""))
+                return dev
+            self.log(f"  [llm] 연구 작업 중으로 보고 {config.GPU_WAIT_SECONDS}초 대기 "
+                     f"({attempt+1}/{config.GPU_WAIT_RETRIES})")
             time.sleep(config.GPU_WAIT_SECONDS)
-        return False
+        return None
 
     def __enter__(self) -> "LocalLLM":
-        os.environ["CUDA_VISIBLE_DEVICES"] = config.GPU_DEVICE
-        if not self._wait_for_gpu():
+        dev = self._wait_for_gpu()
+        if dev is None:
             raise RuntimeError(
-                f"GPU{config.GPU_DEVICE}가 계속 점유 중이라 이번 실행을 건너뜁니다. "
-                "연구 작업을 밀어내지 않습니다.")
+                f"GPU {', '.join(config.GPU_DEVICES)}번이 모두 점유 중이라 이번 실행을 "
+                "건너뜁니다. 연구 작업을 밀어내지 않습니다.")
+        self.device = dev
+        # vLLM은 CUDA_VISIBLE_DEVICES를 통해서만 장을 고른다. 이 값을 설정하면
+        # 프로세스 안에서 선택한 장이 cuda:0이 된다.
+        os.environ["CUDA_VISIBLE_DEVICES"] = dev
         from vllm import LLM
         t0 = time.time()
         self._llm = LLM(model=config.MODEL_PATH,

@@ -188,9 +188,9 @@ def render(entries: list[Entry], out_root: pathlib.Path | str,
                    for a, groups in sections]
     # 오늘 파일을 쓰기 전에 목록을 만들되 오늘도 포함시킨다 — 아카이브 파일은
     # 아래 루프에서 생기므로 디렉터리만 봐서는 빠진다.
-    past_dates = [d for d in sorted(set(_archive_dates(archive_dir))
-                                    | {meta.data_date}, reverse=True)
-                  if d != meta.data_date][:config.RECENT_DAYS_SHOWN]
+    # 날짜 선택기의 하한. 없는 날짜를 고르면 404로 가므로 범위를 좁혀 준다.
+    known = sorted(set(_archive_dates(archive_dir)) | {meta.data_date})
+    archive_min = known[0] if known else meta.data_date
     digest = env.get_template("digest.html.j2")
 
     written: list[pathlib.Path] = []
@@ -198,7 +198,7 @@ def render(entries: list[Entry], out_root: pathlib.Path | str,
                       (out_root / "research_latest.html", ""),
                       (archive_dir / f"{meta.data_date}.html", "../")):
         html = digest.render(site_title=config.SITE_TITLE, sections=sections,
-                             axis_counts=axis_counts, past_dates=past_dates,
+                             axis_counts=axis_counts, archive_min=archive_min,
                              meta=meta, rel=rel,
                              page_title=f"{config.SITE_TITLE} — {meta.data_date}")
         path.write_text(html, encoding="utf-8")
@@ -209,7 +209,7 @@ def render(entries: list[Entry], out_root: pathlib.Path | str,
     idx.write_text(
         env.get_template("archive_index.html.j2").render(
             site_title=config.SITE_TITLE, dates=_archive_dates(archive_dir),
-            axis_counts=[], meta=meta, rel="../",
+            axis_counts=[], archive_min=archive_min, meta=meta, rel="../",
             page_title=f"{config.SITE_TITLE} — 아카이브"),
         encoding="utf-8")
     written.append(idx)

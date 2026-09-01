@@ -26,6 +26,7 @@
   --accent-hover: #004D4D;
   --star-filled: #FE9900;
   --star-empty: #C4C4C4;
+  --surface-highlight: #EDE9E3;
   --badge-bg: #D9D7D5;
   --badge-text: #006666;
   --warning: #FE9900;
@@ -46,8 +47,12 @@
   --radius-md: 16px;
   --radius-lg: 20px;
 }
+/* 테마는 세 상태다: 아무 표시 없음(브라우저 설정 따름), data-theme="light",
+   data-theme="dark". 토글이 양방향으로 이기려면 세 경우를 모두 적어야 한다.
+   토큰만 다시 정의하고, 컴포넌트는 항상 토큰을 통해 색을 쓴다 —
+   미디어 쿼리 안에서만 정의된 색은 표시 없는 상태에서 적용되지 않는다. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --primary: #00CCCC;
     --surface: #1A202C;
     --surface-card: #1A202C;
@@ -56,16 +61,66 @@
     --text-tertiary: #8494A7;
     --accent: #00CCCC;
     --accent-hover: #33E0E0;
+    --star-filled: #FEB800;
+    --star-empty: #4A5568;
+    --surface-highlight: #222C3C;
     --badge-bg: #2D3748;
     --badge-text: #00CCCC;
-    --gradient-start: #004D4D;
-    --gradient-mid: #006666;
-    --gradient-end: #008080;
-    --footer-bg: #0F141C;
-    --neu-light: rgba(255,255,255,0.04);
-    --neu-dark: rgba(0,0,0,0.55);
+    --gradient-start: #0D1117;
+    --gradient-mid: #1A202C;
+    --gradient-end: #004D4D;
+    --header-text: #E2E8F0;
+    --footer-bg: #0D1117;
+    --footer-text: #718096;
+    --neu-light: rgba(255,255,255,0.05);
+    --neu-dark: rgba(0,0,0,0.5);
   }
 }
+:root[data-theme="dark"] {
+    --primary: #00CCCC;
+    --surface: #1A202C;
+    --surface-card: #1A202C;
+    --text: #F1F2F5;
+    --text-secondary: #CBD5E0;
+    --text-tertiary: #8494A7;
+    --accent: #00CCCC;
+    --accent-hover: #33E0E0;
+    --star-filled: #FEB800;
+    --star-empty: #4A5568;
+    --surface-highlight: #222C3C;
+    --badge-bg: #2D3748;
+    --badge-text: #00CCCC;
+    --gradient-start: #0D1117;
+    --gradient-mid: #1A202C;
+    --gradient-end: #004D4D;
+    --header-text: #E2E8F0;
+    --footer-bg: #0D1117;
+    --footer-text: #718096;
+    --neu-light: rgba(255,255,255,0.05);
+    --neu-dark: rgba(0,0,0,0.5);
+}
+
+/* ── 테마 토글 ────────────────────────────────────── */
+.theme-toggle {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 44px; height: 44px; border-radius: 50%; border: none;
+  background: var(--surface); box-shadow: var(--shadow-raised);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; transition: transform .2s, box-shadow .2s; z-index: 100;
+}
+.theme-toggle:hover { transform: scale(1.08); box-shadow: var(--shadow-hover); }
+.theme-toggle:active { box-shadow: var(--shadow-inset); transform: scale(.96); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.theme-toggle .icon-light, .theme-toggle .icon-dark { display: none; }
+/* 표시가 없으면 '브라우저 설정 따름' 상태임을 반달로 알린다 */
+:root:not([data-theme]) .theme-toggle::after { content: '\1F313'; }
+:root[data-theme="light"] .theme-toggle .icon-light { display: inline; }
+:root[data-theme="dark"] .theme-toggle .icon-dark { display: inline; }
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle, .item { transition: none; }
+  .item:hover { transform: none; }
+}
+
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
@@ -88,32 +143,65 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   padding: 2.6rem 1.25rem 2.2rem;
   text-align: center;
 }
-.hero-nav {
-  position: absolute; top: 1rem; right: 1.25rem;
-  display: flex; gap: .5rem;
+.hero-nav-link {
+  position: absolute; top: 1rem; right: 1.25rem; z-index: 2;
+  color: var(--header-text); font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem; font-weight: 500; padding: .4rem .8rem; border-radius: 999px;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: background .2s, transform .2s; white-space: nowrap;
 }
-.hero-nav a {
-  color: var(--header-text);
-  font-family: 'Space Mono', monospace; font-size: .72rem;
-  padding: .25rem .7rem; border-radius: 999px;
-  background: rgba(255,255,255,.18);
+.hero-nav-link:hover { background: rgba(255,255,255,.22); transform: translateY(-1px); text-decoration: none; }
+@media (max-width: 30rem) { .hero-nav-link { position: static; display: inline-block; margin-bottom: .8rem; } }
+
+/* ── 상단 액션 카드 (지난 뉴스 / GitHub) ──────────── */
+.page-actions {
+  display: grid; grid-template-columns: minmax(0,1.35fr) minmax(240px,.65fr);
+  gap: 1rem; margin-bottom: 2rem;
 }
-.hero-nav a:hover { background: rgba(255,255,255,.3); text-decoration: none; }
-@media (max-width: 30rem) {
-  .hero-nav { position: static; justify-content: center; margin-bottom: .8rem; }
+.action-card {
+  min-width: 0; padding: 1.1rem 1.2rem; border-radius: var(--radius-md);
+  background: var(--surface-card); box-shadow: var(--shadow-raised-sm);
+}
+.action-card h2 { margin: 0 0 .35rem; font-size: .95rem; font-weight: 700; }
+.action-card p { margin: 0; font-size: .78rem; color: var(--text-secondary); }
+.archive-controls { display: flex; align-items: center; gap: .55rem; margin-top: .85rem; }
+.archive-date {
+  min-width: 0; flex: 1; height: 38px; padding: 0 .75rem;
+  border: 0; border-radius: 10px; outline: none;
+  background: var(--surface); box-shadow: var(--shadow-inset);
+  color: var(--text); color-scheme: light dark;
+  font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+}
+.archive-date:focus-visible { box-shadow: var(--shadow-inset), 0 0 0 2px var(--accent); }
+.action-button {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 38px; padding: .55rem .9rem; border: 0; border-radius: 10px;
+  background: var(--primary); color: var(--header-text);
+  font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: .74rem;
+  white-space: nowrap; cursor: pointer; text-decoration: none;
+  box-shadow: var(--shadow-raised-sm);
+  transition: transform .2s, box-shadow .2s, background .2s;
+}
+.action-button:hover { transform: translateY(-1px); box-shadow: var(--shadow-raised); text-decoration: none; }
+.secondary-links { display: flex; flex-wrap: wrap; gap: .45rem .9rem; margin-top: .7rem; }
+.text-link { color: var(--primary); font-size: .7rem; font-weight: 700; }
+.github-card {
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--surface-highlight);
+}
+.github-actions { display: grid; gap: .55rem; margin-top: .85rem; }
+.github-button { width: 100%; background: #24292f; color: #fff; }
+.feedback-button { width: 100%; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+@media (max-width: 46rem) {
+  .page-actions { grid-template-columns: 1fr; gap: .8rem; }
+  .archive-controls { align-items: stretch; }
 }
 
-/* ── 지난 뉴스 ────────────────────────────────────── */
-.past-news { margin-top: 2.6rem; }
-.past-news .dates { display: flex; flex-wrap: wrap; gap: .4rem; }
-.past-news .dates a {
-  font-family: 'JetBrains Mono', monospace; font-size: .72rem;
-  padding: .35rem .75rem; border-radius: var(--radius-sm);
-  background: var(--surface-card); box-shadow: var(--shadow-raised-sm);
-  color: var(--text-secondary);
-}
-.past-news .dates a:hover { box-shadow: var(--shadow-raised); color: var(--accent); text-decoration: none; }
-.past-news .dates a.all { color: var(--accent); font-weight: 700; }
 .hero-inner { max-width: 58rem; margin: 0 auto; }
 .hero .icon { font-size: 2rem; line-height: 1; }
 .hero h1 {
@@ -239,10 +327,7 @@ footer {
 </head>
 <body>
 <div class="hero">
-  <div class="hero-nav">
-    <a href="{{ rel }}archive/index.html">지난 뉴스</a>
-    <a href="https://github.com/ejjun92/med-ai-daily" target="_blank" rel="noopener">GitHub ↗</a>
-  </div>
+  <a class="hero-nav-link" href="https://github.com/ejjun92/med-ai-daily" target="_blank" rel="noopener">GitHub ↗</a>
   <div class="hero-inner">
     <div class="icon">🧠</div>
     <h1><span class="title-line">{{ site_title }}</span></h1>
@@ -258,6 +343,48 @@ footer {
 </div>
 
 <div class="container">
+{% block actions %}
+<section class="page-actions" aria-label="지난 기록과 저장소">
+  <div class="action-card">
+    <h2>📚 지난 뉴스 보기</h2>
+    <p>날짜를 선택해 그날의 의료 AI 리서치 다이제스트를 확인하세요.</p>
+    <form class="archive-controls" id="archive-form">
+      <label class="visually-hidden" for="archive-date">날짜 선택</label>
+      <input class="archive-date" id="archive-date" type="date"
+             {% if archive_min %}min="{{ archive_min }}" {% endif %}max="{{ meta.data_date }}"
+             value="{{ meta.data_date }}" required>
+      <button class="action-button" type="submit">기록 열기 ↗</button>
+    </form>
+    <div class="secondary-links">
+      <a class="text-link" href="{{ rel }}index.html">최신 기록 보기 →</a>
+      <a class="text-link" href="{{ rel }}archive/index.html">전체 아카이브 목록 →</a>
+    </div>
+  </div>
+  <aside class="action-card github-card">
+    <div>
+      <h2>⭐ 함께 개선해 주세요</h2>
+      <p>분류가 어긋나거나 놓친 논문이 있으면 Issue로 알려주세요. 큐레이션을 고치는 데 큰 도움이 됩니다.</p>
+    </div>
+    <div class="github-actions">
+      <a class="action-button github-button" href="https://github.com/ejjun92/med-ai-daily" target="_blank" rel="noopener">GitHub에서 Star 남기기 ↗</a>
+      <a class="action-button feedback-button" href="https://github.com/ejjun92/med-ai-daily/issues" target="_blank" rel="noopener">피드백 Issue 남기기 ↗</a>
+    </div>
+  </aside>
+</section>
+<script>
+(function () {
+  var form = document.getElementById('archive-form');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = document.getElementById('archive-date').value;
+    // 오늘치는 아카이브가 아니라 최신 페이지다.
+    if (d === {{ meta.data_date | tojson }}) { window.location.href = {{ (rel ~ 'index.html') | tojson }}; return; }
+    if (d) window.location.href = {{ (rel ~ 'archive/') | tojson }} + encodeURIComponent(d) + '.html';
+  });
+})();
+</script>
+{% endblock %}
 {% block guide %}{% endblock %}
 {% block body %}{% endblock %}
 </div>
@@ -280,5 +407,31 @@ footer {
     <nav><a href="{{ rel }}index.html">최신</a><a href="{{ rel }}archive/index.html">지난 뉴스 전체</a></nav>
   </div>
 </footer>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="밝은/어두운 테마 전환">
+  <span class="icon-light">&#9728;&#65039;</span>
+  <span class="icon-dark">&#9789;</span>
+</button>
+<script>
+(function () {
+  // 깜빡임을 막으려면 렌더 전에 적용해야 하지만, 스크립트를 문서 끝에 두는
+  // 편이 안전하다 — 여기서는 배경색만 바뀌므로 체감 차이가 거의 없다.
+  var saved = null;
+  try { saved = localStorage.getItem('theme'); } catch (e) { /* 사생활 모드 */ }
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  }
+})();
+function toggleTheme() {
+  var html = document.documentElement;
+  var current = html.getAttribute('data-theme');
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  // 표시가 없으면 지금 보이는 것의 반대로 간다
+  var next = !current ? (prefersDark ? 'light' : 'dark')
+                      : (current === 'dark' ? 'light' : 'dark');
+  html.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) { /* 무시 */ }
+}
+</script>
 </body>
 </html>

@@ -98,17 +98,4 @@
 </div>
 {% endfor %}
 
-{# 아카이브가 푸터 구석에만 있으면 아무도 못 찾는다. 본문 끝에 최근 날짜를
-   바로 누를 수 있게 둔다. #}
-<div class="past-news">
-  <div class="section-header"><h2>🗂 지난 뉴스</h2></div>
-  {% if past_dates %}
-  <div class="dates">
-    {% for d in past_dates %}<a href="{{ rel }}archive/{{ d }}.html">{{ d }}</a>{% endfor %}
-    <a class="all" href="{{ rel }}archive/index.html">전체 보기 →</a>
-  </div>
-  {% else %}
-  <p class="empty-note">아직 지난 뉴스가 없습니다. 내일부터 쌓입니다.</p>
-  {% endif %}
-</div>
 {% endblock %}

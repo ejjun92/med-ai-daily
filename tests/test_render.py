@@ -48,6 +48,11 @@ def items_only(html: str) -> str:
     안내가 없는 아카이브 페이지에도 통하도록 container 기준으로 자른다.
     """
     body = html.split('<div class="container">')[-1].split("<footer>")[0]
+    # 상단 액션 카드(지난 뉴스 선택기)와 접이식 안내를 걷어낸다
+    if "</section>" in body:
+        body = body.split("</section>", 1)[1]
+    if "</script>" in body:
+        body = body.split("</script>", 1)[1]
     return body.split("</details>")[-1] if "</details>" in body else body
 
 
@@ -68,7 +73,8 @@ DANGEROUS = [
 
 @pytest.mark.parametrize("label,title", DANGEROUS, ids=[d[0] for d in DANGEROUS])
 def test_title_is_escaped(tmp_path, label, title):
-    html = build(tmp_path, [entry(title=title)])["index.html"]
+    # 항목 영역으로 좁힌다 — 페이지 끝에는 테마 토글 스크립트가 정당하게 있다.
+    html = items_only(build(tmp_path, [entry(title=title)])["index.html"])
     assert "<script>" not in html
     if "&" in title:
         assert "&amp;" in html
@@ -80,20 +86,20 @@ def test_llm_summary_cannot_inject_html(tmp_path):
     """요약은 LLM이 만든 문자열이다. 절대 신뢰하지 않는다."""
     evil = ('<img src=x onerror=alert(1)> 이 요약은 공격을 시도한다. '
             '두 번째 문장이다. 세 번째 문장으로 길이를 맞춘다.')
-    html = build(tmp_path, [entry(summary=evil)])["index.html"]
+    html = items_only(build(tmp_path, [entry(summary=evil)])["index.html"])
     # 태그가 이스케이프되면 onerror는 실행되지 않는 평범한 글자다.
     assert "<img" not in html
     assert "&lt;img src=x onerror=alert(1)&gt;" in html
 
 
 def test_tags_are_escaped(tmp_path):
-    html = build(tmp_path, [entry(tags=("<b>bold</b>", "a&b"))])["index.html"]
+    html = items_only(build(tmp_path, [entry(tags=("<b>bold</b>", "a&b"))])["index.html"])
     assert "<b>bold</b>" not in html
     assert "&lt;b&gt;" in html and "a&amp;b" in html
 
 
 def test_url_attribute_is_escaped(tmp_path):
-    html = build(tmp_path, [entry(url='https://x.test/a"onmouseover="alert(1)')])["index.html"]
+    html = items_only(build(tmp_path, [entry(url='https://x.test/a"onmouseover="alert(1)')])["index.html"])
     assert 'onmouseover="alert' not in html
 
 
@@ -283,3 +289,68 @@ def test_cap_hit_is_shown_not_hidden(tmp_path):
 def test_no_cap_notice_when_within_limits(tmp_path):
     html = build(tmp_path, [entry()], meta())["index.html"]
     assert "수집 상한" not in html
+
+
+# ── 테마 (세 상태) ───────────────────────────────────────────
+def test_theme_has_three_states(tmp_path):
+    """표시 없음(브라우저 설정) / 명시적 라이트 / 명시적 다크.
+
+    토글이 양방향으로 이기려면 셋 다 필요하다. 다크를 미디어 쿼리 안에서만
+    정의하면 토글로 다크를 켤 수 없고, [data-theme] 안에서만 정의하면
+    브라우저 설정을 따르는 기본 상태에서 적용되지 않는다.
+    """
+    css = build(tmp_path, [entry()])["index.html"]
+    assert ':root:not([data-theme="light"])' in css, "OS 다크 + 명시적 라이트 우선"
+    assert ':root[data-theme="dark"]' in css, "토글로 다크를 켤 수 없다"
+    assert "--surface:" in css.split("@media")[0], "라이트 토큰이 bare :root에 없다"
+
+
+def test_theme_toggle_present_and_labelled(tmp_path):
+    html = build(tmp_path, [entry()])["index.html"]
+    assert 'class="theme-toggle"' in html
+    assert "aria-label=" in html, "스크린리더가 읽을 이름이 없다"
+    assert "toggleTheme" in html
+
+
+def test_body_paints_its_own_background(tmp_path):
+    """배경을 안 칠하면 호스트 페이지의 바탕이 비쳐 글자가 안 보인다."""
+    css = build(tmp_path, [entry()])["index.html"]
+    body = css[css.index("body {"):css.index("}", css.index("body {"))]
+    assert "background:" in body and "var(--surface)" in body
+
+
+# ── 상단 지난 뉴스 카드 ──────────────────────────────────────
+def test_archive_picker_is_at_top_not_bottom(tmp_path):
+    """푸터 구석에 두면 아무도 못 찾는다. 본문 첫 요소여야 한다."""
+    html = build(tmp_path, [entry()])["index.html"]
+    body = html.split('<div class="container">')[1]
+    assert body.index('page-actions') < body.index('feed-guide')
+    assert "지난 뉴스 보기" in html
+
+
+def test_picker_range_covers_known_dates_only(tmp_path):
+    """없는 날짜를 고르면 404다. min/max로 범위를 좁힌다."""
+    render([entry()], tmp_path, meta(date="2026-08-29"), log=lambda *_: None)
+    render([entry()], tmp_path, meta(date="2026-08-31"), log=lambda *_: None)
+    html = (tmp_path / "index.html").read_text()
+    assert 'min="2026-08-29"' in html
+    assert 'max="2026-08-31"' in html
+
+
+def test_picker_navigates_relative_to_page_depth(tmp_path):
+    """아카이브 페이지에서는 한 단계 위로 올라가야 한다."""
+    out = build(tmp_path, [entry()])
+    assert '"archive/"' in out["index.html"]
+    assert '"../archive/"' in out["archive/2026-08-31.html"]
+
+
+def test_today_goes_to_latest_not_archive(tmp_path):
+    """오늘 날짜를 고르면 아카이브가 아니라 최신 페이지로 간다."""
+    html = build(tmp_path, [entry()])["index.html"]
+    assert '"index.html"' in html
+
+
+def test_github_card_links_to_repo_and_issues(tmp_path):
+    html = build(tmp_path, [entry()])["index.html"]
+    assert "github.com/ejjun92/med-ai-daily" in html
+    assert "/issues" in html

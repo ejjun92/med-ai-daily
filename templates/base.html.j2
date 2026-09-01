@@ -65,6 +65,7 @@
     {% if meta.summary_failed_count %}<dt>요약 실패</dt><dd>{{ meta.summary_failed_count }}건 (논문은 게시, 제목만 표시)</dd>{% endif %}
     {% if meta.excluded_count %}<dt>관련 없음</dt><dd>{{ meta.excluded_count }}건 (분류 단계에서 제외)</dd>{% endif %}
     {% if meta.truncated_count %}<dt>절삭</dt><dd>상한 초과로 {{ meta.truncated_count }}건 제외</dd>{% endif %}
+    {% if meta.capped_sources %}<dt>⚠️ 수집 상한</dt><dd>{{ meta.capped_sources | join(", ") }} — 상한에 걸려 일부 논문을 못 가져왔습니다</dd>{% endif %}
     {% if meta.boosted_count %}<dt>학회 부스트</dt><dd>{{ meta.boosted_count }}건</dd>{% endif %}
   </dl>
   <nav><a href="{{ rel }}index.html">최신</a> · <a href="{{ rel }}archive/index.html">아카이브</a></nav>

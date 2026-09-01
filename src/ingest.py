@@ -38,14 +38,18 @@ class IngestStats:
     deferred_reentered: int = 0
     truncated: dict[str, int] = field(default_factory=dict)
     deferred_expired: int = 0
+    already_judged: int = 0        # 같은 프롬프트로 이미 판정해 건너뛴 수
+    capped: list[str] = field(default_factory=list)   # 상한에 걸린 소스
     title_only: int = 0            # 초록 미확보 (게시는 하되 요약 없음)
 
     def render(self) -> str:
         src = " / ".join(f"{k} {v}" for k, v in self.per_source.items())
         trunc = " / ".join(f"{k} {v}" for k, v in self.truncated.items()) or "없음"
         return (f"수집 [{src}] | 병합 {self.merged} | 기게시 제외 {self.already_published} "
+                f"| 기판정 제외 {self.already_judged} "
                 f"| 보류 재진입 {self.deferred_reentered} | 절삭 [{trunc}] "
-                f"| TTL 만료 {self.deferred_expired} | 초록미확보 {self.title_only}")
+                f"| TTL 만료 {self.deferred_expired} | 초록미확보 {self.title_only}"
+                + (f" | ⚠️ 상한 도달 [{', '.join(self.capped)}]" if self.capped else ""))
 
 
 def _merge(base: Paper, other: Paper) -> Paper:
@@ -130,6 +134,10 @@ def collect(cycle_date: str, *, ignore_seen: bool = False,
         ("s2", s2_src.fetch, config.S2_MAX),
     ):
         got = fn(cycle_date, log=log)
+        if len(got) >= cap:
+            # 소스가 스스로 상한에서 멈춘 경우다. _truncate는 초과분만 세므로
+            # 이 경로를 못 잡는다 — 상한이 곧 누락인데 화면에 안 보였다.
+            stats.capped.append(name)
         kept, cut = _truncate(got, name, cap)
         stats.per_source[name] = len(kept)
         if cut:
@@ -156,6 +164,13 @@ def collect(cycle_date: str, *, ignore_seen: bool = False,
         stats.deferred_expired = len(dl.expired(cycle_date))
         active = dl.active(cycle_date, force=replay_deferred)
         stats.deferred_reentered = len(active)
+
+        if not replay_deferred:
+            # 같은 프롬프트로 이미 탈락시킨 논문은 다시 분류하지 않는다.
+            # 30일 창에서는 이게 없으면 매일 수천 건을 재판정한다.
+            before = len(deduped)
+            deduped = [p for p in deduped if not dl.is_deferred(p)]
+            stats.already_judged = before - len(deduped)
 
     stats.title_only = sum(1 for p in deduped if not p.abstract)
     log(f"  [ingest] {stats.render()}")

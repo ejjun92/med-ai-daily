@@ -5,7 +5,7 @@ medical ai daily arxiv
 
 ```
 scripts/run_daily.sh          # cron이 부르는 진입점 (flock + 로그 + push)
-scripts/install_cron.sh       # crontab 등록 (09:40 KST)
+scripts/install_cron.sh       # crontab 등록 (12:00 KST)
 ```
 
 `run_daily.sh`가 지키는 것:
@@ -14,7 +14,7 @@ scripts/install_cron.sh       # crontab 등록 (09:40 KST)
 - **실패하면 push하지 않는다** — 깨진 페이지를 올리느니 어제 것을 남긴다.
 - **로그가 남는다** — `logs/daily-YYYY-MM-DD.log`, 30일치 보관. cron은 조용히 실패하는 것이 기본값이다.
 
-cron은 **서버 로컬 시각**으로 돈다. 이 서버는 KST이므로 crontab에 `40 9`를 적는다.
+cron은 **서버 로컬 시각**으로 돈다. 이 서버는 KST이므로 crontab에 `0 12`를 적는다.
 UTC 서버라고 넘겨짚어 `40 0`을 쓰면 9시간 어긋난 채로 돈다 —
 `install_cron.sh`가 타임존을 확인하고 다르면 멈춘다.
 

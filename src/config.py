@@ -137,7 +137,9 @@ STAR_RUBRIC = {
 TIMEZONE = "UTC"
 
 ARXIV_CATEGORIES = ("cs.CV", "cs.LG", "cs.AI", "eess.IV", "q-bio.NC")
-ARXIV_WINDOW_DAYS = 4        # 주말 발표 공백 + 화요일 몰림 + 발표 지연 흡수
+ARXIV_WINDOW_DAYS = 30       # 한 달. 좁은 창은 발표 지연·API 공백에 취약하다
+ARXIV_MAX_WINDOW_DAYS = 45   # 공백 메우기 상한. 며칠 연속 실패해도 되돌아가되,
+# 무한정 늘어나 한 번에 수천 건을 분류하는 일은 막는다
 ARXIV_REQUEST_DELAY_S = 3.0  # arXiv API 권장 간격
 ARXIV_PAGE_SIZE = 2000       # max_results 상한
 
@@ -148,7 +150,7 @@ PUBMED_JOURNALS = (
     "Radiol Artif Intell",                   # Radiology: Artificial Intelligence
     "Int J Comput Assist Radiol Surg",       # IJCARS (IPCAI 게재지)
 )
-PUBMED_WINDOW_DAYS = 7       # 저널 색인 지연이 arXiv보다 길다
+PUBMED_WINDOW_DAYS = 30      # 한 달. 저널 색인 지연은 arXiv보다 길다
 PUBMED_BATCH_SIZE = 200      # efetch 1회당 PMID 수 (POST 사용)
 PUBMED_RETMAX = 1000         # esearch 기본값은 20 — 명시하지 않으면 조용히 잘린다
 PUBMED_REQUEST_DELAY_S = 0.34  # 무인증 3 req/s. 키 있으면 10 req/s
@@ -175,9 +177,11 @@ S2_REQUEST_DELAY_S = 1.0
 
 # 소스별 상한 — 전역 단일 상한은 대량 색인된 proceedings 볼륨이
 # 그날 arXiv를 통째로 밀어낼 수 있다 (계획 D-11)
-ARXIV_MAX = 2000
-PUBMED_MAX = 500
-S2_MAX = 500
+ARXIV_MAX = 12000      # 30일 창 실측 9,294건(2026-09-01). 여유를 둔다 —
+# 상한에 걸리면 조용히 버려지는 게 아니라 푸터에 표시되지만, 애초에 안 걸리는 게 낫다
+PUBMED_MAX = 2000      # 30일 창 실측 204건 — 여유가 충분하다
+S2_MAX = 3000          # 500이면 MICCAI 한 해(1,008편)도 못 담는다.
+# 학회 논문집은 한 번에 등재되므로 상한이 곧 누락이다
 DEFERRED_DAILY_MAX = 300     # 보류분은 소스 상한과 경쟁하지 않는 별도 레인
 
 # 절삭 정렬키 — PubMed는 EDAT이 아니라 PDAT를 쓴다.

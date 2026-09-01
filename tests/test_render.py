@@ -248,3 +248,20 @@ def test_summary_failure_counted_in_footer(tmp_path):
           entry(aid="2601.3", abstract=None, summary=None)]
     html = build(tmp_path, es)["index.html"]
     assert "요약 실패" in html and "초록 미확보 1건" in html
+
+
+def test_cap_hit_is_shown_not_hidden(tmp_path):
+    """상한에 걸리면 그만큼 논문을 못 가져온 것이다. 화면에 보여야 한다.
+
+    실측: arXiv 30일 창이 9,294건인데 상한이 8,000이라 1,294건이 조용히
+    사라지고 있었다. 소스가 스스로 상한에서 멈추면 초과분이 0이라
+    기존 절삭 카운터에 잡히지 않았다.
+    """
+    m = meta(capped_sources=["arxiv", "s2"])
+    html = build(tmp_path, [entry()], m)["index.html"]
+    assert "수집 상한" in html and "arxiv, s2" in html
+
+
+def test_no_cap_notice_when_within_limits(tmp_path):
+    html = build(tmp_path, [entry()], meta())["index.html"]
+    assert "수집 상한" not in html

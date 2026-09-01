@@ -150,6 +150,19 @@ class DeferredLedger:
     def __len__(self) -> int:
         return len(self._latest)
 
+    def is_deferred(self, paper: Paper, prompt_version: str | None = None) -> bool:
+        """같은 프롬프트 버전으로 이미 판정한 논문인가.
+
+        한 달 창에서는 이 검사가 없으면 매일 같은 수천 건을 다시 분류한다.
+        프롬프트가 그대로면 판정도 그대로이므로 순수 낭비다.
+        버전이 바뀌면 False가 되어 자연히 재분류된다 — 회수 기제와 같은 문이다.
+        """
+        rec = self._latest.get(paper.primary_id)
+        if rec is None:
+            return False
+        pv = prompt_version or config.CLASSIFY_PROMPT_VERSION
+        return rec.prompt_version == pv
+
     def defer(self, items: Iterable[tuple[Paper, str]], day: str,
               prompt_version: str | None = None) -> int:
         pv = prompt_version or config.CLASSIFY_PROMPT_VERSION

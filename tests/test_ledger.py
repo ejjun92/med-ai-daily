@@ -202,3 +202,28 @@ def test_not_relevant_records_keep_payload(deferred):
     deferred.defer([(p, "not_relevant")], "2026-08-31")
     rec = DeferredLedger(deferred.root).active("2026-08-31", prompt_version=CHANGED)[0]
     assert rec.payload and rec.payload["abstract"] == "초록"
+
+
+# ── 30일 창에서 필수: 이미 판정한 논문 건너뛰기 ──────────────
+def test_already_judged_paper_is_skipped(deferred):
+    """같은 프롬프트로 탈락시킨 논문을 다시 분류하면 순수 낭비다.
+
+    30일 창에서는 매일 수천 건이 겹친다. 이 검사가 없으면 GPU 시간의
+    대부분을 같은 판정을 반복하는 데 쓴다.
+    """
+    p = Paper(title="T", source="arxiv", arxiv_id="2601.00001", abstract="a")
+    deferred.defer([(p, "not_relevant")], "2026-09-01")
+    dl = DeferredLedger(deferred.root)
+    assert dl.is_deferred(p) is True
+
+
+def test_prompt_change_reopens_the_gate(deferred):
+    """프롬프트가 바뀌면 다시 판정 대상이 된다 — 회수 기제와 같은 문이다."""
+    p = Paper(title="T", source="arxiv", arxiv_id="2601.00001", abstract="a")
+    deferred.defer([(p, "not_relevant")], "2026-09-01", prompt_version="old")
+    assert DeferredLedger(deferred.root).is_deferred(p) is False
+
+
+def test_unseen_paper_is_not_skipped(deferred):
+    p = Paper(title="New", source="arxiv", arxiv_id="2699.99999", abstract="a")
+    assert DeferredLedger(deferred.root).is_deferred(p) is False

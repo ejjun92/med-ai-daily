@@ -152,6 +152,7 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
         excluded_count=len(dropped),
         truncated_count=len(result.truncated_ids),
         boosted_count=boosted,
+        capped_sources=list(stats.capped),
     )
     render_mod.render(chosen, pathlib.Path(out_dir), meta, log=log)
 

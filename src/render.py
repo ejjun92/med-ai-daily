@@ -55,6 +55,7 @@ class PageMeta:
     summary_failed_count: int = 0
     truncated_count: int = 0
     boosted_count: int = 0
+    capped_sources: list[str] = dataclasses.field(default_factory=list)
 
     @property
     def generated_kst(self) -> str:

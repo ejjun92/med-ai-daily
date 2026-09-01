@@ -201,18 +201,25 @@ def test_nojekyll_written(tmp_path):
 
 
 # ── 푸터: 실패도 보인다 (AC-15, D-19) ────────────────────────
-def test_footer_reports_counts_and_shortfall(tmp_path):
-    m = meta(source_counts={"arxiv": 1200, "pubmed": 80, "s2": 240},
-             shortfall_by_axis={"medical_imaging": 3, "surgical_video": 0},
-             excluded_count=2, truncated_count=1, boosted_count=7)
-    html = build(tmp_path, [entry()], m)["index.html"]
-    assert "arXiv 1200건" in html and "PubMed 80건" in html
-    assert "의료영상 AI 3건" in html
-    assert "surgical_video" not in html, "0인 축은 노이즈다"
-    assert "관련 없음" in html and "2건" in html
-    assert "요약 검증 실패" not in html, "관련 없음 건수를 요약 실패로 표시하면 안 된다"
-    assert "1건" in html and "7건" in html
-    assert "2026-08-31 09:42 KST" in html
+def _footer(html: str) -> str:
+    return html.split("<footer>")[1]
+
+
+def test_footer_keeps_only_date_and_time(tmp_path):
+    """푸터는 기준일과 생성 시각만 싣는다.
+
+    수집·미달·제외 건수는 사용자 요청으로 뺐다. 그 숫자들은 로그에 남고,
+    페이지가 낡았다는 신호는 본문 상단 배너가 계속 맡는다.
+    """
+    m = meta(source_counts={"arxiv": 1200, "pubmed": 80},
+             shortfall_by_axis={"medical_imaging": 3},
+             excluded_count=2, truncated_count=1, boosted_count=7,
+             capped_sources=["s2"])
+    f = _footer(build(tmp_path, [entry()], m)["index.html"])
+    assert "2026-08-31" in f and "09:42 KST" in f
+    for gone in ("arXiv 1200건", "의료영상 AI 3건", "관련 없음",
+                 "학회 부스트", "수집 상한", "요약 실패"):
+        assert gone not in f, f"푸터에 {gone}이 남아 있다"
 
 
 def test_stale_banner_appears_only_when_old(tmp_path):
@@ -229,10 +236,11 @@ def test_stale_threshold_is_config_driven(tmp_path):
     assert 'class="banner"' in html
 
 
-def test_title_only_count_reported_in_footer(tmp_path):
+def test_title_only_entries_still_marked_in_body(tmp_path):
+    """푸터 집계는 없앴지만 항목 자체의 표시는 남아야 한다."""
     es = [entry(aid="2601.1"), entry(aid="2601.2", abstract=None, summary=None)]
-    html = build(tmp_path, es)["index.html"]
-    assert "초록 미확보 1건" in html
+    body = items_only(build(tmp_path, es)["index.html"])
+    assert "초록 미확보" in body
 
 
 # ── 가로 스크롤 방지 ─────────────────────────────────────────
@@ -266,29 +274,23 @@ def test_summary_failure_does_not_drop_the_paper(tmp_path):
     assert "Kept Anyway" in html
 
 
-def test_summary_failure_counted_in_footer(tmp_path):
-    es = [entry(aid="2601.1"),
-          entry(aid="2601.2", abstract="있음", summary=None),
+def test_summary_failure_and_missing_abstract_are_distinguished(tmp_path):
+    es = [entry(aid="2601.2", abstract="있음", summary=None),
           entry(aid="2601.3", abstract=None, summary=None)]
-    html = build(tmp_path, es)["index.html"]
-    assert "요약 실패" in html and "초록 미확보 1건" in html
+    body = items_only(build(tmp_path, es)["index.html"])
+    assert "요약 생성 실패" in body and "초록 미확보" in body
 
 
-def test_cap_hit_is_shown_not_hidden(tmp_path):
-    """상한에 걸리면 그만큼 논문을 못 가져온 것이다. 화면에 보여야 한다.
+def test_cap_hit_is_recorded_in_meta(tmp_path):
+    """상한에 걸리면 그만큼 논문을 못 가져온 것이다.
 
-    실측: arXiv 30일 창이 9,294건인데 상한이 8,000이라 1,294건이 조용히
-    사라지고 있었다. 소스가 스스로 상한에서 멈추면 초과분이 0이라
-    기존 절삭 카운터에 잡히지 않았다.
+    푸터 표시는 사용자 요청으로 뺐지만 집계 자체는 살아 있어야 한다 —
+    로그와 PageMeta로 확인할 수 있어야 조용한 누락을 알아챈다.
+    실측: arXiv 30일 창이 9,294건인데 상한이 8,000이라 1,294건이 사라졌다.
     """
     m = meta(capped_sources=["arxiv", "s2"])
-    html = build(tmp_path, [entry()], m)["index.html"]
-    assert "수집 상한" in html and "arxiv, s2" in html
-
-
-def test_no_cap_notice_when_within_limits(tmp_path):
-    html = build(tmp_path, [entry()], meta())["index.html"]
-    assert "수집 상한" not in html
+    render([entry()], tmp_path, m, log=lambda *_: None)
+    assert m.capped_sources == ["arxiv", "s2"]
 
 
 # ── 테마 (세 상태) ───────────────────────────────────────────

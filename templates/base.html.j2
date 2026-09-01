@@ -370,18 +370,11 @@ footer {
 
 <footer>
   <div class="footer-inner">
-    {# AC-15: 서버가 멈춰도 사이트는 살아 있다. 낡았다는 사실이 여기 보여야 한다. #}
+    {# 기준일과 생성 시각만 남긴다. 나머지 통계는 로그에 있다.
+       AC-15(정체 가시화)는 본문 상단 staleness 배너가 계속 맡는다. #}
     <dl>
       <dt>데이터 기준일</dt><dd>{{ meta.data_date }}</dd>
       <dt>생성 시각</dt><dd>{{ meta.generated_kst }} KST</dd>
-      <dt>수집</dt><dd>{{ meta.source_line }}</dd>
-      <dt>게시</dt><dd>{{ meta.published_count }}건{% if meta.title_only_count %} (그중 초록 미확보 {{ meta.title_only_count }}건){% endif %}</dd>
-      {% if meta.shortfall_line %}<dt>축별 미달</dt><dd>{{ meta.shortfall_line }}</dd>{% endif %}
-      {% if meta.summary_failed_count %}<dt>요약 실패</dt><dd>{{ meta.summary_failed_count }}건 (논문은 게시, 제목만 표시)</dd>{% endif %}
-      {% if meta.excluded_count %}<dt>관련 없음</dt><dd>{{ meta.excluded_count }}건 (분류 단계에서 제외)</dd>{% endif %}
-      {% if meta.truncated_count %}<dt>절삭</dt><dd>상한 초과로 {{ meta.truncated_count }}건 제외</dd>{% endif %}
-      {% if meta.capped_sources %}<dt>⚠️ 수집 상한</dt><dd>{{ meta.capped_sources | join(", ") }} — 상한에 걸려 일부 논문을 못 가져왔습니다</dd>{% endif %}
-      {% if meta.boosted_count %}<dt>학회 부스트</dt><dd>{{ meta.boosted_count }}건</dd>{% endif %}
     </dl>
     <nav><a href="{{ rel }}index.html">최신</a><a href="{{ rel }}archive/index.html">지난 뉴스 전체</a></nav>
   </div>

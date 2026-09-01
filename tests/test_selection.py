@@ -26,9 +26,17 @@ def pool(**per_axis: int) -> list[Entry]:
     return out
 
 
+def full_pool(n: int = 200) -> list[Entry]:
+    """모든 축을 넉넉히 채운 풀.
+
+    축 목록을 설정에서 가져온다 — 하드코딩하면 축을 하나 추가할 때마다
+    이 파일이 조용히 의미를 잃는다 (실제로 EHR 축 추가 때 깨졌다).
+    """
+    return pool(**{a.key: n for a in config.AXES})
+
+
 def test_normal_allocation_respects_axis_targets():
-    r = select(pool(brain_decoding=40, surgical_video=40,
-                    dl_methodology=40, medical_imaging=40))
+    r = select(full_pool(40))
     counts = r.counts_by_axis()
     for a in config.AXES:
         assert counts[a.key] == a.target, f"{a.key}: {counts[a.key]} != {a.target}"
@@ -36,7 +44,7 @@ def test_normal_allocation_respects_axis_targets():
 
 
 def test_one_axis_exhausted_reports_shortfall():
-    r = select(pool(brain_decoding=40, surgical_video=40,
+    r = select(pool(**{a.key: 40 for a in config.AXES}) if False else pool(brain_decoding=40, surgical_video=40,
                     dl_methodology=40, medical_imaging=2))
     assert "medical_imaging" in r.shortfall_by_axis
     assert r.counts_by_axis()["medical_imaging"] == 2
@@ -65,13 +73,12 @@ def test_global_shortage_publishes_what_exists_without_padding():
 
 
 def test_oversupply_settles_at_axis_targets():
-    """공급이 충분하면 축 목표치의 합(=51)에서 멈춘다.
+    """공급이 충분하면 축 목표치의 합에서 멈춘다.
 
-    60까지 채우지 않는 이유: 남는 9자리를 어느 축에 줄지 정해야 하는데,
-    그 순간 35/30/20/15 비율이 깨진다. 비율 유지가 더 중요하다.
+    DAILY_MAX까지 채우지 않는 이유: 남는 자리를 어느 축에 줄지 정해야 하는데,
+    그 순간 설정한 비율이 깨진다. 비율 유지가 더 중요하다.
     """
-    r = select(pool(brain_decoding=200, surgical_video=200,
-                    dl_methodology=200, medical_imaging=200))
+    r = select(full_pool())
     assert len(r.entries) == sum(a.target for a in config.AXES)
     assert config.DAILY_MIN <= len(r.entries) <= config.DAILY_MAX
     assert not r.truncated_ids          # 목표치 합 < DAILY_MAX 라 절삭은 안 일어난다
@@ -80,9 +87,7 @@ def test_oversupply_settles_at_axis_targets():
 def test_truncation_fires_when_max_forced_below_targets():
     """절삭 분기는 안전망이다 — 축 목표치 합이 DAILY_MAX보다 작아
     평상시엔 도달하지 않는다. 상한을 낮춰 강제로 태워 동작을 고정한다."""
-    r = select(pool(brain_decoding=200, surgical_video=200,
-                    dl_methodology=200, medical_imaging=200),
-               daily_min=10, daily_max=20)
+    r = select(full_pool(), daily_min=10, daily_max=20)
     assert len(r.entries) == 20
     assert len(r.truncated_ids) > 0
 

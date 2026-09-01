@@ -20,7 +20,7 @@ def test_prompt_lists_every_category():
     p = c_prompt(paper(abstract="x"))
     for c in config.CATEGORIES:
         assert c.id in p, c.id
-    assert len(config.CATEGORY_IDS) == 18
+    assert len(config.CATEGORY_IDS) == 22
 
 
 def test_schema_enums_match_config():
@@ -174,5 +174,5 @@ def test_prompt_version_bumped_when_rules_change():
 
     안 올리면 v1으로 잘못 걸러진 논문들이 영원히 회수되지 않는다.
     """
-    assert config.CLASSIFY_PROMPT_VERSION not in ("v1", "v2"), \
+    assert config.CLASSIFY_PROMPT_VERSION not in ("v1", "v2", "v3"), \
         "brain_decoding 규칙을 고쳤으면 CLASSIFY_PROMPT_VERSION을 올려야 한다"

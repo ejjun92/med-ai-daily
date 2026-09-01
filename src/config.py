@@ -37,18 +37,19 @@ class Axis:
 
 
 AXES: tuple[Axis, ...] = (
-    Axis("brain_decoding",  "뇌신호 AI",   0.35, "🧠"),
-    Axis("surgical_video",  "수술영상",          0.30, "🔬"),
-    Axis("dl_methodology",  "딥러닝 방법론",      0.20, "⚙️"),
-    Axis("medical_imaging", "의료영상 AI",       0.15, "🩺"),
+    Axis("brain_decoding",  "뇌신호 AI",         0.30, "🧠"),
+    Axis("surgical_video",  "수술영상",          0.26, "🔬"),
+    Axis("dl_methodology",  "딥러닝 방법론",      0.17, "⚙️"),
+    Axis("ehr_clinical",    "EHR·임상 시계열",    0.14, "📈"),
+    Axis("medical_imaging", "의료영상 AI",       0.13, "🩺"),
 )
 AXIS_KEYS = tuple(a.key for a in AXES)
 AXIS_BY_KEY = {a.key: a for a in AXES}
 
 
 # ─────────────────────────────────────────────────────────────────
-# 카테고리 (18개) — 각 카테고리는 정확히 한 축에 속한다
-#   카테고리 수는 축 비중에 비례하게 배분했다: brain 5 / 수술 4 /
+# 카테고리 (22개) — 각 카테고리는 정확히 한 축에 속한다
+#   카테고리 수는 축 비중에 비례하게 배분했다: brain 5 / 수술 4 / EHR 4 /
 #   방법론 6 / 의료영상 3. 방법론은 8~12편을 6칸에 나눠 칸당 1~2편으로
 #   얇다 — 1주차 결과를 보고 병합 검토 (계획 F-12).
 # ─────────────────────────────────────────────────────────────────
@@ -98,6 +99,16 @@ CATEGORIES: tuple[Category, ...] = (
              "diffusion, 이미지 편집, 생성 제어", "🎨"),
     Category("robustness", "Robustness & Domain Generalization", "dl_methodology",
              "도메인 적응·일반화, distribution shift, continual learning", "🛡"),
+
+    # ■ EHR·임상 시계열 (14%)
+    Category("ehr_sequence", "EHR Sequence Modeling & Patient Trajectory", "ehr_clinical",
+             "진단·처방·검사 코드 시퀀스의 표현학습, 환자 궤적 모델링. transformer·state-space 등 시퀀스 구조가 기여인 연구", "🧾"),
+    Category("clinical_timeseries", "Clinical Time Series & Monitoring", "ehr_clinical",
+             "ICU 생체신호, 다변량 임상 시계열 예측, 조기경보, 불규칙 샘플링 처리", "📉"),
+    Category("clinical_llm", "Clinical LLM & Note Understanding", "ehr_clinical",
+             "임상 노트 요약·정보추출, EHR 기반 QA·에이전트, 의무기록 대상 LLM", "📝"),
+    Category("clinical_outcome", "Outcome & Risk Prediction", "ehr_clinical",
+             "재입원·사망·질병 진행 예측, 생존분석, 치료 반응 예측. 영상이 아닌 표·시계열 기반", "⚕️"),
 
     # ■ 의료영상 AI (15%)
     Category("medical_foundation", "Medical Foundation Models, VLM & Report Generation", "medical_imaging",
@@ -150,7 +161,11 @@ PUBMED_JOURNALS = (
     "IEEE Trans Med Imaging",                # IEEE TMI
     "IEEE Trans Pattern Anal Mach Intell",   # IEEE TPAMI
     "Radiol Artif Intell",                   # Radiology: Artificial Intelligence
-    "Int J Comput Assist Radiol Surg",       # IJCARS (IPCAI 게재지)
+    "Int J Comput Assist Radiol Surg",
+    # EHR·임상 시계열 축을 위한 임상정보학 저널. 영상 저널만으로는 이 축이 안 찬다.
+    "J Am Med Inform Assoc",
+    "J Biomed Inform",
+    "NPJ Digit Med",       # IJCARS (IPCAI 게재지)
 )
 PUBMED_WINDOW_DAYS = 30      # 한 달. 저널 색인 지연은 arXiv보다 길다
 PUBMED_BATCH_SIZE = 200      # efetch 1회당 PMID 수 (POST 사용)
@@ -197,7 +212,7 @@ TRUNCATION_SORT_KEY = {"arxiv": "submitted_date", "pubmed": "pdat", "s2": "publi
 DEFERRED_TTL_DAYS = 14
 # 이 값이 바뀌어야 보류분이 재진입한다. 같은 프롬프트로 재분류하면
 # 같은 판정이 나오므로 순수 낭비다 (계획 D-4).
-CLASSIFY_PROMPT_VERSION = "v3"   # v2: brain_decoding 정의를 "복원·해독"으로
+CLASSIFY_PROMPT_VERSION = "v4"   # v2: brain_decoding 정의를 "복원·해독"으로
 # 좁혔다. v1은 "뇌 신호를 다루면 brain_decoding"이라 연결성·질환분류·감정인식이
 # 전부 끌려 들어와 51칸 중 18칸을 낭비했다 (2026-08-31 실측).
 

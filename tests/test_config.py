@@ -10,7 +10,7 @@ def test_axis_ratios_sum_to_one():
 def test_category_count_and_unique_ids():
     # 개수를 못 박는 이유: 카테고리를 늘리면 분류 프롬프트가 길어지고 enum이
     # 바뀐다. 의도적 변경이면 이 숫자도 함께 고치라는 뜻이다.
-    assert len(config.CATEGORIES) == 18
+    assert len(config.CATEGORIES) == 22
     assert len(config.CATEGORY_IDS) == len(set(config.CATEGORY_IDS))
 
 

@@ -151,7 +151,7 @@ def _env() -> Environment:
         star_rubric=sorted(config.STAR_RUBRIC.items(), reverse=True),
         window_days=config.ARXIV_WINDOW_DAYS, s2_years=config.S2_YEARS_BACK,
         daily_min=config.DAILY_MIN, daily_max=config.DAILY_MAX,
-        frontier_days=config.FRONTIER_WINDOW_DAYS,
+        frontier_days=config.FRONTIER_WINDOW_DAYS, config=config,
     )
     return env
 

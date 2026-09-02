@@ -320,6 +320,10 @@ FRONTIER_MIN_LIKES = 5       # 잡음 차단. 실측상 주요 공개는 수백~
 FRONTIER_MAX = 6             # 별도 상한 — 의료 AI 49건과 별개로 실린다
 FRONTIER_REQUEST_DELAY_S = 0.4
 
+# 이 별점 이상이면 카드에 테두리를 두른다. 5로 두는 이유: 페이지는 상위 49건만
+# 싣기 때문에 4로 내리면 전부 테두리를 받아 표시가 무의미해진다 (실측).
+STAR_HIGHLIGHT_MIN = 5
+
 RECENT_DAYS_SHOWN = 14       # 본문 하단 '지난 뉴스'에 띄우는 날짜 수
 
 STALENESS_WARN_DAYS = 2      # 데이터가 이보다 오래되면 페이지에 배너를 띄운다

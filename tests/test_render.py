@@ -133,6 +133,18 @@ def test_title_only_entry_says_so_instead_of_inventing(tmp_path):
     assert "초록 미확보" in html
 
 
+def test_only_top_scored_items_get_a_border(tmp_path):
+    """테두리는 구분을 위한 것이다. 전부 받으면 아무것도 표시하지 못한다.
+
+    임계를 4로 내렸더니 게시분 49건이 전부 테두리를 받았다 — 페이지는
+    상위 49건만 싣기 때문에 게시분은 구조적으로 대부분 고득점이다.
+    """
+    es = [entry(stars=n, aid=f"2601.{n}") for n in (3, 4, 5)]
+    html = items_only(build(tmp_path, es)["index.html"])
+    assert html.count('class="item starred"') == 1, "별 5개 하나만 테두리"
+    assert html.count('<div class="item"') == 2
+
+
 def test_boosted_stars_win_over_raw(tmp_path):
     html = build(tmp_path, [entry(stars=3, boosted=4)])["index.html"]
     filled = re.search(r'<span class="filled">(★*)</span>', html).group(1)

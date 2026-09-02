@@ -289,12 +289,16 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 .stars { font-size: .78rem; letter-spacing: 1px; white-space: nowrap; cursor: help; }
 .stars .filled { color: var(--star-filled); }
 .stars .empty { color: var(--star-empty); }
-/* 별 4개 이상은 테두리로 표시한다. 색은 제목과 같은 강조색을 쓴다 —
-   따로 색을 하나 더 들이면 페이지에 색이 늘어나기만 한다. */
-.item.starred { border: 1.5px solid var(--accent); }
-/* 별 5개는 한 단계 더: 그림자를 띄우고 별을 붉게 */
-.item.top { box-shadow: var(--shadow-hover); }
-.item.top .stars .filled { color: var(--danger); }
+/* 최상위 항목만 테두리로 표시한다. 색은 제목과 같은 강조색을 쓴다 —
+   따로 색을 하나 더 들이면 페이지에 색이 늘어나기만 한다.
+   임계는 config.STAR_HIGHLIGHT_MIN. 4로 내렸더니 게시분 49건이 전부
+   테두리를 받아 표시가 아무것도 구분하지 못했다 — 상위 49건만 싣는 이상
+   게시분은 구조적으로 대부분 고득점이다. */
+.item.starred {
+  border: 1.5px solid var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+.item.starred .stars .filled { color: var(--danger); }
 .item-summary { font-size: .88rem; color: var(--text-secondary); margin: 0 0 .5rem; }
 .item-summary.missing { font-style: italic; color: var(--text-tertiary); }
 .item-taxonomy { display: flex; flex-wrap: wrap; gap: .28rem; }

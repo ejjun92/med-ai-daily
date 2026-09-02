@@ -19,6 +19,8 @@
   --accent-hover: #004D4D;
   --star-filled: #FE9900;
   --star-empty: #C4C4C4;
+  --radar: #5B4BC4;
+  --radar-soft: rgba(91,75,196,0.10);
   --surface-highlight: #EDE9E3;
   --badge-bg: #D9D7D5;
   --badge-text: #006666;
@@ -56,6 +58,8 @@
     --accent-hover: #33E0E0;
     --star-filled: #FEB800;
     --star-empty: #4A5568;
+    --radar: #A99BFF;
+    --radar-soft: rgba(169,155,255,0.14);
     --surface-highlight: #222C3C;
     --badge-bg: #2D3748;
     --badge-text: #00CCCC;
@@ -80,6 +84,8 @@
     --accent-hover: #33E0E0;
     --star-filled: #FEB800;
     --star-empty: #4A5568;
+    --radar: #A99BFF;
+    --radar-soft: rgba(169,155,255,0.14);
     --surface-highlight: #222C3C;
     --badge-bg: #2D3748;
     --badge-text: #00CCCC;
@@ -276,12 +282,16 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 .stars { font-size: .78rem; letter-spacing: 1px; white-space: nowrap; cursor: help; }
 .stars .filled { color: var(--star-filled); }
 .stars .empty { color: var(--star-empty); }
-/* 별 4개 이상은 테두리로 표시한다. 색은 제목과 같은 강조색을 쓴다 —
-   따로 색을 하나 더 들이면 페이지에 색이 늘어나기만 한다. */
-.item.starred { border: 1.5px solid var(--accent); }
-/* 별 5개는 한 단계 더: 그림자를 띄우고 별을 붉게 */
-.item.top { box-shadow: var(--shadow-hover); }
-.item.top .stars .filled { color: var(--danger); }
+/* 최상위 항목만 테두리로 표시한다. 색은 제목과 같은 강조색을 쓴다 —
+   따로 색을 하나 더 들이면 페이지에 색이 늘어나기만 한다.
+   임계는 config.STAR_HIGHLIGHT_MIN. 4로 내렸더니 게시분 49건이 전부
+   테두리를 받아 표시가 아무것도 구분하지 못했다 — 상위 49건만 싣는 이상
+   게시분은 구조적으로 대부분 고득점이다. */
+.item.starred {
+  border: 1.5px solid var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+.item.starred .stars .filled { color: var(--danger); }
 .item-summary { font-size: .88rem; color: var(--text-secondary); margin: 0 0 .5rem; }
 .item-summary.missing { font-style: italic; color: var(--text-tertiary); }
 .item-taxonomy { display: flex; flex-wrap: wrap; gap: .28rem; }
@@ -294,6 +304,18 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   box-shadow: var(--shadow-raised-sm);
 }
 .taxonomy-chip.taxonomy-venue { color: var(--badge-text); font-weight: 700; }
+
+/* ── Frontier AI 레인 ─────────────────────────────── */
+.tier {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem; font-weight: 800; letter-spacing: .06em;
+  padding: .12rem .5rem; border-radius: 999px; white-space: nowrap;
+  box-shadow: var(--shadow-raised-sm);
+}
+.tier-flagship { color: #fff; background: var(--radar); }
+.tier-major    { color: var(--radar); background: var(--radar-soft); }
+.tier-notable  { color: var(--text-tertiary); background: var(--badge-bg); }
+.item-metric { font-family: 'JetBrains Mono', monospace; font-size: .66rem; color: var(--text-tertiary); }
 
 /* ── 푸터 ─────────────────────────────────────────── */
 footer {
@@ -369,7 +391,7 @@ min="2026-08-31" max="2026-09-01"
   <div class="footer-inner">
     <dl>
       <dt>데이터 기준일</dt><dd>2026-09-01</dd>
-      <dt>생성 시각</dt><dd>2026-09-02 10:51 KST</dd>
+      <dt>생성 시각</dt><dd>2026-09-02 11:28 KST</dd>
     </dl>
     <nav><a href="../index.html">최신</a><a href="../archive/index.html">지난 뉴스 전체</a></nav>
   </div>

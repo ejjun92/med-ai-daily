@@ -67,7 +67,7 @@
   {% for category, entries in groups %}
   <div class="subsection">{{ category.emoji }} {{ category.name }}</div>
   {% for e in entries %}
-  <div class="item{% if e.display_stars >= 5 %} highlight{% endif %}">
+  <div class="item{% if e.display_stars >= 4 %} starred{% endif %}{% if e.display_stars >= 5 %} top{% endif %}">
     <div class="item-title">
       {% if e.paper.url %}<a href="{{ e.paper.url }}" target="_blank" rel="noopener">{{ e.paper.title }}</a>{% else %}{{ e.paper.title }}{% endif %}
     </div>

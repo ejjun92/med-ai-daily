@@ -276,8 +276,12 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 .stars { font-size: .78rem; letter-spacing: 1px; white-space: nowrap; cursor: help; }
 .stars .filled { color: var(--star-filled); }
 .stars .empty { color: var(--star-empty); }
-.item.highlight { box-shadow: var(--shadow-hover); }
-.item.highlight .stars .filled { color: var(--danger); }
+/* 별 4개 이상은 테두리로 표시한다. 색은 제목과 같은 강조색을 쓴다 —
+   따로 색을 하나 더 들이면 페이지에 색이 늘어나기만 한다. */
+.item.starred { border: 1.5px solid var(--accent); }
+/* 별 5개는 한 단계 더: 그림자를 띄우고 별을 붉게 */
+.item.top { box-shadow: var(--shadow-hover); }
+.item.top .stars .filled { color: var(--danger); }
 .item-summary { font-size: .88rem; color: var(--text-secondary); margin: 0 0 .5rem; }
 .item-summary.missing { font-style: italic; color: var(--text-tertiary); }
 .item-taxonomy { display: flex; flex-wrap: wrap; gap: .28rem; }
@@ -365,7 +369,7 @@ min="2026-08-31" max="2026-09-01"
   <div class="footer-inner">
     <dl>
       <dt>데이터 기준일</dt><dd>2026-09-01</dd>
-      <dt>생성 시각</dt><dd>2026-09-02 10:49 KST</dd>
+      <dt>생성 시각</dt><dd>2026-09-02 10:51 KST</dd>
     </dl>
     <nav><a href="../index.html">최신</a><a href="../archive/index.html">지난 뉴스 전체</a></nav>
   </div>

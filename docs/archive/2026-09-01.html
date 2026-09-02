@@ -276,8 +276,12 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 .stars { font-size: .78rem; letter-spacing: 1px; white-space: nowrap; cursor: help; }
 .stars .filled { color: var(--star-filled); }
 .stars .empty { color: var(--star-empty); }
-.item.highlight { box-shadow: var(--shadow-hover); }
-.item.highlight .stars .filled { color: var(--danger); }
+/* 별 4개 이상은 테두리로 표시한다. 색은 제목과 같은 강조색을 쓴다 —
+   따로 색을 하나 더 들이면 페이지에 색이 늘어나기만 한다. */
+.item.starred { border: 1.5px solid var(--accent); }
+/* 별 5개는 한 단계 더: 그림자를 띄우고 별을 붉게 */
+.item.top { box-shadow: var(--shadow-hover); }
+.item.top .stars .filled { color: var(--danger); }
 .item-summary { font-size: .88rem; color: var(--text-secondary); margin: 0 0 .5rem; }
 .item-summary.missing { font-style: italic; color: var(--text-tertiary); }
 .item-taxonomy { display: flex; flex-wrap: wrap; gap: .28rem; }
@@ -485,7 +489,7 @@ min="2026-08-31" max="2026-09-01"
     </h2>
   </div>
   <div class="subsection">⚡ EEG/MEG Decoding &amp; BCI</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30369v1" target="_blank" rel="noopener">Augmenting Human Performance with an XR Agent Learning from Online Behavior and BCI Evidence</a>    </div>
     <div class="item-meta">
@@ -496,7 +500,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">xr-agent</span><span class="taxonomy-chip">online-learning</span><span class="taxonomy-chip">bcievidence</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.28768v1" target="_blank" rel="noopener">A large dataset of human EEG responses to short naturalistic videos for studying dynamic visual event processing</a>    </div>
     <div class="item-meta">
@@ -507,7 +511,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">eeg-dataset</span><span class="taxonomy-chip">dynamic-visual-event</span><span class="taxonomy-chip">brain-encoding-models</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.27048v1" target="_blank" rel="noopener">Soft Active Electromyography Interface for Machine Learning-Enabled Silent Speech Recognition</a>    </div>
     <div class="item-meta">
@@ -518,7 +522,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">silent-speech-recognition</span><span class="taxonomy-chip">electromyography</span><span class="taxonomy-chip">machine-learning</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.25088v1" target="_blank" rel="noopener">The Von-Neumann State-Space Transformer for neural decoding</a>    </div>
     <div class="item-meta">
@@ -528,7 +532,7 @@ min="2026-08-31" max="2026-09-01"
     <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
   </div>
   <div class="subsection">💬 Brain-to-Language &amp; Multimodal Decoding</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.28967v1" target="_blank" rel="noopener">Brain-Language-Action (BLA) Models: Language-Conditioned EEG for Robotics Control</a>    </div>
     <div class="item-meta">
@@ -539,7 +543,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">brain-computer-interface</span><span class="taxonomy-chip">language-conditioned</span><span class="taxonomy-chip">robotics-control</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.25204v1" target="_blank" rel="noopener">LibriBrain100: One Hundred Hours of Broad and Deep MEG Data for Neural Speech Decoding at Scale</a>    </div>
     <div class="item-meta">
@@ -551,7 +555,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="taxonomy-chip">meg-dataset</span><span class="taxonomy-chip">speech-decoding</span><span class="taxonomy-chip">noninvasive-bci</span>    </div>
   </div>
   <div class="subsection">🔗 Cross-Subject Generalization &amp; Neural Alignment</div>
-  <div class="item highlight">
+  <div class="item starred top">
     <div class="item-title">
 <a href="https://pubmed.ncbi.nlm.nih.gov/42636113/" target="_blank" rel="noopener">A Unified Graph Domain Adaptation Framework for Cross-Site Brain Network Analysis.</a>    </div>
     <div class="item-meta">
@@ -562,7 +566,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">graph-domain-adaptation</span><span class="taxonomy-chip">cross-site-analysis</span><span class="taxonomy-chip">brain-network</span><span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.27651v1" target="_blank" rel="noopener">More Data Cannot Break a Symmetry: Identifiability by Design</a>    </div>
     <div class="item-meta">
@@ -573,7 +577,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">unsupervised-learning</span><span class="taxonomy-chip">representational-alignment</span><span class="taxonomy-chip">design-diagnostic</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.22420v1" target="_blank" rel="noopener">Cross-Subject Generalization in Decoding Perceived Speech from Non-Invasive Brain Recordings</a>    </div>
     <div class="item-meta">
@@ -585,7 +589,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="taxonomy-chip">cross-subject-decoding</span><span class="taxonomy-chip">perceived-speech</span><span class="taxonomy-chip">non-invasive-brain-recordings</span>    </div>
   </div>
   <div class="subsection">🧬 Brain Signal Representation &amp; Foundation Models</div>
-  <div class="item highlight">
+  <div class="item starred top">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.23936v1" target="_blank" rel="noopener">MnemoDyn: Learning Resting State Dynamics from 40K FMRI sequences</a>    </div>
     <div class="item-meta">
@@ -596,7 +600,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">resting-state-fmri</span><span class="taxonomy-chip">multi-resolution-temporal-modeling</span><span class="taxonomy-chip">mnemodyn</span><span class="taxonomy-chip taxonomy-venue">ICLR 2026</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.27719v1" target="_blank" rel="noopener">Leveraging a Foundation Model for the EEG-Based Diagnosis of Alzheimer&#39;s Disease</a>    </div>
     <div class="item-meta">
@@ -607,7 +611,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">eeg-diagnosis</span><span class="taxonomy-chip">alzheimers-disease</span><span class="taxonomy-chip">non-linear-classifier</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.24597v1" target="_blank" rel="noopener">Taming foundation model with invariance-oriented pre-training for broad-spectrum EEG analysis across signal-level, brain-state, and brain-health tasks</a>    </div>
     <div class="item-meta">
@@ -618,7 +622,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">invariance-oriented</span><span class="taxonomy-chip">eeg</span><span class="taxonomy-chip">foundation-model</span><span class="taxonomy-chip">pre-training</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.23790v1" target="_blank" rel="noopener">Primate vision reveals a missing principle for robust dynamic AI</a>    </div>
     <div class="item-meta">
@@ -629,7 +633,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">primate-vision</span><span class="taxonomy-chip">robust-dynamic-ai</span><span class="taxonomy-chip">predictive-world-models</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.21970v1" target="_blank" rel="noopener">Retrieval-Augmented Visual Prompting: Guiding Foundation Models in Two-Photon Imaging</a>    </div>
     <div class="item-meta">
@@ -640,7 +644,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">two-photon-imaging</span><span class="taxonomy-chip">retrieval-augmented</span><span class="taxonomy-chip">visual-prompting</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.22042v1" target="_blank" rel="noopener">ReMAP: Self-supervised learning to unveil brain representations and vulnerability</a>    </div>
     <div class="item-meta">
@@ -659,7 +663,7 @@ min="2026-08-31" max="2026-09-01"
     </h2>
   </div>
   <div class="subsection">🎬 Surgical Scene Understanding</div>
-  <div class="item highlight">
+  <div class="item starred top">
     <div class="item-title">
 <a href="https://pubmed.ncbi.nlm.nih.gov/42675290/" target="_blank" rel="noopener">Virtual intraoperative CT (viCT): sequential anatomic updates for modeling tissue resection throughout endoscopic sinus surgery.</a>    </div>
     <div class="item-meta">
@@ -670,7 +674,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip taxonomy-venue">IJCARS</span>    </div>
   </div>
-  <div class="item highlight">
+  <div class="item starred top">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.27562v1" target="_blank" rel="noopener">VidParse: Online Parsing of Egocentric Procedures Like a Pro</a>    </div>
     <div class="item-meta">
@@ -681,7 +685,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">online-parsing</span><span class="taxonomy-chip">egocentric-procedures</span><span class="taxonomy-chip">graph-constrained-inference</span><span class="taxonomy-chip taxonomy-venue">ECCV 2026</span>    </div>
   </div>
-  <div class="item highlight">
+  <div class="item starred top">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.25736v1" target="_blank" rel="noopener">Moving Beyond More Views: Redundancy-Aware Ego-Exo Fusion for Proficiency Estimation</a>    </div>
     <div class="item-meta">
@@ -692,7 +696,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">ego-exo</span><span class="taxonomy-chip">proficiency-estimation</span><span class="taxonomy-chip">redundancy-aware</span><span class="taxonomy-chip">fusion-modules</span><span class="taxonomy-chip taxonomy-venue">ECCV 2026</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.31065v1" target="_blank" rel="noopener">Multimodal Shared Latent Representation of Narration, Microscope and iOCT Images for Phase Recognition in Vitreoretinal Surgery</a>    </div>
     <div class="item-meta">
@@ -704,7 +708,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="taxonomy-chip">multimodal-latent-representation</span><span class="taxonomy-chip">surgical-phase-recognition</span><span class="taxonomy-chip">contrastive-learning</span>    </div>
   </div>
   <div class="subsection">✂️ Instrument &amp; Anatomy Segmentation</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.24541v1" target="_blank" rel="noopener">Hierarchical Prototype-Memory Adaptation of SAM for Surgical Instrument Segmentation</a>    </div>
     <div class="item-meta">
@@ -716,7 +720,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="taxonomy-chip">surgical-instrument-segmentation</span><span class="taxonomy-chip">prototype-memory</span><span class="taxonomy-chip">hierarchical-adaptation</span>    </div>
   </div>
   <div class="subsection">📹 Surgical VLP &amp; Foundation Model</div>
-  <div class="item highlight">
+  <div class="item starred top">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.28693v1" target="_blank" rel="noopener">RoboGesture: Real-Time Semantic-aligned Co-Speech Gestures Generation for Humanoid Interaction</a>    </div>
     <div class="item-meta">
@@ -727,7 +731,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">humanoid-robot</span><span class="taxonomy-chip">co-speech-gestures</span><span class="taxonomy-chip">diffusion-transformer</span><span class="taxonomy-chip taxonomy-venue">ECCV 2026</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30872v1" target="_blank" rel="noopener">SurgSkill-Bench: A Benchmark for Multimodal Surgical Skill Assessment</a>    </div>
     <div class="item-meta">
@@ -738,7 +742,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">surgical-skill-assessment</span><span class="taxonomy-chip">video-text-benchmark</span><span class="taxonomy-chip">content-adaptive-sampling</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.31048v1" target="_blank" rel="noopener">OmniRAS: Standardizing Foundation Model Training and Evaluation in Robot-Assisted Surgery</a>    </div>
     <div class="item-meta">
@@ -749,7 +753,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">robot-assisted-surgery</span><span class="taxonomy-chip">foundation-models</span><span class="taxonomy-chip">surgical-video</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.25529v1" target="_blank" rel="noopener">Video-IFBench: Evaluating Instruction Following of Multimodal LLMs in Video Understanding Scenarios</a>    </div>
     <div class="item-meta">
@@ -760,7 +764,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">multimodal-llms</span><span class="taxonomy-chip">video-understanding</span><span class="taxonomy-chip">instruction-following</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.26094v1" target="_blank" rel="noopener">MyoMechanix: Biomechanically-Grounded Compositional Skilled Activity Understanding and Coaching</a>    </div>
     <div class="item-meta">
@@ -771,7 +775,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">multimodal-aqa</span><span class="taxonomy-chip">fitness-knowledge-graph</span><span class="taxonomy-chip">cubist-engine</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.26103v2" target="_blank" rel="noopener">Zero-WAM: In-Context World-Action Modeling from Human Videos for Open-Ended Task Generalization</a>    </div>
     <div class="item-meta">
@@ -782,7 +786,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">zero-shot</span><span class="taxonomy-chip">robotic-manipulation</span><span class="taxonomy-chip">in-context-learning</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.26214v1" target="_blank" rel="noopener">Surgical Video Generation From Diffusion to World Models: A Survey</a>    </div>
     <div class="item-meta">
@@ -793,7 +797,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">surgical-video</span><span class="taxonomy-chip">diffusion-models</span><span class="taxonomy-chip">world-models</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.23928v1" target="_blank" rel="noopener">RefineRank: Joint Box Refinement and Ranking for Surgical Spatio-Temporal Grounding</a>    </div>
     <div class="item-meta">
@@ -812,7 +816,7 @@ min="2026-08-31" max="2026-09-01"
     </h2>
   </div>
   <div class="subsection">📊 Uncertainty Quantification &amp; Calibration</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30210v1" target="_blank" rel="noopener">Frontier vision-language models have overtaken young adults at detecting AI-generated portraits -- but not their calibration</a>    </div>
     <div class="item-meta">
@@ -823,7 +827,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">vision-language-models</span><span class="taxonomy-chip">ai-generated-portraits</span><span class="taxonomy-chip">human-calibration</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30230v1" target="_blank" rel="noopener">Rethinking the Test-Time Prompt Tuning Objective from the Perspective of Calibration</a>    </div>
     <div class="item-meta">
@@ -835,7 +839,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="taxonomy-chip">test-time-prompt-tuning</span><span class="taxonomy-chip">calibration</span><span class="taxonomy-chip">cross-entropy</span>    </div>
   </div>
   <div class="subsection">🌐 Foundation Models &amp; Open-Vocabulary Perception</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30163v1" target="_blank" rel="noopener">Doc-REFRAG: Rethinking Multimodal Document Retrieval-Augmented Generation</a>    </div>
     <div class="item-meta">
@@ -846,7 +850,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">multimodal-document</span><span class="taxonomy-chip">retrieval-augmented-generation</span><span class="taxonomy-chip">visual-token-compression</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30209v1" target="_blank" rel="noopener">DICS: Exploring Data Intrinsic Consistency for Visual Instruction Selection</a>    </div>
     <div class="item-meta">
@@ -857,7 +861,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">visual-instruction-tuning</span><span class="taxonomy-chip">data-selection</span><span class="taxonomy-chip">vision-language-models</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30247v1" target="_blank" rel="noopener">OPUS: A Simple yet Effective Unified Framework for Open-Vocabulary Detection</a>    </div>
     <div class="item-meta">
@@ -869,7 +873,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="taxonomy-chip">open-vocabulary-detection</span><span class="taxonomy-chip">prompt-unified</span><span class="taxonomy-chip">simple-design</span>    </div>
   </div>
   <div class="subsection">🎨 Generative Modeling &amp; Editing</div>
-  <div class="item highlight">
+  <div class="item starred top">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30129v1" target="_blank" rel="noopener">Efficient and High-Quality Depth Estimation via Pixel-Space Diffusion with Linear Attention</a>    </div>
     <div class="item-meta">
@@ -880,7 +884,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">depth-estimation</span><span class="taxonomy-chip">linear-attention</span><span class="taxonomy-chip">pixel-space-diffusion</span><span class="taxonomy-chip taxonomy-venue">ECCV 2026</span>    </div>
   </div>
-  <div class="item highlight">
+  <div class="item starred top">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30194v1" target="_blank" rel="noopener">NoisEasier: Test-Time Noise Optimization for Text-to-Video Generation</a>    </div>
     <div class="item-meta">
@@ -892,7 +896,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="taxonomy-chip">text-to-video</span><span class="taxonomy-chip">diffusion-models</span><span class="taxonomy-chip">noise-optimization</span><span class="taxonomy-chip taxonomy-venue">ECCV 2026</span>    </div>
   </div>
   <div class="subsection">🛡 Robustness &amp; Domain Generalization</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30158v1" target="_blank" rel="noopener">CPR for LLMs: Critical-Point Routing against Catastrophic Forgetting in Domain Adaptation</a>    </div>
     <div class="item-meta">
@@ -911,7 +915,7 @@ min="2026-08-31" max="2026-09-01"
     </h2>
   </div>
   <div class="subsection">📉 Clinical Time Series &amp; Monitoring</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30695v1" target="_blank" rel="noopener">Liquid Gated Attention</a>    </div>
     <div class="item-meta">
@@ -920,7 +924,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="item-authors">Yiheng Jiang 외 2인</span>    </div>
     <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.31013v1" target="_blank" rel="noopener">TSPFN: A Temporal Tabular Foundation Model for Physiological Time Series Classification</a>    </div>
     <div class="item-meta">
@@ -932,7 +936,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="taxonomy-chip">temporal-tabular</span><span class="taxonomy-chip">physiological-time-series</span><span class="taxonomy-chip">foundation-model</span><span class="taxonomy-chip taxonomy-venue">MICCAI 2026</span>    </div>
   </div>
   <div class="subsection">📝 Clinical LLM &amp; Note Understanding</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="https://pubmed.ncbi.nlm.nih.gov/42567460/" target="_blank" rel="noopener">CGX: OCR-enhanced knowledge graph retrieval for explainable heart failure analysis.</a>    </div>
     <div class="item-meta">
@@ -943,7 +947,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">knowledge-graph</span><span class="taxonomy-chip">ocr</span><span class="taxonomy-chip">heart-failure</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30234v1" target="_blank" rel="noopener">CoLa-ICD: A Knowledge-Enhanced Framework for Long-Tail Automated Medical Coding</a>    </div>
     <div class="item-meta">
@@ -954,7 +958,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">knowledge-enhanced</span><span class="taxonomy-chip">long-tail-prediction</span><span class="taxonomy-chip">medical-coding</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30405v1" target="_blank" rel="noopener">Dense Clinical Contrasts Enhance Medical Knowledge Updating in Large Language Models</a>    </div>
     <div class="item-meta">
@@ -965,7 +969,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">medical-knowledge</span><span class="taxonomy-chip">large-language-models</span><span class="taxonomy-chip">seer-bench</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30676v1" target="_blank" rel="noopener">MedAgent-R1: Faithfulness-Aware Reinforcement Learning for Evidence-Grounded Medical Reasoning</a>    </div>
     <div class="item-meta">
@@ -974,7 +978,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="item-authors">Jiangwang Chen 외 2인</span>    </div>
     <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.31017v1" target="_blank" rel="noopener">One note in three: a verified census of three deployed AI scribes, and the instrument that counted it</a>    </div>
     <div class="item-meta">
@@ -993,7 +997,7 @@ min="2026-08-31" max="2026-09-01"
     </h2>
   </div>
   <div class="subsection">🏥 Medical Foundation Models, VLM &amp; Report Generation</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30352v1" target="_blank" rel="noopener">Co-Annotator: Expert-Distilled ViT and VLM for Visual and Documentation Guidance in Age-Related Macular Degeneration</a>    </div>
     <div class="item-meta">
@@ -1004,7 +1008,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">age-related-macular-degeneration</span><span class="taxonomy-chip">vision-transformer</span><span class="taxonomy-chip">vision-language-model</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30758v1" target="_blank" rel="noopener">CheXGround: Anatomical Region Tokens for Grounded Longitudinal Chest X-ray Interpretation</a>    </div>
     <div class="item-meta">
@@ -1016,7 +1020,7 @@ min="2026-08-31" max="2026-09-01"
 <span class="taxonomy-chip">chexground</span><span class="taxonomy-chip">longitudinal-x-ray</span><span class="taxonomy-chip">visual-grounding</span>    </div>
   </div>
   <div class="subsection">🫀 Segmentation, Detection &amp; Diagnosis</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30371v1" target="_blank" rel="noopener">MCSeg: Pre-training and Fine-tuning Volumetric Pyramid Transformer for Multi-modal Cardiac Image Segmentation</a>    </div>
     <div class="item-meta">
@@ -1027,7 +1031,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">multi-modal-segmentation</span><span class="taxonomy-chip">volumetric-transformer</span><span class="taxonomy-chip">cardiac-imaging</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30404v1" target="_blank" rel="noopener">ImageCAS-X: a dataset and benchmark for coronary artery segmentation and centerline extraction in coronary CT angiography</a>    </div>
     <div class="item-meta">
@@ -1038,7 +1042,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">coronary-angiography</span><span class="taxonomy-chip">segmentation-benchmark</span><span class="taxonomy-chip">medical-imaging</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30420v1" target="_blank" rel="noopener">Whole-Slide Image Analysis under Realistic Few-Shot Annotation Protocols</a>    </div>
     <div class="item-meta">
@@ -1049,7 +1053,7 @@ min="2026-08-31" max="2026-09-01"
     <div class="item-taxonomy">
 <span class="taxonomy-chip">whole-slide-image</span><span class="taxonomy-chip">few-shot-annotation</span><span class="taxonomy-chip">transductive-learning</span>    </div>
   </div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
 <a href="http://arxiv.org/abs/2608.30458v1" target="_blank" rel="noopener">Federated Multi-Task Learning for Bladder Tumor Segmentation and MIBC Classification Using a Hybrid CNN-Transformer Architecture</a>    </div>
     <div class="item-meta">
@@ -1068,7 +1072,7 @@ min="2026-08-31" max="2026-09-01"
   <div class="footer-inner">
     <dl>
       <dt>데이터 기준일</dt><dd>2026-09-01</dd>
-      <dt>생성 시각</dt><dd>2026-09-02 10:49 KST</dd>
+      <dt>생성 시각</dt><dd>2026-09-02 10:51 KST</dd>
     </dl>
     <nav><a href="../index.html">최신</a><a href="../archive/index.html">지난 뉴스 전체</a></nav>
   </div>

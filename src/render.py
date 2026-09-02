@@ -84,11 +84,10 @@ class PageMeta:
         return " · ".join(parts)
 
 
-def frontier_tier(likes: int) -> str:
-    """공개의 무게. 원본 사이트의 Flagship/Major/Notable을 따른다."""
-    if likes >= 1000:
-        return "FLAGSHIP"
-    return "MAJOR" if likes >= 200 else "NOTABLE"
+def frontier_tier(upvotes: int) -> str:
+    """주목도. 등급 경계는 config에 둔다 — 템플릿에 숫자를 박지 않는다."""
+    from sources import frontier as _f
+    return _f.tier(upvotes)
 
 
 def _axis_label(key: str) -> str:

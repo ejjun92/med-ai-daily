@@ -184,13 +184,28 @@ def test_frontier_failure_does_not_block_publishing(wired, monkeypatch):
 
 def test_frontier_items_reach_the_page(wired, monkeypatch):
     monkeypatch.setattr(pipeline.frontier_src, "fetch", lambda *a, **k: [
-        {"id": "Qwen/Qwen3.8-27B", "org": "Qwen", "created": "2026-08-05",
-         "likes": 13587, "downloads": 900, "pipeline": "image-text-to-text",
-         "tags": ["transformers"], "card": "Qwen3.8-27B is a new model."}])
+        {"id": "2608.09888", "title": "BDH-CQ: In-Context Learning",
+         "url": "https://arxiv.org/abs/2608.09888", "date": "2026-08-10",
+         "upvotes": 766, "abstract": "We present in-context learning.",
+         "keywords": ["in-context learning"], "authors": ["Kim, A."]}])
     run(wired)
     html = (wired["out"] / "index.html").read_text()
-    assert "Frontier AI" in html and "Qwen/Qwen3.8-27B" in html
-    assert "FLAGSHIP" in html, "좋아요 13,587이면 최상위 등급이어야 한다"
+    assert "Frontier AI" in html and "BDH-CQ" in html
+    assert "FLAGSHIP" in html, "upvote 766이면 최상위 등급이어야 한다"
+    assert "arxiv.org/abs/2608.09888" in html, "논문 원문으로 링크해야 한다"
+
+
+def test_frontier_skips_papers_already_in_the_digest(wired, monkeypatch):
+    """본문에 실린 논문을 Frontier에 또 싣지 않는다."""
+    seen = {}
+
+    def spy(cycle_date, exclude_ids=None, log=print):
+        seen["excluded"] = exclude_ids or set()
+        return []
+
+    monkeypatch.setattr(pipeline.frontier_src, "fetch", spy)
+    run(wired)
+    assert seen["excluded"], "선별된 arXiv ID를 넘겨야 중복을 막을 수 있다"
 
 
 def test_run_writes_no_files_into_the_repo(wired, tmp_path):

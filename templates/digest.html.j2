@@ -38,8 +38,8 @@
 
     <div class="guide-source-row">
       <div class="guide-source-category">🔭 Frontier AI</div>
-      <div>주요 기관(Google, Meta, DeepSeek, Qwen, NVIDIA 등)이 최근 {{ frontier_days }}일 안에
-        공개한 신규 모델. 논문이 아니라 릴리스를 좇으며, 본문 쿼터와 경쟁하지 않습니다.</div>
+      <div>최근 {{ frontier_days }}일 안에 AI 커뮤니티에서 가장 주목받은 논문
+        (Hugging Face Daily Papers). 의료 관련성을 따지지 않으며, 본문 쿼터와 경쟁하지 않습니다.</div>
     </div>
 
     <div class="guide-title">소스 원칙</div>
@@ -104,32 +104,31 @@
 </div>
 {% endfor %}
 
-{# 축 쿼터와 별개 레인. 논문이 아니라 모델 공개를 좇는다 —
-   Gemini·DeepSeek·Qwen 같은 모델은 논문 없이 모델 카드로 먼저 나온다. #}
+{# 축 쿼터와 별개 레인. 의료 관련성을 따지지 않는다 —
+   자기 분야만 보다 큰 흐름을 놓치지 않게 하려는 구간이다. #}
 {% if frontier %}
 <div class="section">
   <div class="section-header">
     <h2>🔭 Frontier AI <span class="count">{{ frontier | length }}</span></h2>
   </div>
-  <p class="section-description">주요 기관의 신규 공개 모델. 의료 AI 본문과 별도로 싣습니다.</p>
+  <p class="section-description">의료 밖에서 가장 주목받은 AI 논문. 본문 쿼터와 별개로 싣습니다.</p>
   {% for f in frontier %}
-  {% set tier = frontier_tier(f.likes) %}
+  {% set t = frontier_tier(f.upvotes) %}
   <div class="item">
     <div class="item-title">
-      <a href="https://huggingface.co/{{ f.id }}" target="_blank" rel="noopener">{{ f.id }}</a>
+      <a href="{{ f.url }}" target="_blank" rel="noopener">{{ f.title }}</a>
     </div>
     <div class="item-meta">
-      <span class="badge">{{ f.org }}</span>
-      <span class="tier tier-{{ tier | lower }}" title="공개 규모">{{ tier }}</span>
-      {% if f.created %}<span class="item-date">{{ f.created }}</span>{% endif %}
-      <span class="item-metric">♥ {{ "{:,}".format(f.likes) }}</span>
-      {% if f.downloads %}<span class="item-metric">↓ {{ "{:,}".format(f.downloads) }}</span>{% endif %}
+      <span class="badge">arXiv</span>
+      <span class="tier tier-{{ t | lower }}" title="커뮤니티 주목도">{{ t }}</span>
+      {% if f.date %}<span class="item-date">{{ f.date }}</span>{% endif %}
+      <span class="item-metric">▲ {{ f.upvotes }}</span>
+      {% if f.authors %}<span class="item-authors">{{ f.authors[0] }}{% if f.authors | length > 1 %} 외{% endif %}</span>{% endif %}
     </div>
     {% if f.summary %}<p class="item-summary">{{ f.summary }}</p>{% endif %}
-    {% if f.pipeline or f.tags %}
+    {% if f.keywords %}
     <div class="item-taxonomy">
-      {% if f.pipeline %}<span class="taxonomy-chip taxonomy-venue">{{ f.pipeline }}</span>{% endif %}
-      {% for t in f.tags %}<span class="taxonomy-chip">{{ t }}</span>{% endfor %}
+      {% for k in f.keywords %}<span class="taxonomy-chip">{{ k }}</span>{% endfor %}
     </div>
     {% endif %}
   </div>

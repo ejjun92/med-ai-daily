@@ -152,13 +152,6 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
     if not ignore_seen:
         papers += _replayed_papers(cycle_date, replay_deferred, log)
 
-    # Frontier AI — 축 쿼터와 별개 레인. 실패해도 본문 발행을 막지 않는다.
-    try:
-        frontier = frontier_src.fetch(cycle_date, log=log)
-    except Exception as e:                    # noqa: BLE001
-        log(f"  [frontier] ⚠️  건너뜀 — {e}")
-        frontier = []
-
     if dry_run:
         # 모델을 띄우지 않는다. 수집 경로만 점검하는 모드다.
         log(f"=== dry-run 종료: 후보 {len(papers)}건 ===")
@@ -171,7 +164,7 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
         render_mod.render([], pathlib.Path(out_dir), PageMeta(
             data_date=cycle_date,
             generated_at=dt.datetime.now(KST).replace(microsecond=0),
-            source_counts=dict(stats.per_source)), log=log, frontier=frontier)
+            source_counts=dict(stats.per_source)), log=log, frontier=[])
         log(f"=== {cycle_date} 완료: 0건 게시 ===")
         return 0
 
@@ -191,13 +184,22 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
         for e, s in zip(chosen, summaries):
             e.summary = s
 
+        # Frontier AI — 축 쿼터와 별개 레인. 실패해도 본문 발행을 막지 않는다.
+        # 본문에 이미 실린 논문은 빼야 하므로 선별 뒤에 가져온다.
+        try:
+            picked_arxiv = {e.paper.arxiv_id for e in chosen if e.paper.arxiv_id}
+            frontier = frontier_src.fetch(cycle_date, exclude_ids=picked_arxiv, log=log)
+        except Exception as e:                # noqa: BLE001
+            log(f"  [frontier] ⚠️  건너뜀 — {e}")
+            frontier = []
+
         if frontier:
-            # 모델 카드를 초록 자리에 넣어 같은 요약 경로를 태운다.
-            cards = [Paper(title=d["id"], source="hf", abstract=d.get("card") or None)
-                     for d in frontier]
-            for d, s in zip(frontier, summarize_mod.summarize(llm, cards, log=log)):
+            fp = [Paper(title=d["title"], source="arxiv", abstract=d.get("abstract"))
+                  for d in frontier]
+            for d, s in zip(frontier, summarize_mod.summarize(llm, fp, log=log)):
                 d["summary"] = s.korean_summary if s else ""
-                d["tags"] = (s.tags if s else d.get("tags")) or d.get("tags") or []
+                if s and s.tags:
+                    d["keywords"] = s.tags[:4]
 
     boosted = _apply_venue_boost(chosen)
 

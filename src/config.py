@@ -307,18 +307,16 @@ DOCS_DIR = "docs"
 SITE_TITLE = "Medical AI Daily"
 
 # ─────────────────────────────────────────────────────────────────
-# Frontier AI — 주요 기관의 신규 모델 공개. 논문이 아니라 릴리스를 좇는다.
-# 축 쿼터와 경쟁하지 않는 별도 레인이다 (의료 AI 지면을 잠식하지 않는다).
+# Frontier AI — 의료 밖에서 주목받은 AI 논문 (Hugging Face Daily Papers).
+# 축 쿼터와 경쟁하지 않는 별도 레인이다. 자기 분야만 보다 큰 흐름을
+# 놓치지 않게 하려는 구간이라, 의료 관련성을 따지지 않는다.
 # ─────────────────────────────────────────────────────────────────
-FRONTIER_ORGS = (
-    "google", "google-deepmind", "meta-llama", "facebook", "openai",
-    "deepseek-ai", "Qwen", "mistralai", "microsoft", "nvidia", "allenai",
-    "THUDM", "ByteDance-Seed", "stabilityai", "HuggingFaceM4",
-)
 FRONTIER_WINDOW_DAYS = 30
-FRONTIER_MIN_LIKES = 5       # 잡음 차단. 실측상 주요 공개는 수백~수천이다
-FRONTIER_MAX = 6             # 별도 상한 — 의료 AI 49건과 별개로 실린다
-FRONTIER_REQUEST_DELAY_S = 0.4
+FRONTIER_PAGES = 6           # 100건씩. 30일이면 6쪽으로 충분하다 (실측 567건)
+FRONTIER_MAX = 6             # 별도 상한 — 의료 AI 본문과 별개로 실린다
+FRONTIER_FLAGSHIP_UPVOTES = 300
+FRONTIER_MAJOR_UPVOTES = 100
+FRONTIER_REQUEST_DELAY_S = 0.3
 
 # 이 별점 이상이면 카드에 테두리를 두른다. 5로 두는 이유: 페이지는 상위 49건만
 # 싣기 때문에 4로 내리면 전부 테두리를 받아 표시가 무의미해진다 (실측).

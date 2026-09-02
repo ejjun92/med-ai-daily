@@ -26,6 +26,8 @@
   --accent-hover: #004D4D;
   --star-filled: #FE9900;
   --star-empty: #C4C4C4;
+  --radar: #5B4BC4;
+  --radar-soft: rgba(91,75,196,0.10);
   --surface-highlight: #EDE9E3;
   --badge-bg: #D9D7D5;
   --badge-text: #006666;
@@ -63,6 +65,8 @@
     --accent-hover: #33E0E0;
     --star-filled: #FEB800;
     --star-empty: #4A5568;
+    --radar: #A99BFF;
+    --radar-soft: rgba(169,155,255,0.14);
     --surface-highlight: #222C3C;
     --badge-bg: #2D3748;
     --badge-text: #00CCCC;
@@ -87,6 +91,8 @@
     --accent-hover: #33E0E0;
     --star-filled: #FEB800;
     --star-empty: #4A5568;
+    --radar: #A99BFF;
+    --radar-soft: rgba(169,155,255,0.14);
     --surface-highlight: #222C3C;
     --badge-bg: #2D3748;
     --badge-text: #00CCCC;
@@ -301,6 +307,18 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   box-shadow: var(--shadow-raised-sm);
 }
 .taxonomy-chip.taxonomy-venue { color: var(--badge-text); font-weight: 700; }
+
+/* ── Frontier AI 레인 ─────────────────────────────── */
+.tier {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem; font-weight: 800; letter-spacing: .06em;
+  padding: .12rem .5rem; border-radius: 999px; white-space: nowrap;
+  box-shadow: var(--shadow-raised-sm);
+}
+.tier-flagship { color: #fff; background: var(--radar); }
+.tier-major    { color: var(--radar); background: var(--radar-soft); }
+.tier-notable  { color: var(--text-tertiary); background: var(--badge-bg); }
+.item-metric { font-family: 'JetBrains Mono', monospace; font-size: .66rem; color: var(--text-tertiary); }
 
 /* ── 푸터 ─────────────────────────────────────────── */
 footer {

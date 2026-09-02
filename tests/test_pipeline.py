@@ -55,6 +55,9 @@ def wired(monkeypatch, tmp_path):
 
     monkeypatch.setattr(pipeline.ingest, "collect", fake_collect)
     monkeypatch.setattr(pipeline, "_replayed_papers", lambda *a, **k: [])
+    # Frontier 소스는 Hugging Face API를 실제로 호출한다. 막지 않으면 테스트가
+    # 네트워크를 타고 멈춘다 (실제로 pytest가 120초 타임아웃에 걸렸다).
+    monkeypatch.setattr(pipeline.frontier_src, "fetch", lambda *a, **k: [])
     monkeypatch.setattr("llm.LocalLLM", lambda log=print: state["llm"])
     monkeypatch.setattr(pipeline, "PublishedLedger",
                         lambda: PublishedLedger(str(tmp_path / "pub")))
@@ -172,6 +175,24 @@ def test_main_run_succeeds(wired, monkeypatch):
 
 
 # ── 테스트가 실제 저장소를 건드리지 않는다 ────────────────────
+def test_frontier_failure_does_not_block_publishing(wired, monkeypatch):
+    """모델 공개 레인이 죽어도 본문은 나가야 한다 — 부가 기능이 본체를 막으면 안 된다."""
+    monkeypatch.setattr(pipeline.frontier_src, "fetch",
+                        lambda *a, **k: (_ for _ in ()).throw(RuntimeError("HF 다운")))
+    assert run(wired) > 0
+
+
+def test_frontier_items_reach_the_page(wired, monkeypatch):
+    monkeypatch.setattr(pipeline.frontier_src, "fetch", lambda *a, **k: [
+        {"id": "Qwen/Qwen3.8-27B", "org": "Qwen", "created": "2026-08-05",
+         "likes": 13587, "downloads": 900, "pipeline": "image-text-to-text",
+         "tags": ["transformers"], "card": "Qwen3.8-27B is a new model."}])
+    run(wired)
+    html = (wired["out"] / "index.html").read_text()
+    assert "Frontier AI" in html and "Qwen/Qwen3.8-27B" in html
+    assert "FLAGSHIP" in html, "좋아요 13,587이면 최상위 등급이어야 한다"
+
+
 def test_run_writes_no_files_into_the_repo(wired, tmp_path):
     """실제로 겪은 사고: 테스트가 만든 가짜 항목 16건이 data/entries/에 남아
     render --all 때 진짜 아카이브 페이지(44건)를 밀어냈다.

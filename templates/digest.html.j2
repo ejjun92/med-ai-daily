@@ -36,6 +36,12 @@
     </div>
     {% endfor %}
 
+    <div class="guide-source-row">
+      <div class="guide-source-category">🔭 Frontier AI</div>
+      <div>주요 기관(Google, Meta, DeepSeek, Qwen, NVIDIA 등)이 최근 {{ frontier_days }}일 안에
+        공개한 신규 모델. 논문이 아니라 릴리스를 좇으며, 본문 쿼터와 경쟁하지 않습니다.</div>
+    </div>
+
     <div class="guide-title">소스 원칙</div>
     <div>arXiv(프리프린트) · PubMed(의료 저널 5종) · Semantic Scholar(주요 학회 8종)를 함께 봅니다.
       같은 논문이 여러 소스에 있으면 arXiv ID → DOI → 제목 순으로 합칩니다.
@@ -98,4 +104,36 @@
 </div>
 {% endfor %}
 
+{# 축 쿼터와 별개 레인. 논문이 아니라 모델 공개를 좇는다 —
+   Gemini·DeepSeek·Qwen 같은 모델은 논문 없이 모델 카드로 먼저 나온다. #}
+{% if frontier %}
+<div class="section">
+  <div class="section-header">
+    <h2>🔭 Frontier AI <span class="count">{{ frontier | length }}</span></h2>
+  </div>
+  <p class="section-description">주요 기관의 신규 공개 모델. 의료 AI 본문과 별도로 싣습니다.</p>
+  {% for f in frontier %}
+  {% set tier = frontier_tier(f.likes) %}
+  <div class="item">
+    <div class="item-title">
+      <a href="https://huggingface.co/{{ f.id }}" target="_blank" rel="noopener">{{ f.id }}</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">{{ f.org }}</span>
+      <span class="tier tier-{{ tier | lower }}" title="공개 규모">{{ tier }}</span>
+      {% if f.created %}<span class="item-date">{{ f.created }}</span>{% endif %}
+      <span class="item-metric">♥ {{ "{:,}".format(f.likes) }}</span>
+      {% if f.downloads %}<span class="item-metric">↓ {{ "{:,}".format(f.downloads) }}</span>{% endif %}
+    </div>
+    {% if f.summary %}<p class="item-summary">{{ f.summary }}</p>{% endif %}
+    {% if f.pipeline or f.tags %}
+    <div class="item-taxonomy">
+      {% if f.pipeline %}<span class="taxonomy-chip taxonomy-venue">{{ f.pipeline }}</span>{% endif %}
+      {% for t in f.tags %}<span class="taxonomy-chip">{{ t }}</span>{% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
 {% endblock %}

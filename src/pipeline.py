@@ -25,6 +25,7 @@ import render as render_mod
 import selection
 import summarize as summarize_mod
 import venue as venue_mod
+from sources import frontier as frontier_src
 from ledger import DeferredLedger, PublishedLedger
 from models import Entry, Paper, entry_from_dict, entry_to_dict
 from render import PageMeta
@@ -40,7 +41,8 @@ def _entries_path(cycle_date: str) -> str:
     return os.path.join(ENTRIES_DIR, f"{cycle_date}.json")
 
 
-def save_entries(cycle_date: str, entries: list[Entry], meta: PageMeta) -> str:
+def save_entries(cycle_date: str, entries: list[Entry], meta: PageMeta,
+                 frontier: list[dict] | None = None) -> str:
     """선별 결과를 남긴다 — 템플릿을 고칠 때 GPU를 다시 돌리지 않기 위해."""
     os.makedirs(ENTRIES_DIR, exist_ok=True)
     path = _entries_path(cycle_date)
@@ -53,6 +55,7 @@ def save_entries(cycle_date: str, entries: list[Entry], meta: PageMeta) -> str:
                  "boosted_count": meta.boosted_count,
                  "capped_sources": meta.capped_sources},
         "entries": [entry_to_dict(e) for e in entries],
+        "frontier": frontier or [],
     }
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
@@ -67,7 +70,7 @@ def load_entries(cycle_date: str) -> tuple[list[Entry], PageMeta]:
     meta = PageMeta(data_date=d["data_date"],
                     generated_at=dt.datetime.now(KST).replace(microsecond=0),
                     **d["meta"])
-    return [entry_from_dict(x) for x in d["entries"]], meta
+    return [entry_from_dict(x) for x in d["entries"]], meta, d.get("frontier", [])
 
 
 def _today_kst() -> str:
@@ -149,6 +152,13 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
     if not ignore_seen:
         papers += _replayed_papers(cycle_date, replay_deferred, log)
 
+    # Frontier AI — 축 쿼터와 별개 레인. 실패해도 본문 발행을 막지 않는다.
+    try:
+        frontier = frontier_src.fetch(cycle_date, log=log)
+    except Exception as e:                    # noqa: BLE001
+        log(f"  [frontier] ⚠️  건너뜀 — {e}")
+        frontier = []
+
     if dry_run:
         # 모델을 띄우지 않는다. 수집 경로만 점검하는 모드다.
         log(f"=== dry-run 종료: 후보 {len(papers)}건 ===")
@@ -161,7 +171,7 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
         render_mod.render([], pathlib.Path(out_dir), PageMeta(
             data_date=cycle_date,
             generated_at=dt.datetime.now(KST).replace(microsecond=0),
-            source_counts=dict(stats.per_source)), log=log)
+            source_counts=dict(stats.per_source)), log=log, frontier=frontier)
         log(f"=== {cycle_date} 완료: 0건 게시 ===")
         return 0
 
@@ -181,6 +191,14 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
         for e, s in zip(chosen, summaries):
             e.summary = s
 
+        if frontier:
+            # 모델 카드를 초록 자리에 넣어 같은 요약 경로를 태운다.
+            cards = [Paper(title=d["id"], source="hf", abstract=d.get("card") or None)
+                     for d in frontier]
+            for d, s in zip(frontier, summarize_mod.summarize(llm, cards, log=log)):
+                d["summary"] = s.korean_summary if s else ""
+                d["tags"] = (s.tags if s else d.get("tags")) or d.get("tags") or []
+
     boosted = _apply_venue_boost(chosen)
 
     # 5) 렌더
@@ -194,8 +212,8 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
         boosted_count=boosted,
         capped_sources=list(stats.capped),
     )
-    save_entries(cycle_date, chosen, meta)
-    render_mod.render(chosen, pathlib.Path(out_dir), meta, log=log)
+    save_entries(cycle_date, chosen, meta, frontier)
+    render_mod.render(chosen, pathlib.Path(out_dir), meta, log=log, frontier=frontier)
 
     # 6) 원장 — 렌더가 성공한 뒤에 쓴다.
     #    먼저 쓰면 렌더가 터졌을 때 게시되지 않은 논문이 '기게시'로 남아
@@ -245,9 +263,9 @@ def main(argv: list[str] | None = None) -> int:
         dates = ([f[:-5] for f in sorted(os.listdir(ENTRIES_DIR)) if f.endswith(".json")]
                  if args.all else [args.date or _today_kst()])
         for d in dates:
-            entries, meta = load_entries(d)
+            entries, meta, frontier = load_entries(d)
             render_mod.render(entries, pathlib.Path(args.out_dir or config.DOCS_DIR),
-                              meta, log=log)
+                              meta, log=log, frontier=frontier)
             log(f"  {d}: {len(entries)}건 재렌더")
         return 0
     log = Reporter(quiet=args.quiet)

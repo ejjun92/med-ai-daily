@@ -84,6 +84,13 @@ class PageMeta:
         return " · ".join(parts)
 
 
+def frontier_tier(likes: int) -> str:
+    """공개의 무게. 원본 사이트의 Flagship/Major/Notable을 따른다."""
+    if likes >= 1000:
+        return "FLAGSHIP"
+    return "MAJOR" if likes >= 200 else "NOTABLE"
+
+
 def _axis_label(key: str) -> str:
     for a in config.AXES:
         if a.key == key:
@@ -137,12 +144,14 @@ def _env() -> Environment:
     )
     env.globals["source_label"] = lambda s: _SOURCE_LABEL.get(s, s)
     env.globals["display_date"] = display_date
+    env.globals["frontier_tier"] = frontier_tier
     # 안내문은 config에서 뽑는다 — 축·카테고리를 고치면 페이지 설명도 따라간다
     env.globals.update(
         axes=config.AXES, categories=config.CATEGORIES,
         star_rubric=sorted(config.STAR_RUBRIC.items(), reverse=True),
         window_days=config.ARXIV_WINDOW_DAYS, s2_years=config.S2_YEARS_BACK,
         daily_min=config.DAILY_MIN, daily_max=config.DAILY_MAX,
+        frontier_days=config.FRONTIER_WINDOW_DAYS,
     )
     return env
 
@@ -164,7 +173,8 @@ def _is_date(s: str) -> bool:
 
 
 def render(entries: list[Entry], out_root: pathlib.Path | str,
-           meta: PageMeta, log=print) -> list[pathlib.Path]:
+           meta: PageMeta, log=print,
+           frontier: list[dict] | None = None) -> list[pathlib.Path]:
     """페이지를 쓰고 만들어진 경로를 돌려준다.
 
     `index.html`과 `research_latest.html`에 같은 내용을 쓴다. 리다이렉트로
@@ -199,7 +209,7 @@ def render(entries: list[Entry], out_root: pathlib.Path | str,
                       (archive_dir / f"{meta.data_date}.html", "../")):
         html = digest.render(site_title=config.SITE_TITLE, sections=sections,
                              axis_counts=axis_counts, archive_min=archive_min,
-                             meta=meta, rel=rel,
+                             frontier=frontier or [], meta=meta, rel=rel,
                              page_title=f"{config.SITE_TITLE} — {meta.data_date}")
         path.write_text(html, encoding="utf-8")
         written.append(path)
@@ -209,7 +219,7 @@ def render(entries: list[Entry], out_root: pathlib.Path | str,
     idx.write_text(
         env.get_template("archive_index.html.j2").render(
             site_title=config.SITE_TITLE, dates=_archive_dates(archive_dir),
-            axis_counts=[], archive_min=archive_min, meta=meta, rel="../",
+            axis_counts=[], archive_min=archive_min, frontier=[], meta=meta, rel="../",
             page_title=f"{config.SITE_TITLE} — 아카이브"),
         encoding="utf-8")
     written.append(idx)

@@ -30,6 +30,9 @@ from models import Entry, Paper, entry_from_dict, entry_to_dict
 from render import PageMeta
 
 KST = dt.timezone(dt.timedelta(hours=9))
+# 렌더 캐시 경로. 테스트는 이 값을 임시 디렉터리로 바꿔치기해야 한다 —
+# 그러지 않으면 테스트가 실제 저장소의 캐시를 덮어쓴다. 실제로 겪었다:
+# 테스트가 만든 "Paper 0" 16건이 8월 31일 아카이브(44건)를 밀어냈다.
 ENTRIES_DIR = os.path.join("data", "entries")
 
 

@@ -60,6 +60,10 @@ def wired(monkeypatch, tmp_path):
                         lambda: PublishedLedger(str(tmp_path / "pub")))
     monkeypatch.setattr(pipeline, "DeferredLedger",
                         lambda: DeferredLedger(str(tmp_path / "def")))
+    # 렌더 캐시도 임시 경로로 돌린다. 안 그러면 테스트가 실제 저장소의
+    # data/entries/를 덮어써서, 나중에 render --all이 가짜 데이터로
+    # 진짜 아카이브 페이지를 밀어낸다.
+    monkeypatch.setattr(pipeline, "ENTRIES_DIR", str(tmp_path / "entries"))
     state["out"] = tmp_path / "docs"
     return state
 
@@ -165,3 +169,19 @@ def test_main_returns_nonzero_on_failure(monkeypatch, capsys):
 def test_main_run_succeeds(wired, monkeypatch):
     assert pipeline.main(["run", "--quiet", "--date", "2026-08-31",
                           "--ignore-seen", "--out-dir", str(wired["out"])]) == 0
+
+
+# ── 테스트가 실제 저장소를 건드리지 않는다 ────────────────────
+def test_run_writes_no_files_into_the_repo(wired, tmp_path):
+    """실제로 겪은 사고: 테스트가 만든 가짜 항목 16건이 data/entries/에 남아
+    render --all 때 진짜 아카이브 페이지(44건)를 밀어냈다.
+
+    임시 경로 밖으로 새는 쓰기가 하나라도 있으면 여기서 걸린다.
+    """
+    import pathlib
+    real = pathlib.Path("data/entries")
+    before = {p.name for p in real.iterdir()} if real.is_dir() else set()
+    run(wired)
+    after = {p.name for p in real.iterdir()} if real.is_dir() else set()
+    assert after == before, f"저장소에 파일이 생겼다: {after - before}"
+    assert (tmp_path / "entries").is_dir(), "캐시가 임시 경로에 만들어져야 한다"

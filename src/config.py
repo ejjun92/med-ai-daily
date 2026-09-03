@@ -157,6 +157,10 @@ ARXIV_WINDOW_DAYS = 30       # 한 달. 좁은 창은 발표 지연·API 공백�
 ARXIV_MAX_WINDOW_DAYS = 45   # 공백 메우기 상한. 며칠 연속 실패해도 되돌아가되,
 # 무한정 늘어나 한 번에 수천 건을 분류하는 일은 막는다
 ARXIV_REQUEST_DELAY_S = 3.0  # arXiv API 권장 간격
+ARXIV_RETRIES = 4
+# 429는 IP 단위 차단이라 3초로는 안 풀린다. 실측: 2026-09-02~03 이틀 연속
+# 자동 실행이 429로 죽었다 — 전날 수동 조사에서 호출을 너무 많이 했다.
+ARXIV_RATE_LIMIT_BACKOFF_S = 60.0
 ARXIV_PAGE_SIZE = 2000       # max_results 상한
 
 PUBMED_JOURNALS = (

@@ -50,17 +50,27 @@ def _query(window_start: date, window_end: date) -> str:
     return f"({cats}) AND submittedDate:[{lo} TO {hi}]"
 
 
-def _fetch(params: dict, retries: int = 3) -> ET.Element:
+class ArxivUnavailable(RuntimeError):
+    """arXiv를 못 읽었다. 이번 실행만 건너뛰고 다음에 공백을 메운다."""
+
+
+def _fetch(params: dict, retries: int | None = None) -> ET.Element:
     url = f"{API}?{urllib.parse.urlencode(params)}"
+    tries = config.ARXIV_RETRIES if retries is None else retries
     last: Exception | None = None
-    for attempt in range(retries):
+    for attempt in range(tries):
         try:
             with urllib.request.urlopen(url, timeout=60) as r:
                 return ET.fromstring(r.read())
         except Exception as e:                       # noqa: BLE001
             last = e
-            time.sleep(config.ARXIV_REQUEST_DELAY_S * (2 ** attempt))
-    raise RuntimeError(f"arXiv 요청 실패 ({retries}회): {last}")
+            # 429는 IP 단위 차단이라 몇 초로는 안 풀린다. 크게 물러선다.
+            code = getattr(e, "code", None)
+            base = config.ARXIV_RATE_LIMIT_BACKOFF_S if code in (429, 503) \
+                else config.ARXIV_REQUEST_DELAY_S
+            if attempt < tries - 1:
+                time.sleep(base * (2 ** attempt))
+    raise ArxivUnavailable(f"arXiv 요청 실패 ({tries}회): {last}")
 
 
 def _to_paper(e: ET.Element) -> Paper | None:

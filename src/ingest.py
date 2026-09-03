@@ -40,6 +40,7 @@ class IngestStats:
     deferred_expired: int = 0
     already_judged: int = 0        # 같은 프롬프트로 이미 판정해 건너뛴 수
     capped: list[str] = field(default_factory=list)   # 상한에 걸린 소스
+    failed: list[str] = field(default_factory=list)   # 조회 자체가 실패한 소스
     title_only: int = 0            # 초록 미확보 (게시는 하되 요약 없음)
 
     def render(self) -> str:
@@ -49,7 +50,8 @@ class IngestStats:
                 f"| 기판정 제외 {self.already_judged} "
                 f"| 보류 재진입 {self.deferred_reentered} | 절삭 [{trunc}] "
                 f"| TTL 만료 {self.deferred_expired} | 초록미확보 {self.title_only}"
-                + (f" | ⚠️ 상한 도달 [{', '.join(self.capped)}]" if self.capped else ""))
+                + (f" | ⚠️ 상한 도달 [{', '.join(self.capped)}]" if self.capped else "")
+                + (f" | ⚠️ 수집 실패 [{', '.join(self.failed)}]" if self.failed else ""))
 
 
 def _merge(base: Paper, other: Paper) -> Paper:
@@ -133,7 +135,16 @@ def collect(cycle_date: str, *, ignore_seen: bool = False,
         ("pubmed", pubmed_src.fetch, config.PUBMED_MAX),
         ("s2", s2_src.fetch, config.S2_MAX),
     ):
-        got = fn(cycle_date, log=log)
+        try:
+            got = fn(cycle_date, log=log)
+        except Exception as e:                # noqa: BLE001
+            # 한 소스가 죽어도 나머지로 발행한다. arXiv만 예외를 밖으로 던져
+            # 파이프라인 전체가 죽었고, 그 탓에 이틀 동안 사이트가 멈췄다
+            # (2026-09-02~03, arXiv 429). 못 가져온 구간은 arXiv 상태 파일이
+            # 기억해 다음 실행이 창을 늘려 메운다.
+            log(f"  [{name}] ⚠️  수집 실패 — 이 소스만 건너뛴다: {e}")
+            stats.failed.append(name)
+            continue
         if len(got) >= cap:
             # 소스가 스스로 상한에서 멈춘 경우다. _truncate는 초과분만 세므로
             # 이 경로를 못 잡는다 — 상한이 곧 누락인데 화면에 안 보였다.

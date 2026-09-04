@@ -144,6 +144,31 @@ def test_ignore_seen_does_not_write_ledger(wired, tmp_path):
     assert len(PublishedLedger(str(tmp_path / "pub"))) == 0
 
 
+def test_ignore_seen_does_not_overwrite_entries_cache(wired, tmp_path):
+    """재생성 모드는 그날 실제 발행분 캐시도 건드리면 안 된다.
+
+    도움말이 "원장에 쓰지 않는다"고만 해서 안전해 보이지만, 캐시를 덮으면
+    나중에 render가 재현 결과로 그날 페이지를 다시 그린다 — docs/는 멀쩡한데
+    근거만 바뀌는 형태라 알아채기 어렵다.
+    """
+    entries_dir = tmp_path / "entries"
+    entries_dir.mkdir()
+    real = entries_dir / "2026-08-31.json"
+    real.write_text('{"data_date": "2026-08-31", "entries": ["진짜"]}',
+                    encoding="utf-8")
+
+    run(wired, ignore_seen=True)
+
+    assert "진짜" in real.read_text(encoding="utf-8"), \
+        "재생성 실행이 실제 발행분 캐시를 덮었다"
+
+
+def test_normal_run_does_write_entries_cache(wired, tmp_path):
+    """반대로 평상시 실행은 캐시를 남겨야 한다 — render가 그걸 읽는다."""
+    run(wired)
+    assert (tmp_path / "entries" / "2026-08-31.json").exists()
+
+
 # ── 학회 부스트 시점 (D-13) ──────────────────────────────────
 def test_venue_boost_applied_after_selection(wired, monkeypatch):
     """선별 전에 부스트하면 축 비율이 깨진다."""

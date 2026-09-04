@@ -54,22 +54,41 @@ class ArxivUnavailable(RuntimeError):
     """arXiv를 못 읽었다. 이번 실행만 건너뛰고 다음에 공백을 메운다."""
 
 
-def _fetch(params: dict, retries: int | None = None) -> ET.Element:
+def _fetch(params: dict, retries: int | None = None, log=print) -> ET.Element:
+    """재시도는 **반드시 로그를 남긴다**.
+
+    이 루프는 429 한 번에 최대 7분을 조용히 잔다. 로그가 없으면 수집이 18초에서
+    751초로 늘어도 원인을 로그에서 구분할 수 없다 (실측 2026-09-04: 429 흔적
+    없이 733초가 사라졌다). 성공했는데 조용히 나빠지는 형태는 SSH 키 권한
+    사고와 같은 계열이다 — 관측되지 않는 백오프는 안전장치가 아니다.
+    """
     url = f"{API}?{urllib.parse.urlencode(params)}"
     tries = config.ARXIV_RETRIES if retries is None else retries
     last: Exception | None = None
     for attempt in range(tries):
         try:
+            # 파싱까지 끝나야 성공이다. arXiv는 429/503일 때 XML 대신 HTML
+            # 에러 페이지를 돌려주므로, 응답을 받은 시점에 성공을 찍으면
+            # 로그가 거짓말을 한다.
             with urllib.request.urlopen(url, timeout=60) as r:
-                return ET.fromstring(r.read())
+                root = ET.fromstring(r.read())
+            if attempt:
+                log(f"  [arxiv] 재시도 {attempt + 1}/{tries}회째에 성공")
+            return root
         except Exception as e:                       # noqa: BLE001
             last = e
             # 429는 IP 단위 차단이라 몇 초로는 안 풀린다. 크게 물러선다.
             code = getattr(e, "code", None)
+            why = code if code is not None else type(e).__name__
             base = config.ARXIV_RATE_LIMIT_BACKOFF_S if code in (429, 503) \
                 else config.ARXIV_REQUEST_DELAY_S
             if attempt < tries - 1:
-                time.sleep(base * (2 ** attempt))
+                wait = base * (2 ** attempt)
+                log(f"  [arxiv] ⚠️  요청 실패 ({why}) — {wait:.0f}초 대기 후 "
+                    f"재시도 {attempt + 2}/{tries}")
+                time.sleep(wait)
+            else:
+                log(f"  [arxiv] ⚠️  요청 실패 ({why}) — {tries}회 모두 소진")
     raise ArxivUnavailable(f"arXiv 요청 실패 ({tries}회): {last}")
 
 
@@ -114,10 +133,12 @@ def fetch(cycle_date: str, window_days: int | None = None,
     out: list[Paper] = []
     seen: set[str] = set()          # intra-run dedup (페이징 경계 중복 방지)
     page = 0
+    t0 = time.monotonic()
     while len(out) < cap:
         root = _fetch({"search_query": q, "start": page,
                        "max_results": min(config.ARXIV_PAGE_SIZE, cap - len(out)),
-                       "sortBy": "submittedDate", "sortOrder": "descending"})
+                       "sortBy": "submittedDate", "sortOrder": "descending"},
+                      log=log)
         entries = root.findall("a:entry", NS)
         if not entries:
             break
@@ -140,5 +161,6 @@ def fetch(cycle_date: str, window_days: int | None = None,
         log("  [arxiv] ⚠️  0건 — 재색인 구간이거나 API 장애. 성공 표시를 남기지 "
             "않으므로 다음 실행이 이 구간을 다시 훑는다")
     log(f"  [arxiv] {start}~{end} ({(end - start).days + 1}일) → {len(out)}건"
-        + (f" (상한 {cap} 도달)" if len(out) >= cap else ""))
+        + (f" (상한 {cap} 도달)" if len(out) >= cap else "")
+        + f" [{time.monotonic() - t0:.0f}초]")
     return out[:cap]

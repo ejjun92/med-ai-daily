@@ -214,7 +214,14 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
         boosted_count=boosted,
         capped_sources=list(stats.capped),
     )
-    save_entries(cycle_date, chosen, meta, frontier)
+    # 엔트리 캐시도 원장과 같이 보호한다. --ignore-seen은 "원장을 안 건드린다"고
+    # 안내하지만 이 캐시를 덮으면 그날 실제 발행분이 재현 결과로 바뀌고, 이후
+    # `render`가 그것으로 페이지를 다시 그린다 — docs/는 멀쩡한데 근거만 사라지는
+    # 형태다 (규칙 10과 같은 계열: 재현 실행이 실제 저장소를 오염시킨다).
+    if ignore_seen:
+        log("  [entries] --ignore-seen이라 캐시를 남기지 않는다 (실제 발행분 보호)")
+    else:
+        save_entries(cycle_date, chosen, meta, frontier)
     render_mod.render(chosen, pathlib.Path(out_dir), meta, log=log, frontier=frontier)
 
     # 6) 원장 — 렌더가 성공한 뒤에 쓴다.
@@ -247,7 +254,8 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--dry-run", action="store_true",
                    help="수집까지만. 모델을 띄우지 않는다")
     r.add_argument("--ignore-seen", action="store_true",
-                   help="원장을 무시하고 다시 만든다. 원장에 쓰지도 않는다")
+                   help="원장을 무시하고 다시 만든다. "
+                        "원장·엔트리 캐시 어느 쪽에도 쓰지 않는다")
     r.add_argument("--replay-deferred", action="store_true",
                    help="프롬프트 버전과 무관하게 TTL 내 보류분을 재분류")
     r.add_argument("--out-dir", help=f"출력 경로 (기본: {config.DOCS_DIR})")

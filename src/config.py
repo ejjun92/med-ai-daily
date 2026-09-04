@@ -19,6 +19,24 @@ DAILY_MIN = 40
 DAILY_MAX = 60
 DAILY_TARGET = 50          # 축별 목표치 계산의 기준
 
+# 공급이 마른 축이 남긴 유휴 칸을 다른 축에 넘길 때의 천장 배수.
+# 최대치를 "완화"하는 것이지 "제거"하는 게 아니다 — 없으면 공급이 한 축에만
+# 있는 날 그 축이 페이지를 통째로 가져간다 (실측: 최대치 8인 medical_imaging이
+# 40칸 전부를 먹었다).
+#
+# 2.5인 이유 — 공급 축 개수별 도달 상한을 실측해서 골랐다:
+#     배수  1축   2축   3축   4축
+#     2.0   10    21    35    40      3축만 남는 날 35건에서 멈춘다
+#     2.5   13    27    40    40      ← 채택
+#     3.0   16    33    40    40      한 축이 36건까지, 단일 주제 페이지가 된다
+# brain_decoding 실공급이 월 5편(progress.md §5)이라 그 축이 0인 날이
+# 드물지 않다. 2.0이면 그런 날 35건에 갇히는데, 그 35건이 바로 이 재배분을
+# 만들게 한 숫자다. 반대로 3.0은 한 축이 페이지의 90%를 먹을 수 있다.
+#
+# ⚠️ DAILY_MAX/DAILY_MIN(=1.5) 밑으로 내리면 ceiling이 bounds[1]로 눌려
+#    유휴 칸 재배분이 경고 없이 죽는다. test_config.py가 지킨다.
+AXIS_OVERFLOW_FACTOR = 2.5
+
 @dataclass(frozen=True)
 class Axis:
     key: str
@@ -34,6 +52,16 @@ class Axis:
     def bounds(self) -> tuple[int, int]:
         """일일 총량 범위에 비율을 적용한 하한/상한."""
         return round(DAILY_MIN * self.ratio), round(DAILY_MAX * self.ratio)
+
+    @property
+    def ceiling(self) -> int:
+        """유휴 칸을 넘겨받았을 때 이 축이 도달할 수 있는 절대 상한.
+
+        bounds[1]은 평상시 상한이고 이건 그 위의 하드 스톱이다. 항상
+        bounds[1] 이상이므로 천장이 상한보다 낮아지는 일은 없다.
+        """
+        return max(self.bounds[1],
+                   round(DAILY_MIN * self.ratio * AXIS_OVERFLOW_FACTOR))
 
 
 AXES: tuple[Axis, ...] = (

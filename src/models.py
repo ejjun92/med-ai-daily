@@ -250,6 +250,9 @@ class SelectionResult:
     """select()의 반환값. 무엇이 잘렸는지도 함께 보고한다."""
     entries: list[Entry] = field(default_factory=list)
     shortfall_by_axis: dict[str, int] = field(default_factory=dict)
+    # 유휴 칸을 넘겨받아 축이 제 최대치를 넘긴 폭. shortfall의 대칭이다 —
+    # 조용히 일어나는 재배분은 안전장치가 아니다.
+    overflow_by_axis: dict[str, int] = field(default_factory=dict)
     truncated_ids: list[str] = field(default_factory=list)
     deferred_ids: list[str] = field(default_factory=list)
 

@@ -44,3 +44,18 @@ def test_neurips_and_icml_include_full_names():
     """골든셋 실측: 두 논문 모두 comments에 약칭 없이 정식 명칭만 썼다."""
     assert any("Neural Information" in p for p in config.VENUE_BOOST_LIST["NeurIPS"])
     assert any("Machine Learning" in p for p in config.VENUE_BOOST_LIST["ICML"])
+
+
+def test_overflow_factor_actually_lifts_the_ceiling():
+    """이 값이 DAILY_MAX/DAILY_MIN 미만이면 유휴 칸 재배분이 통째로 죽는다.
+
+    ceiling은 max(bounds[1], round(DAILY_MIN * ratio * FACTOR))이므로,
+    FACTOR가 작으면 max()가 ceiling을 bounds[1]로 눌러 ②-b가 아무것도 더
+    넣지 못한다 — 예외도 경고도 없이 조용히 무력화된다. 이 파일이 그걸 막는다.
+    """
+    assert config.AXIS_OVERFLOW_FACTOR >= config.DAILY_MAX / config.DAILY_MIN
+    for a in config.AXES:
+        raw = round(config.DAILY_MIN * a.ratio * config.AXIS_OVERFLOW_FACTOR)
+        assert raw >= a.bounds[1], (
+            f"{a.key}: 천장 원값 {raw} < 최대치 {a.bounds[1]} — FACTOR가 너무 낮다")
+        assert a.ceiling > a.bounds[1], f"{a.key}: 천장이 최대치와 같아 재배분 불가"

@@ -180,6 +180,8 @@ def run(cycle_date: str | None = None, *, dry_run: bool = False,
         result = selection.select(relevant)
         chosen = result.entries
         log(f"  [select] {len(chosen)}건 선별 (축별 {result.counts_by_axis()})")
+        if result.overflow_by_axis:
+            log(f"  [select] 유휴 칸 재배분 — 최대치 초과 {result.overflow_by_axis}")
         summaries = summarize_mod.summarize(llm, [e.paper for e in chosen], log=log)
         for e, s in zip(chosen, summaries):
             e.summary = s

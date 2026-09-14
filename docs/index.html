@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medical AI Daily — 2026-09-13</title>
+<title>Medical AI Daily — 2026-09-14</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -339,10 +339,10 @@ footer {
   <div class="hero-inner">
     <div class="icon">🧠</div>
     <h1><span class="title-line">Medical AI Daily</span></h1>
-    <div class="subtitle">2026-09-13 — 의료 AI 큐레이션</div>
+    <div class="subtitle">2026-09-14 — 의료 AI 큐레이션</div>
     <div class="stats">
-      <span>게시 0건</span>
-      <span>소스 3개</span>
+      <span>게시 2건</span>
+<span>의료영상 AI 2</span>      <span>소스 3개</span>
       <span>매일 12:00 KST 업데이트</span>
       <span>중요도 정렬</span>
     </div>
@@ -357,8 +357,8 @@ footer {
     <form class="archive-controls" id="archive-form">
       <label class="visually-hidden" for="archive-date">날짜 선택</label>
       <input class="archive-date" id="archive-date" type="date"
-min="2026-08-31" max="2026-09-13"
-             value="2026-09-13" required>
+min="2026-08-31" max="2026-09-14"
+             value="2026-09-14" required>
       <button class="action-button" type="submit">기록 열기 ↗</button>
     </form>
     <div class="secondary-links">
@@ -375,7 +375,7 @@ min="2026-08-31" max="2026-09-13"
     e.preventDefault();
     var d = document.getElementById('archive-date').value;
     // 오늘치는 아카이브가 아니라 최신 페이지다.
-    if (d === "2026-09-13") { window.location.href = "index.html"; return; }
+    if (d === "2026-09-14") { window.location.href = "index.html"; return; }
     if (d) window.location.href = "archive/" + encodeURIComponent(d) + '.html';
   });
 })();
@@ -509,16 +509,123 @@ min="2026-08-31" max="2026-09-13"
   </div>
 </details>
 
-<p class="empty-note">이 날짜에는 게시할 항목이 없습니다.</p>
 
+<div class="section">
+  <div class="section-header">
+    <h2>🩺 의료영상 AI
+      <span class="count">2</span>
+    </h2>
+  </div>
+  <div class="subsection">🧲 Reconstruction, Generation &amp; Benchmark</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42731391/" target="_blank" rel="noopener">Quantitative mapping from conventional MRI using self-supervised physics-guided deep learning: Applications to a large-scale, clinically heterogeneous dataset.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-09</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Jelmer van Lune 외 7인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42731390/" target="_blank" rel="noopener">Learning efficient non-rigid registration in k-space for accelerated Magnetic Resonance Imaging.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-08</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Aya Ghoul 외 6인</span>    </div>
+    <p class="item-summary">고속 자기공명영상(MRI)에서 고시간 해상도의 비강성 운동 추정을 다룬다. Local-All Pass Attention Network (LAPANet)를 사용하여 가속화된 다코일 k-공간 데이터로부터 직접 비강성 운동 추정을 수행한다. 심장 MRI에서 2줄/프레임과 3스포크/프레임의 고속 설정에서도 안정적인 운동 추정을 제공한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">mri-acceleration</span><span class="taxonomy-chip">non-rigid-registration</span><span class="taxonomy-chip">k-space</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+</div>
 
+<div class="section">
+  <div class="section-header">
+    <h2>🔭 Frontier AI <span class="count">6</span></h2>
+  </div>
+  <p class="section-description">의료 밖에서 가장 주목받은 AI 논문. 본문 쿼터와 별개로 싣습니다.</p>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.02749" target="_blank" rel="noopener">Repo-To-Skill: Distilling GitHub Repositories Into AI4AI Skills</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-02</span>      <span class="item-metric">▲ 546</span>
+<span class="item-authors">Jianlyu Chen 외</span>    </div>
+<p class="item-summary">GitHub 리포지토리에서 AI4AI 기술을 추출하는 방법을 다룬다. DisCo라는 기술을 사용하여, 일반적인 작업과 특정 작업에 필요한 기술을 추출한다. AREX-Skill Library를 생성하고, 기술을 장착한 연구 에이전트는 MLE-bench에서 134.3%, PaperBench에서 34.4% 더 높은 성능을 보인다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">repo-skill</span><span class="taxonomy-chip">autonomous-agents</span><span class="taxonomy-chip">ml-research</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.01591" target="_blank" rel="noopener">StudentSim: Training LLM-based Student Simulators</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-01</span>      <span class="item-metric">▲ 488</span>
+<span class="item-authors">Ke Yang 외</span>    </div>
+<p class="item-summary">AI 튜터가 각 학생의 강점, 약점, 선호하는 지도 방식에 맞춰 적응하는 문제를 다룬다. StudentSim은 희박한 개인 데이터를 통합 학습과 개인별 특화를 통해 개인화된 시뮬레이터를 생성한다. StudentSim은 체스, 영어 작문, 수학에서 GPT-5.4보다 높은 F=0.51, R=0.91의 성능을 보여, 튜터 강화 학습에 활용될 때 전문가에게 더 정확하고 개인화된 지도를 제공한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">student-simulator</span><span class="taxonomy-chip">llm-based</span><span class="taxonomy-chip">tutor-reinforcement-learning</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2608.12564" target="_blank" rel="noopener">Scaling Automatic Research Agents via World Models</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-08-29</span>      <span class="item-metric">▲ 449</span>
+<span class="item-authors">Xiyuan Yang 외</span>    </div>
+<p class="item-summary">AutoResearch 에이전트의 확장을 위한 RL의 기본적 긴장을 다룬다. World Model RL (WMRL)을 사용하여 환경 실행을 대체하고, Online Debiasing과 Inverse-Variance Denoising를 통해 편향과 잡음을 줄인다. WMRL은 다양한 작업에서 3-4배 가속화하고, 4B와 9B 에이전트는 48B와 120B 오픈 가중치 에이전트보다 우수한 성능을 보인다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">world-model-rl</span><span class="taxonomy-chip">wmrl</span><span class="taxonomy-chip">auto-research</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.08183" target="_blank" rel="noopener">NeoHorse-1: Towards Recursive Self-Improvement via Agentic Post-Training with Routing Harness</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-08</span>      <span class="item-metric">▲ 412</span>
+<span class="item-authors">NeoHorse Team 외</span>    </div>
+<p class="item-summary">재귀적 자기 개선(RSI)을 위한 메커니즘을 다룬다. NeoHorse-1은 이 경로를 탐색하기 위해 에이전트 네이티브 모델을 사용하며, 이는 이질적인 모델 풀과 지능형 라우팅을 결합한다. 11개 벤치마크에서 4B 모델의 매크로 평균은 58.94에서 64.87로, 9B 모델은 65.60에서 69.04로 상승하여 모델 간 격차를 크게 줄인다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">recursive-self-improvement</span><span class="taxonomy-chip">agentic-post-training</span><span class="taxonomy-chip">routing-harness</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.00111" target="_blank" rel="noopener">Qwen-Drive-1.0: An Initial Step towards a Vision-Language Foundation Model for Autonomous Driving</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-08-31</span>      <span class="item-metric">▲ 383</span>
+<span class="item-authors">Xin Zhou 외</span>    </div>
+<p class="item-summary">Qwen-Drive-1.0는 자율주행을 위한 비전-언어 기반 모델의 초기 단계를 다룬다. 이 모델은 사전 학습된 비전-언어 모델의 아키텍처를 유지하고, 3D 인식, 시각적 질문 응답, 움직임 계획을 통합한다. 실험 결과, 강력한 3D 인식과 주행 장면 이해를 보여주며, 일반적인 비전-언어 능력을 크게 유지한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">vision-language</span><span class="taxonomy-chip">autonomous-driving</span><span class="taxonomy-chip">3d-perception</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.04199" target="_blank" rel="noopener">Compile by Training: Turning Natural-Language Specifications into Local Neural Functions</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-03</span>      <span class="item-metric">▲ 383</span>
+<span class="item-authors">Yuntian Deng 외</span>    </div>
+<p class="item-summary">자연어로 설명된 반복적 텍스트 함수를 룰 기반으로 구현하기 어려운 문제를 다룬다. 컴파일 시점에 교사 모델이 생성한 태스크 특화된 예제를 사용해 작은 어댑터를 학습시키는 컴파일 바이 트레이닝을 사용한다. FuzzyBench-Hard에서 83.6%의 의미적 정확도를 달성하며, 컴파일 시간은 약 1분으로 증가한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">compile-by-training</span><span class="taxonomy-chip">natural-language-specification</span><span class="taxonomy-chip">neural-function</span>    </div>
+  </div>
+</div>
 </div>
 
 <footer>
   <div class="footer-inner">
     <dl>
-      <dt>데이터 기준일</dt><dd>2026-09-13</dd>
-      <dt>생성 시각</dt><dd>2026-09-13 12:19 KST</dd>
+      <dt>데이터 기준일</dt><dd>2026-09-14</dd>
+      <dt>생성 시각</dt><dd>2026-09-14 17:03 KST</dd>
     </dl>
     <nav><a href="index.html">최신</a><a href="archive/index.html">지난 뉴스 전체</a></nav>
   </div>

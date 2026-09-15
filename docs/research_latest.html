@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medical AI Daily — 2026-09-14</title>
+<title>Medical AI Daily — 2026-09-15</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -339,10 +339,10 @@ footer {
   <div class="hero-inner">
     <div class="icon">🧠</div>
     <h1><span class="title-line">Medical AI Daily</span></h1>
-    <div class="subtitle">2026-09-14 — 의료 AI 큐레이션</div>
+    <div class="subtitle">2026-09-15 — 의료 AI 큐레이션</div>
     <div class="stats">
-      <span>게시 2건</span>
-<span>의료영상 AI 2</span>      <span>소스 3개</span>
+      <span>게시 49건</span>
+<span>뇌신호 AI 15</span><span>수술영상 13</span><span>딥러닝 방법론 8</span><span>EHR·임상 시계열 7</span><span>의료영상 AI 6</span>      <span>소스 3개</span>
       <span>매일 12:00 KST 업데이트</span>
       <span>중요도 정렬</span>
     </div>
@@ -357,8 +357,8 @@ footer {
     <form class="archive-controls" id="archive-form">
       <label class="visually-hidden" for="archive-date">날짜 선택</label>
       <input class="archive-date" id="archive-date" type="date"
-min="2026-08-31" max="2026-09-14"
-             value="2026-09-14" required>
+min="2026-08-31" max="2026-09-15"
+             value="2026-09-15" required>
       <button class="action-button" type="submit">기록 열기 ↗</button>
     </form>
     <div class="secondary-links">
@@ -375,7 +375,7 @@ min="2026-08-31" max="2026-09-14"
     e.preventDefault();
     var d = document.getElementById('archive-date').value;
     // 오늘치는 아카이브가 아니라 최신 페이지다.
-    if (d === "2026-09-14") { window.location.href = "index.html"; return; }
+    if (d === "2026-09-15") { window.location.href = "index.html"; return; }
     if (d) window.location.href = "archive/" + encodeURIComponent(d) + '.html';
   });
 })();
@@ -512,32 +512,594 @@ min="2026-08-31" max="2026-09-14"
 
 <div class="section">
   <div class="section-header">
-    <h2>🩺 의료영상 AI
-      <span class="count">2</span>
+    <h2>🧠 뇌신호 AI
+      <span class="count">15</span>
     </h2>
+  </div>
+  <div class="subsection">👁 fMRI Visual Decoding &amp; Reconstruction</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/3621d5f2236f03e5913c1db9889b5250c75390e4" target="_blank" rel="noopener">NSD-Imagery: A benchmark dataset for extending fMRI vision decoding methods to mental imagery</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-06-07</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Reese Kneeland 외 5인</span>    </div>
+    <p class="item-summary">NSD-Imagery라는 fMRI 활동과 정신 이미지를 짝지은 벤치마크 데이터셋을 공개한다. NSD-Imagery는 NSD에서 훈련된 모델들이 정신 이미지 재구성에 얼마나 잘 작동하는지 평가할 수 있게 한다. 결과적으로, 단순 선형 디코딩 아키텍처와 다중 모달 특징 디코딩을 사용하는 모델들이 정신 이미지에 더 잘 일반화하는 것으로 나타났다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">fmri</span><span class="taxonomy-chip">mental-imagery</span><span class="taxonomy-chip">visual-decoding</span><span class="taxonomy-chip taxonomy-venue">CVPR</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/0384cfec3be5fd8ba301f4e2d27ac956c5113000" target="_blank" rel="noopener">MEIcoder: Decoding Visual Stimuli from Neural Activity by Leveraging Most Exciting Inputs</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-10-23</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">J. Sobotka 외 2인</span>    </div>
+    <p class="item-summary">시각적 자극을 뇌 활동으로부터 복원하는 문제를 다룬다. MEIcoder는 neuron-specific most exciting inputs (MEIs), 구조적 유사성 지수 측정 손실, 그리고 적대적 학습을 활용한다. MEIcoder는 V1에서 단일 세포 활동으로부터 시각적 자극을 복원하는 최고 성능을 보여주며, 특히 작은 데이터셋에서 뛰어난 성과를 보인다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">neural-decoding</span><span class="taxonomy-chip">meicoder</span><span class="taxonomy-chip">visual-stimuli</span>    </div>
+  </div>
+  <div class="subsection">⚡ EEG/MEG Decoding &amp; BCI</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42611663/" target="_blank" rel="noopener">Calibration-free Plug-and-Play EEG-based BCIs.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-08-18</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Hanrui Wu 외 5인</span>    </div>
+    <p class="item-summary">Calibration-free plug-and-play operation을 다룬다. Local Online Transfer Learning (LOTL)을 사용한다. 네 개의 EEG 데이터셋과 실제 BCI 시스템에서 효과를 입증, 소스와 타겟 도메인 간 채널 구성이 일치할 때 BCI 애플리케이션 배포를 용이하게 한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">calibration-free</span><span class="taxonomy-chip">eeg-bci</span><span class="taxonomy-chip">online-transfer-learning</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/d7c2668e0b827fd9141ba548704b44d4ee667480" target="_blank" rel="noopener">This EEG Looks Like These EEGs: Interpretable Interictal Epileptiform Discharge Detection With ProtoEEG-kNN</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-10-21</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Dennis Tang 외 10인</span>    </div>
+    <p class="item-summary">EEG 기록에서 interictal epileptiform discharges (IEDs)를 검출하는 문제를 다룬다. ProtoEEG-kNN이라는 case-based reasoning 모델을 사용한다. 이 모델은 state-of-the-art 정확도를 달성하며, 전문가들이 기존 접근법보다 선호하는 설명을 제공한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">interpretable-model</span><span class="taxonomy-chip">eeg-detection</span><span class="taxonomy-chip">protoeeg-knn</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/db26c4310f850e7646ba73cf1b21f5de9bf26077" target="_blank" rel="noopener">Self-Supervised Distillation of Legacy Rule-Based Methods for Enhanced EEG-Based Decision-Making</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-07-19</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Yipeng Zhang 외 5인</span>    </div>
+    <p class="item-summary">고주파 진동(HFOs)을 검출하는 전통적인 규칙 기반 방법의 정확도를 향상시키는 방법을 다룬다. Self-Supervised to Label Discovery (SS2LD) 프레임워크를 사용하여, 변분 오토인코더(VAE)를 통한 형태적 사전 학습과 클러스터링을 통해 약한 감독을 생성하고, 이를 기반으로 분류기를 학습한다. 대규모 다기관 간발작 iEEG 데이터셋에서 SS2LD는 최신 방법을 능가하는 성능을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">self-supervised</span><span class="taxonomy-chip">electroencephalography</span><span class="taxonomy-chip">hfo-detection</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/0ff9c0dbc83d690d402fcfb941bc80fd2e24dfdd" target="_blank" rel="noopener">S2M-Former: Spiking Symmetric Mixing Branchformer for Brain Auditory Attention Detection</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-08-07</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Jiaqi Wang 외 9인</span>    </div>
+    <p class="item-summary">복잡한 청각 환경에서 청취자의 주의를 EEG 기록으로부터 추론하는 청각 주의 감지(AAD)를 다룬다. S$^2$M-Former는 청각 주의 감지를 위한 새로운 스파이킹 대칭 혼합 프레임워크로, 두 가지 혁신을 통해 EEG 기반 AAD의 한계를 극복한다: i) 공간과 주파수 분기의 병렬 구조를 사용한 생물학적으로 가능한 토큰-채널 믹서를 통한 학습 방법; iiuser22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">brain-auditory-attention</span><span class="taxonomy-chip">spiking-symmetric-mixing</span><span class="taxonomy-chip">energy-efficiency</span>    </div>
+  </div>
+  <div class="subsection">💬 Brain-to-Language &amp; Multimodal Decoding</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/8b22250ab2049d3cb73688f6f70c8ae5d0e12d1e" target="_blank" rel="noopener">LLM-Powered Cross-Modal Alignment for Explainable Seizure Detection from EEG</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-09-20</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">M. Riazi 외 2인</span>    </div>
+    <p class="item-summary">AI 기반 뇌전증 발작 감지의 투명성 부족 문제를 다룬다. SzXAI는 LLM을 활용한 대조적 훈련 메커니즘과 주의 가중 풀링 메커니즘을 사용한다. Temple University Hospital 데이터셋에서 10-겹 교차 검증을 통해 발작 원인 예측의 신뢰성을 크게 향상시킨다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">cross-modal-alignment</span><span class="taxonomy-chip">seizure-detection</span><span class="taxonomy-chip">explainable-ai</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/e4929a6840843fd0dbc0759065e24c010e73085d" target="_blank" rel="noopener">CATVis: Context-Aware Thought Visualization</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-07-15</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Tariq Mehmood 외 3인</span>    </div>
+    <p class="item-summary">EEG 신호로부터 시각 표현을 디코딩하는 문제를 다룬다. 5단계 프레임워크를 사용한다: EEG 인코더, EEG와 텍스트 임베딩의 교차모달 정렬, 캡션 재정렬, 콘셉트와 캡션 임베딩의 가중 보간, Stable Diffusion 모델을 통한 이미지 생성. 실험 결과, 제안된 방법은 SOTA 접근법보다 Classification Accuracy에서 13.43%, Generation Accuracy에서 15.21% 향상되며, Fréchet 거리도 줄여 시맨틱 정합성과 이미지 품질을 향상시킨다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">eeg-bci</span><span class="taxonomy-chip">cross-modal-alignment</span><span class="taxonomy-chip">stable-diffusion</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="subsection">🔗 Cross-Subject Generalization &amp; Neural Alignment</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42611670/" target="_blank" rel="noopener">ToPPFed: Topological Prototype-Enhanced Personalized Federated Learning for Neuropsychiatric Disorders Identification.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-08-18</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Yuxuan Zheng 외 6인</span>    </div>
+    <p class="item-summary">Functional connectivity networks (FCNs) derived from fMRI를 사용하여 neuropsychiatric disorders의 뇌 네트워크 구조 변화를 분석한다. ToPPFed는 Graph Topological Prototype Learning 모듈과 Contrastive Mask-Induced Residual Scaling 메커니즘을 사용하여 cross-site non-IID 분포 문제를 해결한다. 실험 결과, ToPPFed는 대조군보다 1.7-7.9% 포인트 더 높은 정확도를 보여주며, 모델에서 파생된 구별 가능한 뇌 영역과 기능적 연결을 강조한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">neuropsychiatric-disorders</span><span class="taxonomy-chip">federated-learning</span><span class="taxonomy-chip">functional-connectivity-networks</span><span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/ef16d2244ece0df29d1f60d4f1f37b325c6c1388" target="_blank" rel="noopener">Multi-Sensory Cognitive Computing for Learning Population-level Brain Connectivity</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-08-15</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Mayssa Soussia 외 2인</span>    </div>
+    <p class="item-summary">연결성 뇌 템플릿(CBT) 생성의 한계를 해결한다. mCOCO는 Reservoir Computing을 활용해 BOLD 신호로부터 인구 수준의 기능적 CBT를 학습한다. 다중 감각 입력을 통합해 인식 과제에 대한 뇌 영역의 정보 처리와 적응을 포착한다. mCOCO 템플릿은 GNN 기반 CBT보다 중심성, 구별력, 위상적 타당성, 다중 감각 기억 유지력에서 우수하다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">multi-sensory</span><span class="taxonomy-chip">cognitive-computing</span><span class="taxonomy-chip">reservoir-computing</span><span class="taxonomy-chip">brain-connectivity</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/6a859734f14a519a5afa8179424259ac15348373" target="_blank" rel="noopener">GeoDynamics: A Geometric State-Space Neural Network for Understanding Brain Dynamics on Riemannian Manifolds</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2026-01-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Tingting Dan 외 2인</span>    </div>
+    <p class="item-summary">뇌 기능 연결성의 시간 변화를 추적하여 뇌 동태를 이해하는 문제를 다룬다. 각 시간점에서의 기능 연결성이 SPD 행렬로 표현되며, 이를 고차원 SPD 다양체 위에서 추적하는 GeoDynamics라는 기하학적 상태공간 신경망을 사용한다. 이 모델은 인지와 행동을 지원하는 네트워크의 조정을 이해하고, 알츠하이머병, 파킨슨병, 자폐증의 초기 징후를 찾아내는 데 성공한다. 또한, 인간 행동 인식 벤치마크에서의 성능을 통해, 다양한 도메인에서 복잡한 공간-시간 동태를 모델링하는 데의 확장성과 견고성을 입증한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">geometric-state-space</span><span class="taxonomy-chip">riemannian-manifold</span><span class="taxonomy-chip">brain-dynamics</span>    </div>
+  </div>
+  <div class="subsection">🧬 Brain Signal Representation &amp; Foundation Models</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/86ef1717eb2f95cbbf8c42f7a855f607850b7adb" target="_blank" rel="noopener">BrainMT: A Hybrid Mamba-Transformer Architecture for Modeling Long-Range Dependencies in Functional MRI Data</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-06-27</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Arunkumar Kannan 외 2인</span>    </div>
+    <p class="item-summary">fMRI 데이터에서의 장거리 공간-시간 종속성을 모델링하는 문제를 다룬다. Mamba 블록과 transformer 블록을 결합한 BrainMT 프레임워크를 사용한다. 두 대규모 공개 데이터셋에서 성별 예측과 인지능력 예측 작업에서 최고 성능을 달성, 기존 방법을 크게 앞선다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">hybrid-architecture</span><span class="taxonomy-chip">fmri-data</span><span class="taxonomy-chip">long-range-dependencies</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/0788bfc8b90032dbfb292f63b7025e2f79d1618d" target="_blank" rel="noopener">STSBench: A Large-Scale Dataset for Modeling Neuronal Activity in the Dorsal Stream of Primate Visual Cortex</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2026-07-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Ethan Trepka 외 8인</span>    </div>
+    <p class="item-summary">primate 시각 시스템의 두 가지 스트림 중 dorsal 스트림에 대한 모델링을 다룬다. 2,000개 이상의 뉴런에서 얻은 대규모 단일 뉴런 기록 데이터셋 STSBench를 사용한다. 이 데이터셋은 기존 데이터셋보다 약 50배 증가했으며, Rhesus macaques가 다양한 자연 동영상을 보면서 수집되었다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">neuronal-activity</span><span class="taxonomy-chip">dorsal-stream</span><span class="taxonomy-chip">primate-visual-cortex</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/11a3d1f15110cae66cf5eed459f17f8d2dc29b45" target="_blank" rel="noopener">BaRISTA: Brain Scale Informed Spatiotemporal Representation of Human Intracranial Neural Activity</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-12-13</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Lucine L. Oganesian 외 2인</span>    </div>
+    <p class="item-summary">인간 뇌의 다중 지역 네트워크에서의 복잡한 공간-시간 상호작용을 다룬다. 다중 지역 뇌 활동을 위한 새로운 spatiotemporal transformer 모델과 self-supervised masked latent reconstruction 작업을 제안한다. 이 방법은 더 큰 공간 스케일의 공간 인코딩을 통해 기존 iEEG transformer 모델보다 더 나은 downstream decoding 성능을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">brain-activity</span><span class="taxonomy-chip">spatiotemporal-transformer</span><span class="taxonomy-chip">self-supervised-learning</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/14be63dd214f9be942214d4aea7986b5ab9991c9" target="_blank" rel="noopener">Cross-Modal Representational Knowledge Distillation for Enhanced Spike-Informed LFP Modeling</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-12-13</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Eray Erturk 외 2인</span>    </div>
+    <p class="item-summary">Local field potentials (LFPs)와 spiking activity를 함께 기록하는 데 LFPs가 제공하는 장점을 활용하면서도, LFP 신호의 모델링 어려움을 해결한다. pretrained multi-session spike transformer 모델로부터 LFP transformer 모델로 고정밀 표현 지식을 전달하는 cross-modal knowledge distillation framework를 사용한다. Distilled LFP 모델은 fully unsupervised와 supervised 설정에서 모두 single- 및 multi-session LFP 베이스라인을 능가하며, 추가 distillation 없이 다른 세션에도 일반화 가능하다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">cross-modal-knowledge-distillation</span><span class="taxonomy-chip">spike-informed-lfp</span><span class="taxonomy-chip">transformer-models</span>    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
+    <h2>🔬 수술영상
+      <span class="count">13</span>
+    </h2>
+  </div>
+  <div class="subsection">🎬 Surgical Scene Understanding</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42606769/" target="_blank" rel="noopener">Enhancing critical view of safety recognition using vision foundation models and state-space temporal modeling.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-08-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Rui Guo 외 3인</span>    </div>
+    <p class="item-summary">Critical View of Safety (CVS)의 자동 인식을 개선한다. DINOv2 기반의 시각 기반 모델과 Swin Transformer를 사용해 RGB-D 입력에 대한 공간 표현 학습과 계층적 특징 인코딩을 수행한다. 실험 결과, 제안된 RGB-D 스페이셜-시공간 아키텍처는 시각적 가림, 시점 변화, 데이터셋 이동에 대해 향상된 견고성을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">surgical-video</span><span class="taxonomy-chip">vision-foundation-models</span><span class="taxonomy-chip">state-space-temporal-modeling</span><span class="taxonomy-chip taxonomy-venue">IJCARS</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42606965/" target="_blank" rel="noopener">Endo-TTAP: Robust Endoscopic Tissue Tracking via Multi-Facet Guided Attention and Hybrid Flow-point Supervision.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-08-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Rulin Zhou 외 10인</span>    </div>
+    <p class="item-summary">정확한 내시경 영상 조직 포인트 추적의 중요성과 그 어려움을 다룬다. Multi-Facet Guided Attention 모듈과 Auxiliary Curriculum Adapter, Pseudo Label Generator를 사용한다. Endo-TTAP은 복잡한 내시경 시나리오에서 조직 포인트 추적의 최고 성능을 달성한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">endoscopic-video</span><span class="taxonomy-chip">tissue-tracking</span><span class="taxonomy-chip">multi-facet-guided-attention</span><span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/43298981d454dd976613dafbec0ed8f363454bed" target="_blank" rel="noopener">BREA-Depth: Bronchoscopy Realistic Airway-Geometric Depth Estimation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-09-15</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Francis Xiatian Zhang 외 5인</span>    </div>
+    <p class="item-summary">브론코스코피에서 단안 깊이 추정을 다룬다. Brea-Depth는 기관지 특정 기하학적 사전 지식을 통합한 페운데이션 모델을 사용한다. Airway Depth Structure Evaluation이라는 새로운 지표를 도입하여, 기존 방법보다 더 정확하고 안정적인 3D 기관지 재구성을 제공한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">bronchoscopy</span><span class="taxonomy-chip">depth-estimation</span><span class="taxonomy-chip">airway-geometry</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/fb68fd03d9b40df672bb4f7d0b339cb7e2a75a38" target="_blank" rel="noopener">Towards Holistic Surgical Scene Graph</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-07-21</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Jongmin Shin 외 5인</span>    </div>
+    <p class="item-summary">수술 장면 이해에서 다양한 도구-행동-대상 조합과 손의 정체성을 그래프로 표현하는 중요성을 다룬다. Endoscapes-SG201 데이터셋과 SSG-Com 방법을 사용한다. 안전성 평가와 행동 triplet 인식에서 이 방법의 효과를 입증한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">surgical-scene-graph</span><span class="taxonomy-chip">endoscapes-sg201</span><span class="taxonomy-chip">ssg-com</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/7f67d861d0987117c0c2d994c90e93dfa5545a1f" target="_blank" rel="noopener">Future Slot Prediction for Unsupervised Object Discovery in Surgical Video</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-07-02</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Gui-Qiu Liao 외 5인</span>    </div>
+    <p class="item-summary">Object-centric slot attention을 통해 비정형 수술 영상에서 구조적, 해석 가능한 객체 표현을 학습한다. 동적 시간 슬롯 트랜스포머(DTST) 모듈을 사용해 시간적 추론과 미래 슬롯 초기화를 예측한다. 다양한 수술 데이터베이스에서 최고 성능을 보여, 의료 분야에서 활용 가능성을 입증한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">unsupervised-learning</span><span class="taxonomy-chip">surgical-video</span><span class="taxonomy-chip">slot-attention</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="subsection">✂️ Instrument &amp; Anatomy Segmentation</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/c2e31958c2930524e194899d720e80a69ef834ee" target="_blank" rel="noopener">HRVVS: A High-resolution Video Vasculature Segmentation Network via Hierarchical Autoregressive Residual Priors</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-07-30</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Xincheng Yao 외 7인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/ccc78d85e0e428b1521920a6c6cc0c57270b11c9" target="_blank" rel="noopener">Memory-Augmented SAM2 for Training-Free Surgical Video Segmentation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-07-13</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Minghao Yin 외 4인</span>    </div>
+    <p class="item-summary">수술 영상 분할의 중요성과 Segment Anything Model 2 (SAM2)의 한계를 다룬다. Memory-Augmented (MA)-SAM2는 새로운 컨텍스트 인식 및 가리기에 강한 메모리 모델을 사용해, 복잡한 수술 도구 움직임에 강력한 성능을 보여준다. EndoVis2017과 EndoVis2018 데이터셋에서 각각 4.36%, 6.1%의 성능 향상을 달성한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">surgical-video</span><span class="taxonomy-chip">segmentation</span><span class="taxonomy-chip">memory-augmented</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="subsection">📹 Surgical VLP &amp; Foundation Model</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/89d26824ccfdd8be82ee7ea6c5a7f14f310550b2" target="_blank" rel="noopener">BridgeSplat: Bidirectionally Coupled CT and Non-rigid Gaussian Splatting for Deformable Intraoperative Surgical Navigation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-09-23</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Maximilian Fehrentz 외 5인</span>    </div>
+    <p class="item-summary">BridgeSplat는 수술 중 3D 재구성과 사전 수술 CT 데이터를 결합하여 수술 영상과 환자 볼륨 데이터 간의 격차를 메우는 새로운 접근법을 제시한다. 3D 가우시안을 CT 메시에 결합하여 광도 감독을 통해 가우시안 매개변수와 메시 변형을 공동 최적화한다. 이 방법은 돼지 내장 수술과 인체 간의 시뮬레이션 데이터에서 의미 있는 CT 변형을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">deformable-surgical-navigation</span><span class="taxonomy-chip">ct-data</span><span class="taxonomy-chip">gaussian-splatting</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/d3d0b535febb273d07c760648be56b728a600e19" target="_blank" rel="noopener">Surgical-MambaLLM: Mamba2-Enhanced Multimodal Large Language Model for VQLA in Robotic Surgery</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-09-20</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Pengfei Hao 외 6인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/c98bfaf0e3a0dbbe62266f4f5a55fdd3f2517851" target="_blank" rel="noopener">Multi-modal Representations for Fine-grained Multi-label Critical View of Safety Recognition</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-07-07</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Britty Baby 외 5인</span>    </div>
+    <p class="item-summary">Critical View of Safety (CVS) 인식의 어려움을 다룬다. 기존 모델의 한계를 극복하기 위해 CVS-AdaptNet을 제안하며, 이는 이미지 임베딩과 CVS 기준의 텍스트 설명을 정교하게 정렬하는 방법을 사용한다. Endoscapes-CVS201 데이터셋에서 57.6 mAP를 달성해 ResNet50 기준보다 6포인트 향상시킨다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">multi-modal</span><span class="taxonomy-chip">surgical</span><span class="taxonomy-chip">multi-label</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/1a967e8c5c9d0a3e099b7194a19642a434f7b767" target="_blank" rel="noopener">Less Is More, but Where? Dynamic Token Compression via LLM-Guided Keyframe Prior</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-12-07</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Yu-Lin Li 외 6인</span>    </div>
+    <p class="item-summary">Video Large Language Models(VLLMs)의 계산 효율성 저하 문제를 다룬다. VLLM의 주의 메커니즘을 활용한 Dynamic Token compression via LLM-guided Keyframe prior(DyToK)를 사용한다. DyToK는 4.3배 빠른 추론 속도를 달성하며, VisionZip과 FastV와의 호환성으로 정확도를 유지한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">video-compression</span><span class="taxonomy-chip">dynamic-token</span><span class="taxonomy-chip">llm-guided</span>    </div>
+  </div>
+  <div class="subsection">🦾 Robotic Surgery &amp; Skill Assessment</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/f9dbc9d79d79d9578717c229c20e25054ff631cf" target="_blank" rel="noopener">World Model for AI Autonomous Navigation in Mechanical Thrombectomy</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-09-29</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Harry Robertshaw 외 3인</span>    </div>
+    <p class="item-summary">mechanical thrombectomy의 자율 네비게이션을 다룬다. TD-MPC2라는 모델 기반 강화 학습 알고리즘을 사용한다. TD-MPC2는 Soft Actor-Critic 방법보다 65%의 평균 성공률을 달성하며, 다중 작업 학습에서 우수한 성과를 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">autonomous-navigation</span><span class="taxonomy-chip">reinforcement-learning</span><span class="taxonomy-chip">endovascular</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/be5d4ba31178bb763e6aa5232d554ccf1a02f608" target="_blank" rel="noopener">Intelligent Virtual Sonographer (IVS): Enhancing Physician-Robot-Patient Communication</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-07-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">T. Song 외 8인</span>    </div>
+    <p class="item-summary">로봇 초음파 시스템에서 의사-로봇-환자 간의 의사소통을 개선하는 방법을 다룬다. 대화형 가상 에이전트인 IVS는 Extended Reality(XR)를 통해 의사와 환자 간의 실시간 상호작용을 지원하며, 대화형 언어 모델(LLM), 음성-텍스트 변환, 텍스트-음성 변환, 로봇 제어를 통합한다. 이 시스템은 로봇 초음파 획득의 효율성, 명확성, 접근성을 향상시킨다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">virtual-agent</span><span class="taxonomy-chip">robotic-ultrasound</span><span class="taxonomy-chip">extended-reality</span><span class="taxonomy-chip taxonomy-venue">MICCAI</span>    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
+    <h2>⚙️ 딥러닝 방법론
+      <span class="count">8</span>
+    </h2>
+  </div>
+  <div class="subsection">📊 Uncertainty Quantification &amp; Calibration</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42715716/" target="_blank" rel="noopener">PUNCH: Physics-informed uncertainty-aware network for coronary hemodynamics.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-03</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Sukirt Thakur 외 10인</span>    </div>
+    <p class="item-summary">70%의 심장 혈관 질환 환자에서 발견되지 않는 관상동맥 미세혈관 기능 장애(CMD)를 검출하기 위한 PUNCH 프레임워크를 다룬다. PUNCH는 물리학을 기반으로 한 신경망과 변분 추론을 통합하여, 대조제 운반의 기본 원리 모델을 사용해 관상동맥 혈류를 추론한다. 1000개의 합성 kymographs와 20명의 환자 데이터에서 PUNCH는 침습적 방법보다 높은 성능을 보여주며, 임상 사용을 위한 재교정 단계를 논의한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">coronary-hemodynamics</span><span class="taxonomy-chip">physics-informed-neural-networks</span><span class="taxonomy-chip">variational-inference</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+  <div class="subsection">🔍 Explainability &amp; Interpretability</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42678854/" target="_blank" rel="noopener">IGNN-Solver: A Graph Neural Solver for Implicit Graph Neural Networks.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-01</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Junchao Lin 외 8인</span>    </div>
+    <p class="item-summary">Implicit graph neural networks의 계산 비용이 높은 fixed-point iterations 문제를 다룬다. IGNN-Solver는 tiny GNN을 사용한 generalized Anderson Acceleration 방법과 그래프 의존적 시간 과정을 학습하여 해결한다. 이 방법은 대규모 그래프 작업에서 1.5×에서 8×의 속도 향상을 보이며 정확도를 유지한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">graph-neural-networks</span><span class="taxonomy-chip">generalized-anderson-acceleration</span><span class="taxonomy-chip">large-scale-graphs</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/cf281dc611095e05f50017718a7b73e4fc15d734" target="_blank" rel="noopener">LLM Layers Immediately Correct Each Other</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2026-09-07</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Arjun Patrawala 외 3인</span>    </div>
+    <p class="item-summary">Transformer Layer Correction Mechanism(TLCM)를 다룬다. TLCM은 인접한 트랜스포머 레이어가 상호 보완적으로 작동하는 메커니즘을 사용한다. TLCM은 5가지 주요 오픈소스 모델 가족에서 발견되며, 이는 SAE 특징 설명의 낮은 구체성, 모델 조종의 필요성, 그리고 transcoders의 이론적 우위를 설명하는 데 도움이 된다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">transformer-layer</span><span class="taxonomy-chip">correction-mechanism</span><span class="taxonomy-chip">pretraining</span>    </div>
+  </div>
+  <div class="subsection">🧩 Multimodal &amp; Self-Supervised Representation</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42685178/" target="_blank" rel="noopener">Improving Generalizability and Undetectability for Targeted Adversarial Attacks on Multimodal Pre-trained Models.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-02</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Zhifang Zhang 외 6인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42685179/" target="_blank" rel="noopener">GAPrompt++: Multi-Granular Geometry-Aware Point Cloud Prompt for 3D Vision Model.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-02</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Zixiang Ai 외 6인</span>    </div>
+    <p class="item-summary">3D 비전 모델의 파인튜닝 비용과 저장 공간 부담을 줄이는 방법을 다룬다. GAPrompt++는 다중 규모의 기하학적 구조를 인식하고, 이를 통해 효율적인 3D 작업 적응을 위한 풍부한 기하학적 가이드를 제공한다. 실험 결과, GAPrompt++는 기존 프롬팅 기반 파인튜닝 방법보다 우수한 성능을 보이며, 전체 파인튜닝보다 뛰어난 결과를 내며, 학습 가능한 파라미터는 2% 미만이다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">point-cloud</span><span class="taxonomy-chip">geometry-aware</span><span class="taxonomy-chip">prompting-method</span><span class="taxonomy-chip">3d-vision</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42685175/" target="_blank" rel="noopener">Optimal Transport-based Difficulty-aware Contribution Allocation for Dataset Distillation.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-02</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Xiao Cui 외 7인</span>    </div>
+    <p class="item-summary">대규모 데이터셋에 대한 의존성이 증가함에 따라 딥러닝 모델 훈련에 대한 저장 및 계산 부담이 커진 문제를 다룬다. 동일한 기여도를 가진 모든 실제 인스턴스를 사용하는 기존의 서브셋 합성 접근법을 개선하기 위해, 매칭-근사화 패러다임을 통해 이 문제를 이원 최적화 문제로 재구성한다. 매칭 단계에서는 최적 운송 행렬을 사용하여 실제 인스턴스로부터 기여도를 동적으로 할당하고, 균형 유지를⚗⚗⚗ Extensive experiments across various settings demonstrate improved performance with the proposed framework.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">optimal-transport</span><span class="taxonomy-chip">dataset-distillation</span><span class="taxonomy-chip">bi-level-optimization</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
+  </div>
+  <div class="subsection">🎨 Generative Modeling &amp; Editing</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42685174/" target="_blank" rel="noopener">HomoDiff: Noise-Robust Multi-modal Homography Estimation via Diffusion Model.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-02</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Yunhan Gao 외 5인</span>    </div>
+    <p class="item-summary">다양한 센서로 촬영된 이미지들의 정확한 대응을 위한 multi-modal homography estimation을 다룬다. noise-robust한 homography 추정을 위해 diffusion-based framework인 HomoDiff를 사용한다. 다양한 노이즈 수준에서 높은 등록 정확도를 달성하는 첫 시도로, 다양한 multi-modal 데이터셋에서 뛰어난 성능을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">multi-modal</span><span class="taxonomy-chip">homography-estimation</span><span class="taxonomy-chip">diffusion-model</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
+  </div>
+  <div class="subsection">🛡 Robustness &amp; Domain Generalization</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42678850/" target="_blank" rel="noopener">Pattern in Motion: Retrieval-Augmented Learning for Dynamic Spatio-Temporal Graphs.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-01</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Haoyu Zhang 외 6인</span>    </div>
+    <p class="item-summary">Spatio-Temporal Graph Neural Networks(STGNNs)의 일반화 문제를 다룬다. PRAL(Pattern Retrieval-Augmented Learning)은 외부 패턴 라이브러리에 과거 지식을 저장하고, Stable Subspace Projector와 Shift-Aware Retrieval Reweighting를 통해 패턴을 구분한다. 다양한 실시간 그래프 데이터셋에서 평균 MAE/RMSE/MAPE를 15-30% 개선하며, 특정 태스크에 대한 미세 조정 없이도 강력한 일반화 성능을 보인다다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">spatio-temporal-graphs</span><span class="taxonomy-chip">retrieval-augmented-learning</span><span class="taxonomy-chip">dynamic-systems</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
+    <h2>📈 EHR·임상 시계열
+      <span class="count">7</span>
+    </h2>
+  </div>
+  <div class="subsection">🧾 EHR Sequence Modeling &amp; Patient Trajectory</div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42660985/" target="_blank" rel="noopener">HealthFlow: automating electronic health record analysis via a strategically self-evolving multi-agent framework.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-08-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Yinghao Zhu 외 11인</span>    </div>
+    <p class="item-summary">HealthFlow는 EHR 분석을 자동화하기 위한 전략적으로 자체 진화하는 다중 에이전트 프레임워크를 다룬다. 이 프레임워크는 이전 EHR 분석을 구조화된 경험으로 변환하여 데이터셋과 방법론적 제약 조건 하에서 계획에 활용한다. HealthFlow는 EHRFlowBench와 네 가지 기존 벤치마크에서 강력한 베이스라인을 능가하는 성능을 보여, 건강 데이터 과학의 견고성을 향상시키고 EHR 분석의 자동화를 개선한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">ehr-analysis</span><span class="taxonomy-chip">multi-agent-framework</span><span class="taxonomy-chip">automated-workflows</span>    </div>
+  </div>
+  <div class="subsection">📉 Clinical Time Series &amp; Monitoring</div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/cffef50d177ee83e58c8d3e4100ad012243b0a66" target="_blank" rel="noopener">FEEL: Quantifying Heterogeneity in Physiological Signals for Generalizable Emotion Recognition</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2026-04-07</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Pragya Singh 외 4인</span>    </div>
+    <p class="item-summary">FEEL는 19개 공개 데이터셋을 사용한 첫 대규모 감정 인식 벤치마킹 연구다. 전통적 머신러닝, 딥러닝, self-supervised pretraining 방법을 사용해 16개 아키텍처를 평가한다. fine-tuned CLSP 모델이 가장 높은 F1 스코어를 기록했으며, handcrafted feature를 사용한 모델이 raw signal segment를 사용한 모델보다 우수하다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">emotion-recognition</span><span class="taxonomy-chip">physiological-signals</span><span class="taxonomy-chip">benchmarking-study</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/0969ebff477ca7442246d7bda3845731b5605547" target="_blank" rel="noopener">Structured Temporal Causality for Interpretable Multivariate Time Series Anomaly Detection</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-10-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Dongchan Cho 외 5인</span>    </div>
+    <p class="item-summary">실제 세계의 다변량 시계열 데이터에서 발생하는 이상 징후가 드물고 종종 미표시된 문제를 다룬다. OracleAD는 각 변수의 과거 시퀀스를 단일 인과 임베딩으로 인코딩하여 현재 시점과 입력 윈도우를 재구성하고, 이를 공유 잠재 공간으로 투영하여 공간 관계를 포착한다. 이상 징후는 예측 오류와 정상 상태 관계를 나타내는 Stable Latent Structure(SLS)로부터의 편차를 기반으로 하는 이중 점수를 사용하여 식별된다. OracleAD는 여러 실제 데이터셋과 평가 프로토콜에서 최고의 성과를 달성한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">multivariate-time-series</span><span class="taxonomy-chip">anomaly-detection</span><span class="taxonomy-chip">self-attention</span>    </div>
+  </div>
+  <div class="subsection">📝 Clinical LLM &amp; Note Understanding</div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42675170/" target="_blank" rel="noopener">Evaluating foundation models on official German medical licensing examinations: Implications for high-stakes assessment and AI-assisted medical education.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-08-31</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Lasse Cirkel 외 5인</span>    </div>
+    <p class="item-summary">24건의 독일 의료 면허 시험(2019-2024)에서 7485개의 문제와 119,878회의 응시 데이터를 사용해 기업 내부 및 오픈웨이트 기반 모델을 평가한다. Gemini 3.1 Pro가 전체 정확도에서 가장 높은 99.31% (M1)와 98.37% (M2)를 달성했다. 이미지가 포함된 문제는 학생과 모델 모두에게 어려웠지만, 특히 AI 모델에게 더 크게 영향을 미쳤다. 이 결과는 AI 지원 의료 교육 및 고위험 평가에 대한 시사점을 제공한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">foundation-models</span><span class="taxonomy-chip">medical-licensing-examinations</span><span class="taxonomy-chip">ai-assisted-education</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42667992/" target="_blank" rel="noopener">TriFuse: A multi-signal three-stage data distillation framework for efficient medical model training.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-08-29</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Ruilong Xu 외 1인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42667993/" target="_blank" rel="noopener">Evaluating teacher-supervised small medical language models for institution-constrained clinical QA.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-08-29</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Gaoyuan Du 외 2인</span>    </div>
+    <p class="item-summary">작은 언어 모델이 공개 의료 벤치마크에서 기관 제약이 있는 임상 QA로 안정적으로 전이되는지 평가한다. DistilGPT2와 Llama3 70B를 사용해 공개 벤치마크와 in-domain QAFT, DPO를 비교한다. in-domain QAFT가 공개 벤치마크 전이보다 우수(F1 0.1310 vs 0.1090)하고, DPO는 응답의 길이와 증거 커버리지를 조절한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">medical-qa</span><span class="taxonomy-chip">teacher-supervised</span><span class="taxonomy-chip">fine-tuning</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42628772/" target="_blank" rel="noopener">Quality-aware multi-source data fusion and enhancement for Medical Concept Normalization using Large Language Models.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-08-21</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Yuhan Zhou 외 5인</span>    </div>
+    <p class="item-summary">Medical Concept Normalization (MCN)을 다룬다. 데이터 품질 평가와 향상, LLM 기반 데이터 증강, 다중 출처 MCN 데이터셋 융합을 사용한다. 품질 인식 데이터 융합 프레임워크는 MCN 성능을 38%까지 향상시키며, 데이터 품질 문제를 해결하고 개념 커버리지를 확장한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">medical-concept-normalization</span><span class="taxonomy-chip">large-language-models</span><span class="taxonomy-chip">data-fusion</span>    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
+    <h2>🩺 의료영상 AI
+      <span class="count">6</span>
+    </h2>
+  </div>
+  <div class="subsection">🏥 Medical Foundation Models, VLM &amp; Report Generation</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42641372/" target="_blank" rel="noopener">When multi-institutional dataset aggregation masks shortcut-like behavior in Foundation Models for medical imaging.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-11-01</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Elodie Germani 외 3인</span>    </div>
+    <p class="item-summary">Foundation Models의 의료 영상 분석에서 심각한 도메인 이질성에 대한 이해 부족을 다룬다. 10개의 다양한 데이터셋을 사용해 pretrained 이미지 인코더의 성능을 분석한다. 분류기는 데이터셋에 따른 실패 모드를 보여주며, 데이터셋-관련 구조가 임상 신호보다 더 쉽게 접근 가능함을 보여주는 결과가 나온다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">multi-institutional-dataset</span><span class="taxonomy-chip">foundation-models</span><span class="taxonomy-chip">medical-imaging</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+  <div class="subsection">🫀 Segmentation, Detection &amp; Diagnosis</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42612515/" target="_blank" rel="noopener">KPIs 2024 challenge: Advancing glomerular segmentation from patch- to slide-level.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-11-01</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Ruining Deng 외 11인</span>    </div>
+    <p class="item-summary">만성 신장 질환의 진단과 치료를 위한 신장 생검의 정확성을 높이기 위해 KPIs 챌린지가 진행된다. 10,000개 이상의 주석이 달린 50개의 PAS 염색 완전 슬라이드 이미지를 사용한 데이터셋을 통해 패치 및 전체 슬라이드 이미지 분할과 탐지를 평가한다. Dice Similarity Coefficient와 F1-score를 사용해 다양한 CKD 모델과 조직 조건에 적응하는 혁신적인 분할 방법을 평가한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">kidney-pathology</span><span class="taxonomy-chip">glomerular-segmentation</span><span class="taxonomy-chip">kpi-challenge</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42617313/" target="_blank" rel="noopener">MambaX-Net: Dual-input Mamba-enhanced Cross-Attention network for longitudinal prostate MRI segmentation.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-11-01</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Yovin Yahathugoda 외 6인</span>    </div>
+    <p class="item-summary">저자들은 Active Surveillance를 위한 정확한 전립선 MRI 분할 모델을 다룬다. MambaX-Net은 Mamba-enhanced Cross-Attention Module과 Shape Extractor Module을 사용하여 이전 시간점의 MRI와 분할 마스크를 활용한다. 이 모델은 semi-supervised self-training 전략을 통해 제한된 데이터에서도 우수한 성능을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">prostate-mri</span><span class="taxonomy-chip">semi-supervised-learning</span><span class="taxonomy-chip">cross-attention</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42623867/" target="_blank" rel="noopener">SFLFEM: A frequency-enhanced mamba framework for selective personalized federated breast ultrasound diagnosis.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-11-01</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Xu He 외 7인</span>    </div>
+    <p class="item-summary">복잡한 유방 초음파 영상 분석과 분산된 의료 데이터 문제를 다룬다. SFLFEM은 FEMamba와 pFedBM을 사용해 전역적-주파수 특성과 개인화 연방 최적화를 통합한다. 네 데이터셋에서 평균 정확도 85.14%, AUC 92.35%, MCC 70.62%를 달성해 우수한 성능을 보인다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">breast-ultrasound</span><span class="taxonomy-chip">federated-learning</span><span class="taxonomy-chip">frequency-enhanced</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42685436/" target="_blank" rel="noopener">Learning from Limited phenotype-level annotations for promoting multiple instance learning in endoscopic helicobacter pylori infection diagnosis.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-11-01</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Zhenyu Yi 외 11인</span>    </div>
+    <p class="item-summary">Helicobacter pylori 감염 진단을 위한 endoscopic 이미지 분석을 다룬다. PhenoMIL이라는 두 단계 프레임워크를 사용한다. 첫 단계는 multi-label supervised contrastive learning을 통해 phenotype-specific 지식을 획득하고, 두 번째 단계는 Consensus-aware Feature Modulation과 Phenotype-guided Attention Aggregation을 사용해 전체적인 진단을 수행한다. 대규모 다중 센터 데이터셋에서 81.63%의 sensitivity와 87.84%의 specificity를 달성, 주니어와 시니어ndoscopist2어 끝나지 않는 것 같습니다. 아래 JSON 형식으로 요약을 완성하겠습니다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">multiple-instance-learning</span><span class="taxonomy-chip">helicobacter-pylori</span><span class="taxonomy-chip">endoscopic-diagnosis</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
   </div>
   <div class="subsection">🧲 Reconstruction, Generation &amp; Benchmark</div>
   <div class="item starred">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42731391/" target="_blank" rel="noopener">Quantitative mapping from conventional MRI using self-supervised physics-guided deep learning: Applications to a large-scale, clinically heterogeneous dataset.</a>    </div>
+<a href="https://pubmed.ncbi.nlm.nih.gov/42679486/" target="_blank" rel="noopener">A frequency-aware dual-domain collaborative framework for medical image enhancement.</a>    </div>
     <div class="item-meta">
       <span class="badge">PubMed</span>
-<span class="item-date">2026-09-09</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Jelmer van Lune 외 7인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+<span class="item-date">2026-11-01</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Weicheng Liao 외 7인</span>    </div>
+    <p class="item-summary">의료 영상 품질 저하 문제를 다룬다. FDRNet는 빈도 해독 모듈과 Retinex 조명 보정 모듈을 사용한다. 세 가지 의료 영상 모달리티에서 7개 데이터셋을 통해 기존 기법을 능가하는 성능을 보여준다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
-  </div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42731390/" target="_blank" rel="noopener">Learning efficient non-rigid registration in k-space for accelerated Magnetic Resonance Imaging.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-09-08</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Aya Ghoul 외 6인</span>    </div>
-    <p class="item-summary">고속 자기공명영상(MRI)에서 고시간 해상도의 비강성 운동 추정을 다룬다. Local-All Pass Attention Network (LAPANet)를 사용하여 가속화된 다코일 k-공간 데이터로부터 직접 비강성 운동 추정을 수행한다. 심장 MRI에서 2줄/프레임과 3스포크/프레임의 고속 설정에서도 안정적인 운동 추정을 제공한다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">mri-acceleration</span><span class="taxonomy-chip">non-rigid-registration</span><span class="taxonomy-chip">k-space</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+<span class="taxonomy-chip">medical-image-enhancement</span><span class="taxonomy-chip">frequency-aware</span><span class="taxonomy-chip">dual-domain</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
   </div>
 </div>
 
@@ -553,7 +1115,7 @@ min="2026-08-31" max="2026-09-14"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-02</span>      <span class="item-metric">▲ 546</span>
+<span class="item-date">2026-09-02</span>      <span class="item-metric">▲ 547</span>
 <span class="item-authors">Jianlyu Chen 외</span>    </div>
 <p class="item-summary">GitHub 리포지토리에서 AI4AI 기술을 추출하는 방법을 다룬다. DisCo라는 기술을 사용하여, 일반적인 작업과 특정 작업에 필요한 기술을 추출한다. AREX-Skill Library를 생성하고, 기술을 장착한 연구 에이전트는 MLE-bench에서 134.3%, PaperBench에서 34.4% 더 높은 성능을 보인다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">repo-skill</span><span class="taxonomy-chip">autonomous-agents</span><span class="taxonomy-chip">ml-research</span>    </div>
@@ -577,7 +1139,7 @@ min="2026-08-31" max="2026-09-14"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-08-29</span>      <span class="item-metric">▲ 449</span>
+<span class="item-date">2026-08-29</span>      <span class="item-metric">▲ 452</span>
 <span class="item-authors">Xiyuan Yang 외</span>    </div>
 <p class="item-summary">AutoResearch 에이전트의 확장을 위한 RL의 기본적 긴장을 다룬다. World Model RL (WMRL)을 사용하여 환경 실행을 대체하고, Online Debiasing과 Inverse-Variance Denoising를 통해 편향과 잡음을 줄인다. WMRL은 다양한 작업에서 3-4배 가속화하고, 4B와 9B 에이전트는 48B와 120B 오픈 가중치 에이전트보다 우수한 성능을 보인다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">world-model-rl</span><span class="taxonomy-chip">wmrl</span><span class="taxonomy-chip">auto-research</span>    </div>
@@ -589,7 +1151,7 @@ min="2026-08-31" max="2026-09-14"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-08</span>      <span class="item-metric">▲ 412</span>
+<span class="item-date">2026-09-08</span>      <span class="item-metric">▲ 414</span>
 <span class="item-authors">NeoHorse Team 외</span>    </div>
 <p class="item-summary">재귀적 자기 개선(RSI)을 위한 메커니즘을 다룬다. NeoHorse-1은 이 경로를 탐색하기 위해 에이전트 네이티브 모델을 사용하며, 이는 이질적인 모델 풀과 지능형 라우팅을 결합한다. 11개 벤치마크에서 4B 모델의 매크로 평균은 58.94에서 64.87로, 9B 모델은 65.60에서 69.04로 상승하여 모델 간 격차를 크게 줄인다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">recursive-self-improvement</span><span class="taxonomy-chip">agentic-post-training</span><span class="taxonomy-chip">routing-harness</span>    </div>
@@ -601,7 +1163,7 @@ min="2026-08-31" max="2026-09-14"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-08-31</span>      <span class="item-metric">▲ 383</span>
+<span class="item-date">2026-08-31</span>      <span class="item-metric">▲ 384</span>
 <span class="item-authors">Xin Zhou 외</span>    </div>
 <p class="item-summary">Qwen-Drive-1.0는 자율주행을 위한 비전-언어 기반 모델의 초기 단계를 다룬다. 이 모델은 사전 학습된 비전-언어 모델의 아키텍처를 유지하고, 3D 인식, 시각적 질문 응답, 움직임 계획을 통합한다. 실험 결과, 강력한 3D 인식과 주행 장면 이해를 보여주며, 일반적인 비전-언어 능력을 크게 유지한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">vision-language</span><span class="taxonomy-chip">autonomous-driving</span><span class="taxonomy-chip">3d-perception</span>    </div>
@@ -624,8 +1186,8 @@ min="2026-08-31" max="2026-09-14"
 <footer>
   <div class="footer-inner">
     <dl>
-      <dt>데이터 기준일</dt><dd>2026-09-14</dd>
-      <dt>생성 시각</dt><dd>2026-09-14 17:03 KST</dd>
+      <dt>데이터 기준일</dt><dd>2026-09-15</dd>
+      <dt>생성 시각</dt><dd>2026-09-15 14:03 KST</dd>
     </dl>
     <nav><a href="index.html">최신</a><a href="archive/index.html">지난 뉴스 전체</a></nav>
   </div>

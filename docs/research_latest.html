@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medical AI Daily — 2026-09-16</title>
+<title>Medical AI Daily — 2026-09-17</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -339,10 +339,10 @@ footer {
   <div class="hero-inner">
     <div class="icon">🧠</div>
     <h1><span class="title-line">Medical AI Daily</span></h1>
-    <div class="subtitle">2026-09-16 — 의료 AI 큐레이션</div>
+    <div class="subtitle">2026-09-17 — 의료 AI 큐레이션</div>
     <div class="stats">
-      <span>게시 6건</span>
-<span>딥러닝 방법론 3</span><span>EHR·임상 시계열 1</span><span>의료영상 AI 2</span>      <span>소스 3개</span>
+      <span>게시 3건</span>
+<span>딥러닝 방법론 1</span><span>EHR·임상 시계열 1</span><span>의료영상 AI 1</span>      <span>소스 3개</span>
       <span>매일 12:00 KST 업데이트</span>
       <span>중요도 정렬</span>
     </div>
@@ -357,8 +357,8 @@ footer {
     <form class="archive-controls" id="archive-form">
       <label class="visually-hidden" for="archive-date">날짜 선택</label>
       <input class="archive-date" id="archive-date" type="date"
-min="2026-08-31" max="2026-09-16"
-             value="2026-09-16" required>
+min="2026-08-31" max="2026-09-17"
+             value="2026-09-17" required>
       <button class="action-button" type="submit">기록 열기 ↗</button>
     </form>
     <div class="secondary-links">
@@ -375,7 +375,7 @@ min="2026-08-31" max="2026-09-16"
     e.preventDefault();
     var d = document.getElementById('archive-date').value;
     // 오늘치는 아카이브가 아니라 최신 페이지다.
-    if (d === "2026-09-16") { window.location.href = "index.html"; return; }
+    if (d === "2026-09-17") { window.location.href = "index.html"; return; }
     if (d) window.location.href = "archive/" + encodeURIComponent(d) + '.html';
   });
 })();
@@ -513,43 +513,20 @@ min="2026-08-31" max="2026-09-16"
 <div class="section">
   <div class="section-header">
     <h2>⚙️ 딥러닝 방법론
-      <span class="count">3</span>
+      <span class="count">1</span>
     </h2>
   </div>
-  <div class="subsection">📊 Uncertainty Quantification &amp; Calibration</div>
+  <div class="subsection">🌐 Foundation Models &amp; Open-Vocabulary Perception</div>
   <div class="item starred">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42743030/" target="_blank" rel="noopener">Conjugate Bayesian Evidential Learning for Uncertainty-Aware Nasopharyngeal Carcinoma Segmentation.</a>    </div>
+<a href="https://pubmed.ncbi.nlm.nih.gov/42747925/" target="_blank" rel="noopener">A Survey on Efficient Vision-Language-Action Models.</a>    </div>
     <div class="item-meta">
       <span class="badge">PubMed</span>
-<span class="item-date">2026-09-15</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Chi Zhang 외 5인</span>    </div>
-    <p class="item-summary">nasopharyngeal carcinoma의 gross tumor volume(GTV) 자동 분할의 불확실성을 다룬다. hierarchical variance evidence network와 fuzzy prototype contrastive learning을 사용하여 불확실성 추정의 정확성을 향상시킨다. CoBESeg는 다중 센터 MRI 데이터셋에서 우수한 분할 정확도와 불확실성 추정을 보여준다.</p>
+<span class="item-date">2026-09-16</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Zhaoshu Yu 외 9인</span>    </div>
+    <p class="item-summary">Vision-Language-Action 모델(VLAs)의 효율성을 다룬다. 효율적인 모델 설계, 훈련, 데이터 수집 세 가지 핵심 기둥으로 구성된 통합 분류법을 사용한다. 이 조사는 VLAs의 전체 모델-훈련-데이터 파이프라인에 대한 첫 번째 종합 리뷰를 제공하고, 대표적인 응용 분야를 정리하며, 향후 연구 방향을 제시한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">bayesian-evidential-learning</span><span class="taxonomy-chip">uncertainty-aware-segmentation</span><span class="taxonomy-chip">nasopharyngeal-carcinoma</span><span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
-  </div>
-  <div class="subsection">🧩 Multimodal &amp; Self-Supervised Representation</div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42743025/" target="_blank" rel="noopener">Do More With Less: Capacity-Aware Selective Hashing for Continual Cross-Modal Retrieval.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-09-15</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Wenhao Liu 외 5인</span>    </div>
-    <p class="item-summary">cross-modal hashing의 고정된 코드 길이와 이진성으로 인한 용량 제약을 해결한다. Capacity-Aware Selective Hashing (CASH)를 사용하여 고정된 용량 예산 하에서 비트 수준 선택적 할당을 통해 해밍 공간 활용을 개선한다. 다양한 실험에서 SOTA 기준선보다 높은 검색 정확도와 장기 안정성을 보여준다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">cross-modal-retrieval</span><span class="taxonomy-chip">continual-learning</span><span class="taxonomy-chip">hashing</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
-  </div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42743023/" target="_blank" rel="noopener">Cross-Modality Causal-Aware Hierarchical Representation Learning for Domain Generalized Object Detection.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-09-15</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Yajing Liu 외 4인</span>    </div>
-    <p class="item-summary">다양한 미보기 시각 도메인에서의 객체 검출 문제를 다룬다. Causal-aware Hierarchical Representation Graph를 사용하여 VLM의 시각 인코더로부터 일반화 가능한 특징을 추출하고, 일반 텍스트 임베딩을 이용해 표현 편향 없이 중재 시각 인과 프로토타입 공간을 구축한다. 이 접근법은 5개 벤치마크에서 우수한 일반화 성능을 보여준다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">cross-modality</span><span class="taxonomy-chip">causal-aware</span><span class="taxonomy-chip">hierarchical-representation</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
+<span class="taxonomy-chip">vision-language-action</span><span class="taxonomy-chip">efficient-models</span><span class="taxonomy-chip">unified-taxonomy</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
   </div>
 </div>
 <div class="section">
@@ -561,45 +538,31 @@ min="2026-08-31" max="2026-09-16"
   <div class="subsection">📝 Clinical LLM &amp; Note Understanding</div>
   <div class="item">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42736348/" target="_blank" rel="noopener">Multi-Agent collaboration as a complementary architecture for AI-generated medical examination items.</a>    </div>
+<a href="https://pubmed.ncbi.nlm.nih.gov/42744066/" target="_blank" rel="noopener">Unifying temporal knowledge Graph and LLMs for Biomedical Hypothesis generation via temporal soft Prompting.</a>    </div>
     <div class="item-meta">
       <span class="badge">PubMed</span>
-<span class="item-date">2026-09-14</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
-<span class="item-authors">Zhehan Jiang</span>    </div>
-    <p class="item-summary">AI가 생성한 의학적 시험 문제의 개발을 다룬다. 문제 생성을 초안, 비판, 반복적 대립적 정교화로 분해하는 다중 에이전트 구조를 사용한다. 중국의 국가 의학 면허 시험에서 다중 에이전트 출력은 전문가 선호도의 57.7%를 차지해 단일 모델 기준치인 42.3%를 상회하는 결과를 보여준다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">multi-agent-collaboration</span><span class="taxonomy-chip">ai-generated-examination-items</span><span class="taxonomy-chip">medical-licensing-examination</span>    </div>
+<span class="item-date">2026-09-15</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Lanlan Wang 외 8인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
   </div>
 </div>
 <div class="section">
   <div class="section-header">
     <h2>🩺 의료영상 AI
-      <span class="count">2</span>
+      <span class="count">1</span>
     </h2>
   </div>
   <div class="subsection">🏥 Medical Foundation Models, VLM &amp; Report Generation</div>
   <div class="item starred">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42743029/" target="_blank" rel="noopener">Bridging the Gap in Ophthalmic AI: MM-Retinal-Reason Dataset and OphthaReason Model toward Dynamic Multimodal Reasoning.</a>    </div>
+<a href="https://pubmed.ncbi.nlm.nih.gov/42743860/" target="_blank" rel="noopener">A review of longitudinal radiology report generation: Dataset composition, methods, and performance evaluation.</a>    </div>
     <div class="item-meta">
       <span class="badge">PubMed</span>
-<span class="item-date">2026-09-15</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Ruiqi Wu 외 11인</span>    </div>
-    <p class="item-summary">Multimodal large language models의 잠재력을 활용해 실용적인 임상 진단을 위한 복잡한 추론을 다룬다. MM-Retinal-Reason 데이터셋과 RL을 기반으로 한 OphthaReason 모델을 사용한다. 실험 결과, 기존 모델보다 최소 15.47% 우수한 성능을 보여준다.</p>
+<span class="item-date">2026-09-12</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Shaoyang Zhou 외 5인</span>    </div>
+    <p class="item-summary">Chest X-ray의 장기적 보고서 생성을 다룬다. 장기적 데이터를 통합하는 모델 설계와 평가 프로토콜을 사용한다. 현재 연구의 한계를 정리하고, 장기적 정보와 아키텍처 설계의 중요성을 강조한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">ophthalmic-ai</span><span class="taxonomy-chip">multimodal-reasoning</span><span class="taxonomy-chip">rl-enhanced</span><span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
-  </div>
-  <div class="subsection">🧲 Reconstruction, Generation &amp; Benchmark</div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42735586/" target="_blank" rel="noopener">SSAD: Prior-driven self-supervised staircase artifact denoising via diffeomorphic flow for volumetric medical image surface reconstruction.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-09-09</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Jing Shi 외 6인</span>    </div>
-    <p class="item-summary">3D 표면 재구성에서 계단 현상으로 인한 정확도 저하를 다룬다. SSAD는 경계 볼륨을 희소하게 변동된 점으로 정의하고, 다중 스케일 기하학 정보를 활용해 계단 현상을 제거하는 자기 동형 흐름을 학습한다. 다양한 정확도 지표에서 2.15%-22.27% 향상되며, 2-5배 해상도 증대 효과를 보인다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">medical-image</span><span class="taxonomy-chip">self-supervised</span><span class="taxonomy-chip">staircase-artifact</span><span class="taxonomy-chip">surface-reconstruction</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+<span class="taxonomy-chip">longitudinal-data</span><span class="taxonomy-chip">radiology-report</span><span class="taxonomy-chip">performance-evaluation</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
   </div>
 </div>
 
@@ -615,7 +578,7 @@ min="2026-08-31" max="2026-09-16"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-10</span>      <span class="item-metric">▲ 583</span>
+<span class="item-date">2026-09-10</span>      <span class="item-metric">▲ 695</span>
 <span class="item-authors">Jintao Zhang 외</span>    </div>
 <p class="item-summary">실시간 인터랙티브 디지털 캐릭터 모델과 비디오 편집 모델을 다룬다. Vidu S2-Avatar는 720p 비디오 생성, 동적 참조 업데이트, 안무 등 강력한 명령어 수행을 지원하며, Vidu S2-Editing은 스타일 렌더링, 의상 교체, 캐릭터 교체, 배경 교체 등 실시간 비디오 스트림 편집을 지원한다. 실험 결과 Vidu S2가 모든 베이스라인을 능가한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">real-time-video</span><span class="taxonomy-chip">interactive-model</span><span class="taxonomy-chip">video-editing</span>    </div>
@@ -627,7 +590,7 @@ min="2026-08-31" max="2026-09-16"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-02</span>      <span class="item-metric">▲ 550</span>
+<span class="item-date">2026-09-02</span>      <span class="item-metric">▲ 555</span>
 <span class="item-authors">Jianlyu Chen 외</span>    </div>
 <p class="item-summary">GitHub 리포지토리에서 AI4AI 기술을 추출하는 방법을 다룬다. DisCo라는 기술을 사용하여, 일반적인 작업과 특정 작업에 필요한 기술을 추출한다. AREX-Skill Library를 생성하고, 기술을 장착한 연구 에이전트는 MLE-bench에서 134.3%, PaperBench에서 34.4% 더 높은 성능을 보인다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">repo-skill</span><span class="taxonomy-chip">autonomous-agents</span><span class="taxonomy-chip">ml-research</span>    </div>
@@ -639,7 +602,7 @@ min="2026-08-31" max="2026-09-16"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-01</span>      <span class="item-metric">▲ 489</span>
+<span class="item-date">2026-09-01</span>      <span class="item-metric">▲ 493</span>
 <span class="item-authors">Ke Yang 외</span>    </div>
 <p class="item-summary">AI 튜터가 각 학생의 강점, 약점, 선호하는 지도 방식에 맞춰 적응하는 문제를 다룬다. StudentSim은 희박한 개인 데이터를 통합 학습과 개인별 특화를 통해 개인화된 시뮬레이터를 생성한다. StudentSim은 체스, 영어 작문, 수학에서 GPT-5.4보다 높은 F=0.51, R=0.91의 성능을 보여, 튜터 강화 학습에 활용될 때 전문가에게 더 정확하고 개인화된 지도를 제공한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">student-simulator</span><span class="taxonomy-chip">llm-based</span><span class="taxonomy-chip">tutor-reinforcement-learning</span>    </div>
@@ -651,22 +614,10 @@ min="2026-08-31" max="2026-09-16"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-08-29</span>      <span class="item-metric">▲ 453</span>
+<span class="item-date">2026-08-29</span>      <span class="item-metric">▲ 458</span>
 <span class="item-authors">Xiyuan Yang 외</span>    </div>
-<p class="item-summary">AutoResearch 에이전트의 확장을 위한 RL의 기본적 긴장을 다룬다. World Model RL (WMRL)을 사용하여 환경 실행을 대체하고, Online Debiasing과 Inverse-Variance Denoising를 통해 편향과 잡음을 줄인다. WMRL은 다양한 작업에서 3-4배 가속화하고, 4B와 9B 에이전트는 48B와 120B 오픈 가중치 에이전트보다 우수한 성능을 보여준다.</p>    <div class="item-taxonomy">
+<p class="item-summary">AutoResearch 에이전트의 확장을 위한 RL의 기본적 긴장을 다룬다. World Model RL (WMRL)을 사용하여 환경 실행을 대체하고, Online Debiasing과 Inverse-Variance Denoising를 통해 편향과 잡음을 줄인다. WMRL은 다양한 작업에서 3-4배 가속화하고, 4B와 9B 에이전트는 48B와 120B 오픈 가중치 에이전트보다 우수한 성능을 보인다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">world-model-rl</span><span class="taxonomy-chip">wmrl</span><span class="taxonomy-chip">auto-research</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-      <a href="https://arxiv.org/abs/2609.08183" target="_blank" rel="noopener">NeoHorse-1: Towards Recursive Self-Improvement via Agentic Post-Training with Routing Harness</a>
-    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-08</span>      <span class="item-metric">▲ 414</span>
-<span class="item-authors">NeoHorse Team 외</span>    </div>
-<p class="item-summary">재귀적 자기 개선(RSI)을 위한 메커니즘을 다룬다. NeoHorse-1은 이 경로를 탐색하기 위해 에이전트 네이티브 모델을 사용하며, 이는 이질적인 모델 풀과 지능형 라우팅을 결합한다. 11개 벤치마크에서 4B 모델의 매크로 평균은 58.94에서 64.87로, 9B 모델은 65.60에서 69.04로 상승하여 모델 간 격차를 크게 줄인다.</p>    <div class="item-taxonomy">
-<span class="taxonomy-chip">recursive-self-improvement</span><span class="taxonomy-chip">agentic-post-training</span><span class="taxonomy-chip">routing-harness</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
@@ -675,10 +626,22 @@ min="2026-08-31" max="2026-09-16"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-14</span>      <span class="item-metric">▲ 405</span>
+<span class="item-date">2026-09-14</span>      <span class="item-metric">▲ 425</span>
 <span class="item-authors">Honglin Guo 외</span>    </div>
 <p class="item-summary">AI 에이전트가 후계자의 개발에 참여함으로써 지능 생산과 인간 연구자의 역할을 재구성한다. Atria Dawn Preview는 과학 연구와 엔지니어링 워크플로를 위한 기초 에이전틱 언어 모델로, 16개의 벤치마크에서 경쟁력을 보이고 5개에서는 최고 점수를 기록한다. 769개의 작업 기록 분석 결과, AI는 방법론 제안과 수정을 담당하며, 인간은 최종 결정과 탐색을 이끈다. 이는 작업 단위 실행에서 프로젝트 단위 파트너십으로의 변화를 보여준다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">agentic-superintelligence</span><span class="taxonomy-chip">human-ai-collaboration</span><span class="taxonomy-chip">verifiable-experience-pipeline</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.08183" target="_blank" rel="noopener">NeoHorse-1: Towards Recursive Self-Improvement via Agentic Post-Training with Routing Harness</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-08</span>      <span class="item-metric">▲ 419</span>
+<span class="item-authors">NeoHorse Team 외</span>    </div>
+<p class="item-summary">재귀적 자기 개선(RSI)을 위한 메커니즘을 다룬다. NeoHorse-1은 이 경로를 탐색하기 위해 에이전트 네이티브 모델을 사용하며, 이는 이질적인 모델 풀과 지능형 라우팅을 결합한다. 11개 벤치마크에서 4B 모델의 매크로 평균은 58.94에서 64.87로, 9B 모델은 65.60에서 69.04로 상승하여 모델 간 격차를 크게 줄인다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">recursive-self-improvement</span><span class="taxonomy-chip">agentic-post-training</span><span class="taxonomy-chip">routing-harness</span>    </div>
   </div>
 </div>
 </div>
@@ -686,8 +649,8 @@ min="2026-08-31" max="2026-09-16"
 <footer>
   <div class="footer-inner">
     <dl>
-      <dt>데이터 기준일</dt><dd>2026-09-16</dd>
-      <dt>생성 시각</dt><dd>2026-09-16 13:17 KST</dd>
+      <dt>데이터 기준일</dt><dd>2026-09-17</dd>
+      <dt>생성 시각</dt><dd>2026-09-17 12:22 KST</dd>
     </dl>
     <nav><a href="index.html">최신</a><a href="archive/index.html">지난 뉴스 전체</a></nav>
   </div>

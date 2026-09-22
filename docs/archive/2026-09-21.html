@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical AI Daily — 2026-09-21</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #006666;
+  --surface: #E7E5E4;
+  --surface-card: #E7E5E4;
+  --text: #1E2938;
+  --text-secondary: #4A5568;
+  --text-tertiary: #8494A7;
+  --accent: #006666;
+  --accent-hover: #004D4D;
+  --star-filled: #FE9900;
+  --star-empty: #C4C4C4;
+  --radar: #5B4BC4;
+  --radar-soft: rgba(91,75,196,0.10);
+  --surface-highlight: #EDE9E3;
+  --badge-bg: #D9D7D5;
+  --badge-text: #006666;
+  --warning: #FE9900;
+  --danger: #FF2157;
+  --gradient-start: #006666;
+  --gradient-mid: #008080;
+  --gradient-end: #00A3A3;
+  --header-text: #F1F2F5;
+  --footer-bg: #1E2938;
+  --footer-text: #8494A7;
+  --neu-light: rgba(255,255,255,0.7);
+  --neu-dark: rgba(0,0,0,0.15);
+  --shadow-raised: 6px 6px 12px var(--neu-dark), -6px -6px 12px var(--neu-light);
+  --shadow-raised-sm: 3px 3px 6px var(--neu-dark), -3px -3px 6px var(--neu-light);
+  --shadow-inset: inset 3px 3px 6px var(--neu-dark), inset -3px -3px 6px var(--neu-light);
+  --shadow-hover: 8px 8px 16px var(--neu-dark), -8px -8px 16px var(--neu-light);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+}
+/* 테마는 세 상태다: 아무 표시 없음(브라우저 설정 따름), data-theme="light",
+   data-theme="dark". 토글이 양방향으로 이기려면 세 경우를 모두 적어야 한다.
+   토큰만 다시 정의하고, 컴포넌트는 항상 토큰을 통해 색을 쓴다 —
+   미디어 쿼리 안에서만 정의된 색은 표시 없는 상태에서 적용되지 않는다. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --primary: #00CCCC;
+    --surface: #1A202C;
+    --surface-card: #1A202C;
+    --text: #F1F2F5;
+    --text-secondary: #CBD5E0;
+    --text-tertiary: #8494A7;
+    --accent: #00CCCC;
+    --accent-hover: #33E0E0;
+    --star-filled: #FEB800;
+    --star-empty: #4A5568;
+    --radar: #A99BFF;
+    --radar-soft: rgba(169,155,255,0.14);
+    --surface-highlight: #222C3C;
+    --badge-bg: #2D3748;
+    --badge-text: #00CCCC;
+    --gradient-start: #0D1117;
+    --gradient-mid: #1A202C;
+    --gradient-end: #004D4D;
+    --header-text: #E2E8F0;
+    --footer-bg: #0D1117;
+    --footer-text: #718096;
+    --neu-light: rgba(255,255,255,0.05);
+    --neu-dark: rgba(0,0,0,0.5);
+  }
+}
+:root[data-theme="dark"] {
+    --primary: #00CCCC;
+    --surface: #1A202C;
+    --surface-card: #1A202C;
+    --text: #F1F2F5;
+    --text-secondary: #CBD5E0;
+    --text-tertiary: #8494A7;
+    --accent: #00CCCC;
+    --accent-hover: #33E0E0;
+    --star-filled: #FEB800;
+    --star-empty: #4A5568;
+    --radar: #A99BFF;
+    --radar-soft: rgba(169,155,255,0.14);
+    --surface-highlight: #222C3C;
+    --badge-bg: #2D3748;
+    --badge-text: #00CCCC;
+    --gradient-start: #0D1117;
+    --gradient-mid: #1A202C;
+    --gradient-end: #004D4D;
+    --header-text: #E2E8F0;
+    --footer-bg: #0D1117;
+    --footer-text: #718096;
+    --neu-light: rgba(255,255,255,0.05);
+    --neu-dark: rgba(0,0,0,0.5);
+}
+
+/* ── 테마 토글 ────────────────────────────────────── */
+.theme-toggle {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 44px; height: 44px; border-radius: 50%; border: none;
+  background: var(--surface); box-shadow: var(--shadow-raised);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; transition: transform .2s, box-shadow .2s; z-index: 100;
+}
+.theme-toggle:hover { transform: scale(1.08); box-shadow: var(--shadow-hover); }
+.theme-toggle:active { box-shadow: var(--shadow-inset); transform: scale(.96); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.theme-toggle .icon-light, .theme-toggle .icon-dark { display: none; }
+/* 표시가 없으면 '브라우저 설정 따름' 상태임을 반달로 알린다 */
+:root:not([data-theme]) .theme-toggle::after { content: '\1F313'; }
+:root[data-theme="light"] .theme-toggle .icon-light { display: inline; }
+:root[data-theme="dark"] .theme-toggle .icon-dark { display: inline; }
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle, .item { transition: none; }
+  .item:hover { transform: none; }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  line-height: 1.65;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+/* ── hero ─────────────────────────────────────────── */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid) 55%, var(--gradient-end));
+  color: var(--header-text);
+  padding: 2.6rem 1.25rem 2.2rem;
+  text-align: center;
+}
+.hero-nav-link {
+  position: absolute; top: 1rem; right: 1.25rem; z-index: 2;
+  color: var(--header-text); font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem; font-weight: 500; padding: .4rem .8rem; border-radius: 999px;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: background .2s, transform .2s; white-space: nowrap;
+}
+.hero-nav-link:hover { background: rgba(255,255,255,.22); transform: translateY(-1px); text-decoration: none; }
+@media (max-width: 30rem) { .hero-nav-link { position: static; display: inline-block; margin-bottom: .8rem; } }
+
+/* ── 상단 액션 카드 (지난 뉴스 / GitHub) ──────────── */
+.page-actions { margin-bottom: 2rem; }
+.action-card {
+  min-width: 0; padding: 1.1rem 1.2rem; border-radius: var(--radius-md);
+  background: var(--surface-card); box-shadow: var(--shadow-raised-sm);
+}
+.action-card h2 { margin: 0 0 .35rem; font-size: .95rem; font-weight: 700; }
+.action-card p { margin: 0; font-size: .78rem; color: var(--text-secondary); }
+.archive-controls { display: flex; align-items: center; gap: .55rem; margin-top: .85rem; }
+.archive-date {
+  min-width: 0; flex: 1; height: 38px; padding: 0 .75rem;
+  border: 0; border-radius: 10px; outline: none;
+  background: var(--surface); box-shadow: var(--shadow-inset);
+  color: var(--text); color-scheme: light dark;
+  font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+}
+.archive-date:focus-visible { box-shadow: var(--shadow-inset), 0 0 0 2px var(--accent); }
+.action-button {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 38px; padding: .55rem .9rem; border: 0; border-radius: 10px;
+  background: var(--primary); color: var(--header-text);
+  font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: .74rem;
+  white-space: nowrap; cursor: pointer; text-decoration: none;
+  box-shadow: var(--shadow-raised-sm);
+  transition: transform .2s, box-shadow .2s, background .2s;
+}
+.action-button:hover { transform: translateY(-1px); box-shadow: var(--shadow-raised); text-decoration: none; }
+.secondary-links { display: flex; flex-wrap: wrap; gap: .45rem .9rem; margin-top: .7rem; }
+.text-link { color: var(--primary); font-size: .7rem; font-weight: 700; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+@media (max-width: 46rem) {
+  .archive-controls { align-items: stretch; }
+}
+
+.hero-inner { max-width: 58rem; margin: 0 auto; }
+.hero .icon { font-size: 2rem; line-height: 1; }
+.hero h1 {
+  margin: .5rem 0 .3rem;
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(1.5rem, 4.5vw, 2.3rem);
+  font-weight: 700; letter-spacing: -.01em;
+}
+.hero h1 .title-line { display: block; }
+.hero .subtitle { font-size: .92rem; opacity: .92; }
+.hero .stats {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: .4rem; margin-top: 1rem;
+}
+.hero .stats span {
+  font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+  padding: .2rem .6rem; border-radius: 999px;
+  background: rgba(255,255,255,.16);
+}
+
+/* ── container ────────────────────────────────────── */
+.container { max-width: 58rem; margin: 0 auto; padding: 1.6rem 1.25rem 3rem; }
+
+/* ── 접이식 안내 ──────────────────────────────────── */
+.feed-guide {
+  background: var(--surface-card); border-radius: var(--radius-md);
+  box-shadow: var(--shadow-raised); padding: .9rem 1.2rem; margin-bottom: 1.4rem;
+}
+.feed-guide > summary {
+  cursor: pointer; font-weight: 600; font-size: .9rem; color: var(--text-secondary);
+  list-style: none;
+}
+.feed-guide > summary::-webkit-details-marker { display: none; }
+.feed-guide > summary::before { content: "▸ "; color: var(--accent); }
+.feed-guide[open] > summary::before { content: "▾ "; }
+.guide-body { margin-top: .9rem; font-size: .82rem; color: var(--text-secondary); }
+.guide-title {
+  font-weight: 700; color: var(--text); margin: 1rem 0 .3rem;
+  font-size: .84rem; letter-spacing: .01em;
+}
+.guide-title:first-child { margin-top: 0; }
+.importance-scale div { display: flex; gap: .6rem; align-items: baseline; margin: .15rem 0; }
+.importance-scale strong { color: var(--star-filled); font-size: .78rem; white-space: nowrap; }
+.guide-source-row { display: grid; grid-template-columns: minmax(0,15rem) 1fr; gap: .2rem .9rem; margin: .2rem 0; }
+.guide-source-category { color: var(--text); font-weight: 500; }
+@media (max-width: 34rem) { .guide-source-row { grid-template-columns: 1fr; } }
+
+.banner {
+  background: var(--surface-card); color: var(--warning);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-inset);
+  padding: .85rem 1.1rem; margin-bottom: 1.2rem; font-size: .88rem;
+}
+
+/* ── 섹션 ─────────────────────────────────────────── */
+.section { margin-top: 2.2rem; }
+.section-header h2 {
+  margin: 0 0 .2rem; font-size: 1.12rem; font-weight: 700;
+  display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+}
+.section-header .count {
+  font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+  color: var(--badge-text); background: var(--badge-bg);
+  padding: .1rem .5rem; border-radius: 999px; box-shadow: var(--shadow-raised-sm);
+}
+.section-description { font-size: .8rem; color: var(--text-tertiary); margin: 0 0 .9rem; }
+.subsection {
+  font-size: .82rem; font-weight: 600; color: var(--text-secondary);
+  margin: 1.1rem 0 .5rem; display: flex; align-items: center; gap: .4rem;
+}
+
+/* ── 항목 카드 ────────────────────────────────────── */
+.item {
+  width: 100%; min-width: 0;
+  padding: 1.1rem 1.3rem; margin-bottom: 10px;
+  background: var(--surface-card); border: none;
+  border-radius: var(--radius-md); box-shadow: var(--shadow-raised);
+  transition: box-shadow .25s ease, transform .2s ease;
+}
+.item:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+.item-title { font-size: .98rem; font-weight: 600; line-height: 1.45; margin-bottom: .35rem; }
+.item-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-bottom: .5rem; }
+.badge {
+  font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+  padding: .12rem .5rem; border-radius: 999px;
+  background: var(--badge-bg); color: var(--badge-text);
+  box-shadow: var(--shadow-raised-sm);
+}
+.item-date { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--text-tertiary); }
+.item-authors { font-size: .68rem; color: var(--text-tertiary); }
+.stars { font-size: .78rem; letter-spacing: 1px; white-space: nowrap; cursor: help; }
+.stars .filled { color: var(--star-filled); }
+.stars .empty { color: var(--star-empty); }
+/* 최상위 항목만 테두리로 표시한다. 색은 제목과 같은 강조색을 쓴다 —
+   따로 색을 하나 더 들이면 페이지에 색이 늘어나기만 한다.
+   임계는 config.STAR_HIGHLIGHT_MIN. 4로 내렸더니 게시분 49건이 전부
+   테두리를 받아 표시가 아무것도 구분하지 못했다 — 상위 49건만 싣는 이상
+   게시분은 구조적으로 대부분 고득점이다. */
+.item.starred {
+  border: 1.5px solid var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+.item.starred .stars .filled { color: var(--danger); }
+.item-summary { font-size: .88rem; color: var(--text-secondary); margin: 0 0 .5rem; }
+.item-summary.missing { font-style: italic; color: var(--text-tertiary); }
+.item-taxonomy { display: flex; flex-wrap: wrap; gap: .28rem; }
+.taxonomy-chip {
+  display: inline-flex; align-items: center; min-width: 0;
+  padding: .16rem .5rem; border-radius: 999px;
+  font-family: 'JetBrains Mono', 'Noto Sans KR', monospace;
+  font-size: .6rem; line-height: 1.35; overflow-wrap: anywhere;
+  background: var(--badge-bg); color: var(--text-secondary);
+  box-shadow: var(--shadow-raised-sm);
+}
+.taxonomy-chip.taxonomy-venue { color: var(--badge-text); font-weight: 700; }
+
+/* ── Frontier AI 레인 ─────────────────────────────── */
+.tier {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem; font-weight: 800; letter-spacing: .06em;
+  padding: .12rem .5rem; border-radius: 999px; white-space: nowrap;
+  box-shadow: var(--shadow-raised-sm);
+}
+.tier-flagship { color: #fff; background: var(--radar); }
+.tier-major    { color: var(--radar); background: var(--radar-soft); }
+.tier-notable  { color: var(--text-tertiary); background: var(--badge-bg); }
+.item-metric { font-family: 'JetBrains Mono', monospace; font-size: .66rem; color: var(--text-tertiary); }
+
+/* ── 푸터 ─────────────────────────────────────────── */
+footer {
+  background: var(--footer-bg); color: var(--footer-text);
+  padding: 2rem 1.25rem 2.6rem; margin-top: 3rem;
+}
+.footer-inner { max-width: 58rem; margin: 0 auto; font-size: .78rem; }
+.footer-inner dl {
+  display: grid; grid-template-columns: max-content 1fr;
+  gap: .18rem .9rem; margin: .6rem 0 1rem;
+}
+.footer-inner dt { font-weight: 600; color: #CBD5E0; }
+.footer-inner dd { margin: 0; }
+.footer-inner nav a { color: var(--primary); margin-right: .8rem; }
+.empty-note { color: var(--text-tertiary); font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="hero">
+  <a class="hero-nav-link" href="https://github.com/ejjun92/med-ai-daily" target="_blank" rel="noopener">GitHub ↗</a>
+  <div class="hero-inner">
+    <div class="icon">🧠</div>
+    <h1><span class="title-line">Medical AI Daily</span></h1>
+    <div class="subtitle">2026-09-21 — 의료 AI 큐레이션</div>
+    <div class="stats">
+      <span>게시 5건</span>
+<span>딥러닝 방법론 1</span><span>EHR·임상 시계열 1</span><span>의료영상 AI 3</span>      <span>소스 3개</span>
+      <span>매일 12:00 KST 업데이트</span>
+      <span>중요도 정렬</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+<section class="page-actions" aria-label="지난 기록과 저장소">
+  <div class="action-card">
+    <h2>📚 지난 뉴스 보기</h2>
+    <p>날짜를 선택해 그날의 의료 AI 리서치 다이제스트를 확인하세요.</p>
+    <form class="archive-controls" id="archive-form">
+      <label class="visually-hidden" for="archive-date">날짜 선택</label>
+      <input class="archive-date" id="archive-date" type="date"
+min="2026-08-31" max="2026-09-21"
+             value="2026-09-21" required>
+      <button class="action-button" type="submit">기록 열기 ↗</button>
+    </form>
+    <div class="secondary-links">
+      <a class="text-link" href="../index.html">최신 기록 보기 →</a>
+      <a class="text-link" href="../archive/index.html">전체 아카이브 목록 →</a>
+    </div>
+  </div>
+</section>
+<script>
+(function () {
+  var form = document.getElementById('archive-form');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = document.getElementById('archive-date').value;
+    // 오늘치는 아카이브가 아니라 최신 페이지다.
+    if (d === "2026-09-21") { window.location.href = "../index.html"; return; }
+    if (d) window.location.href = "../archive/" + encodeURIComponent(d) + '.html';
+  });
+})();
+</script>
+<details class="feed-guide">
+  <summary>분류·중요도·수집 기준</summary>
+  <div class="guide-body">
+    <div class="guide-title">업데이트</div>
+    <div>매일 12:00 KST 전후에 수집·분류를 돌리고 같은 시간대에 이 페이지를 갱신합니다.
+      (arXiv가 논문을 발표·재색인하는 00~01 UTC를 피해 잡은 시각입니다.)</div>
+
+    <div class="guide-title">표시 범위</div>
+    <div>arXiv·PubMed는 최근 30일, Semantic Scholar는 최근 2개 연도의
+      학회 논문집을 봅니다. 이미 실었던 논문은 원장에 기록돼 다시 나오지 않습니다.</div>
+
+    <div class="guide-title">편집 비중</div>
+    <div>하루 40~60건을 목표로,
+뇌신호 AI 30% · 수술영상 26% · 딥러닝 방법론 17% · EHR·임상 시계열 14% · 의료영상 AI 13%      로 배분합니다. 해당 분야에 좋은 논문이 없으면 억지로 채우지 않고,
+      모자란 만큼을 푸터에 "축별 미달"로 적습니다.</div>
+
+    <div class="guide-title">중요도</div>
+    <div class="importance-scale">
+      <div><strong>★★★★★</strong><span>패러다임 전환, 주요 SOTA 갱신, 대형 공개 모델·데이터 릴리스</span></div>
+      <div><strong>★★★★</strong><span>의미 있는 기술 혁신, 주요 연구소 결과, 코드가 공개된 우수 논문</span></div>
+      <div><strong>★★★</strong><span>유용한 개선 — 도구, 데이터셋, 벤치마크, 실용 응용</span></div>
+      <div><strong>★★</strong><span>니치하지만 해당 하위분야에서 참고할 만한 결과</span></div>
+      <div><strong>★</strong><span>관련은 있으나 연구 임팩트가 제한적</span></div>
+    </div>
+
+    <div class="guide-title">연구 분야</div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">👁 fMRI Visual Decoding &amp; Reconstruction</div>
+      <div>fMRI에서 피험자가 본·상상한 이미지·장면을 복원(reconstruction)한다</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">⚡ EEG/MEG Decoding &amp; BCI</div>
+      <div>EEG·MEG에서 자극 내용이나 인지·운동 의도를 읽어낸다. motor imagery, BCI, neurofeedback 포함</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">💬 Brain-to-Language &amp; Multimodal Decoding</div>
+      <div>뇌 신호에서 문장·단어·의미를 생성한다 (speech/text decoding)</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🔗 Cross-Subject Generalization &amp; Neural Alignment</div>
+      <div>디코딩 모델을 학습에 없던 피험자로 일반화(subject-agnostic)하거나, 뇌 표현과 딥러닝 모델 표현을 정렬·비교한다. 다기관 데이터 조화나 피험자 변이 보정 자체가 목적이면 여기가 아니다</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🧬 Brain Signal Representation &amp; Foundation Models</div>
+      <div>EEG·fMRI **원신호 자체**(시계열·볼륨)의 표현학습·자기지도학습·foundation model. 연결성 그래프·커넥톰·메타분석처럼 신호에서 뽑아낸 2차 산물을 다루면 여기가 아니다</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🎬 Surgical Scene Understanding</div>
+      <div>수술 phase/step recognition, action triplet, 행동 인식</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">✂️ Instrument &amp; Anatomy Segmentation</div>
+      <div>수술 도구·해부구조 분할 및 추적</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">📹 Surgical VLP &amp; Foundation Model</div>
+      <div>수술 video-language pretraining, 수술 특화 기반모델</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🦾 Robotic Surgery &amp; Skill Assessment</div>
+      <div>수술 로봇, 술기 평가, 수술 내비게이션</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">📊 Uncertainty Quantification &amp; Calibration</div>
+      <div>불확실성 정량화, 신뢰도 보정, OOD 탐지</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🔍 Explainability &amp; Interpretability</div>
+      <div>XAI, saliency, concept 기반 해석, mechanistic interpretability</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🌐 Foundation Models &amp; Open-Vocabulary Perception</div>
+      <div>open-world/open-vocabulary 검출, 통합 비전 기반모델</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🧩 Multimodal &amp; Self-Supervised Representation</div>
+      <div>멀티모달 임베딩, contrastive/masked 표현학습</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🎨 Generative Modeling &amp; Editing</div>
+      <div>diffusion, 이미지 편집, 생성 제어</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🛡 Robustness &amp; Domain Generalization</div>
+      <div>도메인 적응·일반화, distribution shift, continual learning</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🧾 EHR Sequence Modeling &amp; Patient Trajectory</div>
+      <div>진단·처방·검사 코드 시퀀스의 표현학습, 환자 궤적 모델링. transformer·state-space 등 시퀀스 구조가 기여인 연구</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">📉 Clinical Time Series &amp; Monitoring</div>
+      <div>ICU 생체신호, 다변량 임상 시계열 예측, 조기경보, 불규칙 샘플링 처리</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">📝 Clinical LLM &amp; Note Understanding</div>
+      <div>임상 노트 요약·정보추출, EHR 기반 QA·에이전트, 의무기록 대상 LLM</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">⚕️ Outcome &amp; Risk Prediction</div>
+      <div>재입원·사망·질병 진행 예측, 생존분석, 치료 반응 예측. 영상이 아닌 표·시계열 기반</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🏥 Medical Foundation Models, VLM &amp; Report Generation</div>
+      <div>의료 특화 기반모델, 판독문 생성, 의료 VQA, 임상 LLM</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🫀 Segmentation, Detection &amp; Diagnosis</div>
+      <div>장기·병변 분할/검출, 질환 분류, 예후 예측, screening</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🧲 Reconstruction, Generation &amp; Benchmark</div>
+      <div>MRI/CT 재구성, denoising, 의료 데이터셋·평가체계</div>
+    </div>
+
+    <div class="guide-source-row">
+      <div class="guide-source-category">🔭 Frontier AI</div>
+      <div>최근 30일 안에 AI 커뮤니티에서 가장 주목받은 논문
+        (Hugging Face Daily Papers). 의료 관련성을 따지지 않으며, 본문 쿼터와 경쟁하지 않습니다.</div>
+    </div>
+
+    <div class="guide-title">소스 원칙</div>
+    <div>arXiv(프리프린트) · PubMed(의료 저널 5종) · Semantic Scholar(주요 학회 8종)를 함께 봅니다.
+      같은 논문이 여러 소스에 있으면 arXiv ID → DOI → 제목 순으로 합칩니다.
+      초록을 공개하지 않는 소스가 있어, 초록을 못 구한 논문은 감추지 않고
+      "초록 미확보"로 표시해 싣습니다.</div>
+  </div>
+</details>
+
+
+<div class="section">
+  <div class="section-header">
+    <h2>⚙️ 딥러닝 방법론
+      <span class="count">1</span>
+    </h2>
+  </div>
+  <div class="subsection">🔍 Explainability &amp; Interpretability</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42762596/" target="_blank" rel="noopener">Adaptive concept rule learning for interpretable and generalizable medical image classification.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-15</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Yibo Gao 외 6인</span>    </div>
+    <p class="item-summary">의료 영상 분류 모델의 결정 안전성을 추구한다. Concept Rule Learner (CRL) 프레임워크를 사용하여 Boolean 논리 규칙을 학습한다. 다각도의 임상 영상 분류 작업에서 경쟁력 있는 진단 성능을 보여주며, 심각한 분포 변화에도 학습된 규칙이 유효하다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">medical-image-classification</span><span class="taxonomy-chip">concept-rule-learning</span><span class="taxonomy-chip">interpretability</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
+    <h2>📈 EHR·임상 시계열
+      <span class="count">1</span>
+    </h2>
+  </div>
+  <div class="subsection">🧾 EHR Sequence Modeling &amp; Patient Trajectory</div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42763354/" target="_blank" rel="noopener">Expanding research on clinical agent data to a virtual space of location, time, and context: exploration of data structures and limitations using a pragmatic digital twin.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-19</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Sidra Rashid 외 8인</span>    </div>
+    <p class="item-summary">Fragmented healthcare data와 inflexible HIS 구조가 연구와 프로세스 최적화에 걸림돌이 되는 문제를 다룬다. OMNI-SYS라는 object-centric hospital information system(oHIS) 프레임워크를 사용한다. 18명의 건강한 자원봉사자가 7가지 일반적인 위장수술 절차를 위한 pre-operative 경로를 따르며, spatiotemporal events를 기록하고 이를 process mining과 workflow optimization에 적합한 structured dataset으로 생성하는 데 성공했다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">clinical-data</span><span class="taxonomy-chip">digital-twin</span><span class="taxonomy-chip">process-mining</span><span class="taxonomy-chip taxonomy-venue">IJCARS</span>    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
+    <h2>🩺 의료영상 AI
+      <span class="count">3</span>
+    </h2>
+  </div>
+  <div class="subsection">🫀 Segmentation, Detection &amp; Diagnosis</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42762598/" target="_blank" rel="noopener">Automatic segmentation and modeling of the aortic vessel tree: Overview of the SEG.A 2023 aorta segmentation challenge.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Yuan Jin 외 11인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42762597/" target="_blank" rel="noopener">Vertex-wise biomechanical sensitivity mapping of subcortical structures under atrophy in Parkinson&#39;s disease.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Arina Olentcevich 외 2인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+  <div class="subsection">🧲 Reconstruction, Generation &amp; Benchmark</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42762382/" target="_blank" rel="noopener">A U-Net Transformer for magnetic resonance elastography.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-19</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Weiheng Zhong 외 2인</span>    </div>
+    <p class="item-summary">magnetic resonance elastography (MRE)의 계산 비용과 잡음 민감도를 해결한다. U-Net Transformer (UNT)를 사용하여 기존 기법보다 정확한 재구성 결과를 얻는다. UNT는 기존 머신 러닝 모델보다 높은 재구성 정확도를 보여주며, 물리학 기반의 미세 조정 전략으로 임상 시나리오에서의 정확도를 향상시킨다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">magnetic-resonance-elastography</span><span class="taxonomy-chip">u-net-transformer</span><span class="taxonomy-chip">deep-learning</span><span class="taxonomy-chip taxonomy-venue">IJCARS</span>    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <h2>🔭 Frontier AI <span class="count">6</span></h2>
+  </div>
+  <p class="section-description">의료 밖에서 가장 주목받은 AI 논문. 본문 쿼터와 별개로 싣습니다.</p>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.11638" target="_blank" rel="noopener">Vidu S2: Real-Time Interactive, Editable, and Spatial Video Generation</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-10</span>      <span class="item-metric">▲ 690</span>
+<span class="item-authors">Jintao Zhang 외</span>    </div>
+<p class="item-summary">실시간 인터랙티브 디지털 캐릭터 모델과 비디오 편집 모델을 다룬다. Vidu S2-Avatar는 720p 비디오 생성, 동적 참조 업데이트, 안무 등 강력한 명령어 수행을 지원하며, Vidu S2-Editing은 스타일 렌더링, 의상 교체, 캐릭터 교체, 배경 교체 등 실시간 비디오 스트림 편집을 지원한다. 실험 결과 Vidu S2가 모든 베이스라인을 능가한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">real-time-video</span><span class="taxonomy-chip">interactive-model</span><span class="taxonomy-chip">video-editing</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2608.12564" target="_blank" rel="noopener">Scaling Automatic Research Agents via World Models</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-08-29</span>      <span class="item-metric">▲ 469</span>
+<span class="item-authors">Xiyuan Yang 외</span>    </div>
+<p class="item-summary">AutoResearch 에이전트의 확장을 위한 RL의 기본적 긴장을 다룬다. World Model RL (WMRL)을 사용하여 환경 실행을 대체하고, Online Debiasing과 Inverse-Variance Denoising를 통해 편향과 잡음을 줄인다. WMRL은 다양한 작업에서 3-4배 가속화하고, 4B와 9B 에이전트는 48B와 120B 오픈 가중치 에이전트보다 우수한 성능을 보인다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">world-model-rl</span><span class="taxonomy-chip">wmrl</span><span class="taxonomy-chip">auto-research</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.15818" target="_blank" rel="noopener">Atria Dawn: The Dawn of Agentic Superintelligence</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-14</span>      <span class="item-metric">▲ 418</span>
+<span class="item-authors">Honglin Guo 외</span>    </div>
+<p class="item-summary">AI 에이전트가 후계자의 개발에 참여함으로써 지능 생산과 인간 연구자의 역할을 재구성한다. Atria Dawn Preview는 과학 연구와 엔지니어링 워크플로를 위한 기초 에이전틱 언어 모델로, 16개의 벤치마크에서 경쟁력을 보이고 5개에서는 최고 점수를 기록한다. 769개의 작업 기록 분석 결과, AI는 방법론 제안과 수정을 담당하며, 인간은 최종 결정과 탐색을 이끈다. 이는 작업 단위 실행에서 프로젝트 단위 파트너십으로의 변화를 보여준다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">agentic-superintelligence</span><span class="taxonomy-chip">human-ai-collaboration</span><span class="taxonomy-chip">verifiable-experience-pipeline</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.02749" target="_blank" rel="noopener">Repo-To-Skill: Distilling GitHub Repositories Into AI4AI Skills</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-02</span>      <span class="item-metric">▲ 399</span>
+<span class="item-authors">Jianlyu Chen 외</span>    </div>
+<p class="item-summary">GitHub 리포지토리에서 AI4AI 기술을 추출하는 방법을 다룬다. DisCo라는 기술을 사용하여, 일반적인 작업과 특정 작업에 필요한 기술을 추출한다. AREX-Skill Library를 생성하고, 기술을 장착한 연구 에이전트는 MLE-bench에서 134.3%, PaperBench에서 34.4% 더 높은 성능을 보인다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">repo-skill</span><span class="taxonomy-chip">autonomous-agents</span><span class="taxonomy-chip">ml-research</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.17488" target="_blank" rel="noopener">LimiX-2: A Contextual Mechanism Network Towards General Structured-Data Intelligence</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-15</span>      <span class="item-metric">▲ 371</span>
+<span class="item-authors">Xingxuan Zhang 외</span>    </div>
+<p class="item-summary">LimiX-2는 Contextual Mechanism Networks(CMNs) 패러다임을 채택하고, Context-Conditional Masked Modeling(CCMM)을 통해 사전 학습된다. CMNs는 in-context 학습의 원칙을 대상 중심 예측에서 메커니즘 중심 공동 모델링으로 전환한다. 합성 데이터셋을 사용한 사전 학습 후, TabArena, TALENT, BCCO에서 현재의 데이터셋 특정 모델과 표 형식 기반 모델을 능가하는 성능을 보여준다. 또한, CMN 패러다임은 LimiX-2의 특징 주의를 통해 직접적인 인과 관계를 인코딩하여 정확한 인과 구조 복원을 가능케 한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">contextual-mechanism-networks</span><span class="taxonomy-chip">structured-data-intelligence</span><span class="taxonomy-chip">pretraining</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.06986" target="_blank" rel="noopener">Continual Learning Mechanisms Compose for Long-Horizon Memorization</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-07</span>      <span class="item-metric">▲ 367</span>
+<span class="item-authors">Zheyuan Zhang 외</span>    </div>
+<p class="item-summary">시간에 따라 도착하는 정보를 내재화하고 여러 후속 업데이트를 통해 유지하는 문제를 다룬다. 데이터, 함수, 가중치 앵커와 병합된 LoRA를 사용하여 잊음을 해결한다. 평균 최종 유지율을 1.2%에서 34.9%로 향상시키는 최고 방법을 제시한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">continual-learning</span><span class="taxonomy-chip">long-horizon-memorization</span><span class="taxonomy-chip">language-models</span>    </div>
+  </div>
+</div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <dl>
+      <dt>데이터 기준일</dt><dd>2026-09-21</dd>
+      <dt>생성 시각</dt><dd>2026-09-21 12:13 KST</dd>
+    </dl>
+    <nav><a href="../index.html">최신</a><a href="../archive/index.html">지난 뉴스 전체</a></nav>
+  </div>
+</footer>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="밝은/어두운 테마 전환">
+  <span class="icon-light">&#9728;&#65039;</span>
+  <span class="icon-dark">&#9789;</span>
+</button>
+<script>
+(function () {
+  // 깜빡임을 막으려면 렌더 전에 적용해야 하지만, 스크립트를 문서 끝에 두는
+  // 편이 안전하다 — 여기서는 배경색만 바뀌므로 체감 차이가 거의 없다.
+  var saved = null;
+  try { saved = localStorage.getItem('theme'); } catch (e) { /* 사생활 모드 */ }
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  }
+})();
+function toggleTheme() {
+  var html = document.documentElement;
+  var current = html.getAttribute('data-theme');
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  // 표시가 없으면 지금 보이는 것의 반대로 간다
+  var next = !current ? (prefersDark ? 'light' : 'dark')
+                      : (current === 'dark' ? 'light' : 'dark');
+  html.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) { /* 무시 */ }
+}
+</script>
+</body>
+</html>

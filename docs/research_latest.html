@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medical AI Daily — 2026-10-03</title>
+<title>Medical AI Daily — 2026-10-04</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -339,10 +339,10 @@ footer {
   <div class="hero-inner">
     <div class="icon">🧠</div>
     <h1><span class="title-line">Medical AI Daily</span></h1>
-    <div class="subtitle">2026-10-03 — 의료 AI 큐레이션</div>
+    <div class="subtitle">2026-10-04 — 의료 AI 큐레이션</div>
     <div class="stats">
-      <span>게시 14건</span>
-<span>뇌신호 AI 2</span><span>딥러닝 방법론 5</span><span>EHR·임상 시계열 4</span><span>의료영상 AI 3</span>      <span>소스 3개</span>
+      <span>게시 1건</span>
+<span>의료영상 AI 1</span>      <span>소스 3개</span>
       <span>매일 12:00 KST 업데이트</span>
       <span>중요도 정렬</span>
     </div>
@@ -357,8 +357,8 @@ footer {
     <form class="archive-controls" id="archive-form">
       <label class="visually-hidden" for="archive-date">날짜 선택</label>
       <input class="archive-date" id="archive-date" type="date"
-min="2026-08-31" max="2026-10-03"
-             value="2026-10-03" required>
+min="2026-08-31" max="2026-10-04"
+             value="2026-10-04" required>
       <button class="action-button" type="submit">기록 열기 ↗</button>
     </form>
     <div class="secondary-links">
@@ -375,7 +375,7 @@ min="2026-08-31" max="2026-10-03"
     e.preventDefault();
     var d = document.getElementById('archive-date').value;
     // 오늘치는 아카이브가 아니라 최신 페이지다.
-    if (d === "2026-10-03") { window.location.href = "index.html"; return; }
+    if (d === "2026-10-04") { window.location.href = "index.html"; return; }
     if (d) window.location.href = "archive/" + encodeURIComponent(d) + '.html';
   });
 })();
@@ -512,185 +512,21 @@ min="2026-08-31" max="2026-10-03"
 
 <div class="section">
   <div class="section-header">
-    <h2>🧠 뇌신호 AI
-      <span class="count">2</span>
-    </h2>
-  </div>
-  <div class="subsection">🔗 Cross-Subject Generalization &amp; Neural Alignment</div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42822187/" target="_blank" rel="noopener">Hierarchical multi-atlas fusion network for robust and interpretable cross-site analysis of functional connectomes in major depressive disorder.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-09-29</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Haixia Long 외 8인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
-  </div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42822184/" target="_blank" rel="noopener">Meta-analysis prompt guided multi-task graph transformer for joint analysis of cognitive deficits and psychiatric disorders.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-09-23</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Jing Xia 외 5인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
-  </div>
-</div>
-<div class="section">
-  <div class="section-header">
-    <h2>⚙️ 딥러닝 방법론
-      <span class="count">5</span>
-    </h2>
-  </div>
-  <div class="subsection">📊 Uncertainty Quantification &amp; Calibration</div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42826112/" target="_blank" rel="noopener">Quickest Causal Change Point Detection by Adaptive Intervention.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-10-02</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Haijie Xu 외 3인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="https://www.semanticscholar.org/paper/57bc6c73ed76b5a455f456299b2644b863c1be57" target="_blank" rel="noopener">Supervising Sound Localization by In-the-wild Egomotion</a>    </div>
-    <div class="item-meta">
-      <span class="badge">Semantic Scholar</span>
-<span class="item-date">2025-06-10</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Anna Min 외 3인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">CVPR</span>    </div>
-  </div>
-  <div class="subsection">🔍 Explainability &amp; Interpretability</div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42826113/" target="_blank" rel="noopener">Flexible Targeted Adversarial Alignment with Frequency-based Visual Focus for Attacking Large Vision-Language Models.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-10-02</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Daizong Liu 외 10인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
-  </div>
-  <div class="subsection">🧩 Multimodal &amp; Self-Supervised Representation</div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42821711/" target="_blank" rel="noopener">Exploring Multimodal Adapters with Multi-Task Decoders for Video Action Recognition.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-10-01</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Mengmeng Wang 외 7인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
-  </div>
-  <div class="subsection">🎨 Generative Modeling &amp; Editing</div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42826114/" target="_blank" rel="noopener">Motion Controlled Text-to-4D Generation with Multi-View Video Diffusion Model.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-10-02</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Runxin Liu 외 6인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
-  </div>
-</div>
-<div class="section">
-  <div class="section-header">
-    <h2>📈 EHR·임상 시계열
-      <span class="count">4</span>
-    </h2>
-  </div>
-  <div class="subsection">🧾 EHR Sequence Modeling &amp; Patient Trajectory</div>
-  <div class="item">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42752868/" target="_blank" rel="noopener">Institutional data commons: a federated Data Use Certification-aware architecture for secure and scalable data use in biomedical data ecosystems.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-10-01</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
-<span class="item-authors">Saonli Basu</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-  </div>
-  <div class="subsection">📝 Clinical LLM &amp; Note Understanding</div>
-  <div class="item">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42822573/" target="_blank" rel="noopener">Reproducible synthetic clinical letters for seizure frequency information extraction.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-10-01</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
-<span class="item-authors">Yujian Gan 외 6인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42821352/" target="_blank" rel="noopener">Small language models in clinical medicine: a systematic review of performance, safety, and deployment feasibility.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-10-01</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
-<span class="item-authors">Alon Gorenshtein 외 8인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42820348/" target="_blank" rel="noopener">Guideline-grounded large language models for extracting genome-informed clinical recommendations from electronic health records.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-10-01</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
-<span class="item-authors">Yi Xin 외 11인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-  </div>
-</div>
-<div class="section">
-  <div class="section-header">
     <h2>🩺 의료영상 AI
-      <span class="count">3</span>
+      <span class="count">1</span>
     </h2>
-  </div>
-  <div class="subsection">🫀 Segmentation, Detection &amp; Diagnosis</div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42826110/" target="_blank" rel="noopener">EM-SliceCrafter: Distilling Lightweight 2D CNNs for Efficient 3D EM Neuron Segmentation.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-10-02</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Haoyuan Shi 외 5인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
-  </div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42822186/" target="_blank" rel="noopener">Topology-aware unsupervised domain adaptation for curvilinear structure segmentation.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-09-24</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Gözde Merve Demirci 외 4인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
   </div>
   <div class="subsection">🧲 Reconstruction, Generation &amp; Benchmark</div>
   <div class="item starred">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42822185/" target="_blank" rel="noopener">Unsupervised high-resolution 3D MRI motion correction via physics-informed implicit neural representations.</a>    </div>
+<a href="https://pubmed.ncbi.nlm.nih.gov/42826585/" target="_blank" rel="noopener">MSRepaint: Multiple Sclerosis Repaint with conditional denoising diffusion implicit model for bidirectional lesion filling and synthesis.</a>    </div>
     <div class="item-meta">
       <span class="badge">PubMed</span>
-<span class="item-date">2026-09-29</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Haoyuan Le 외 4인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+<span class="item-date">2026-09-30</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Jinwei Zhang 외 11인</span>    </div>
+    <p class="item-summary">multiple sclerosis에서 발생하는 lesions이 자동 MRI 분석에 방해되는 문제를 다룬다. MSRepaint는 spatial lesion masks를 조건으로 사용하고, contrast dropout과 repainting mechanism을 통합한 diffusion-based 모델로, lesion filling과 synthesis를 수행한다. MSRepaint는 FSL과 NiftySeg보다 우수한 성능을 보이며, FastSurfer-LIT과 동등한 정확도를 달성하면서 20배 이상 빠른 추론 속도를 제공한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+<span class="taxonomy-chip">multiple-sclerosis</span><span class="taxonomy-chip">lesion-filling</span><span class="taxonomy-chip">diffusion-model</span><span class="taxonomy-chip">synthesis</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
   </div>
 </div>
 
@@ -718,22 +554,10 @@ min="2026-08-31" max="2026-10-03"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-27</span>      <span class="item-metric">▲ 514</span>
+<span class="item-date">2026-09-27</span>      <span class="item-metric">▲ 549</span>
 <span class="item-authors">EverMind AI</span>    </div>
 <p class="item-summary">대형 언어 모델의 발전에 따라 AI 에이전트는 고립된 도메인 특정 작업에서 장기적이고 다도메인 워크플로로 진화한다. Raven은 오픈소스 멀티 에이전트 생태계로, 특정 모델과 도메인을 위한 모듈식 하네스를 자동으로 생성하고 진화시킨다. 각 실행 가능한 모델-하네스 쌍은 재구성 가능한 지능 단위로 취급된다. 복잡하고 장기적인 작업에서 Raven은 최신 에이전트 시스템을 크게 능가한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">multi-agent-system</span><span class="taxonomy-chip">modular-harnesses</span><span class="taxonomy-chip">composable-intelligence</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-      <a href="https://arxiv.org/abs/2609.34309" target="_blank" rel="noopener">MaLiang-Harness: A Programmable Path to Image and Video Generation</a>
-    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-28</span>      <span class="item-metric">▲ 398</span>
-<span class="item-authors">Haoyu Zhao 외</span>    </div>
-<p class="item-summary">Program-to-Visual (P2V) 간극을 다룬다. MaLiang-Harness는 MLLM 주도의 시각 생성을 계획, 실행, 시각 피드백으로 조직하는 프레임워크다. GPT-6-Astra는 100% 생성 성공률을 보였으며, 이미지와 비디오 생성의 품질 기준을 대부분 충족했다. 이 연구는 일반 벤치마크의 제한성을 드러냈다.</p>    <div class="item-taxonomy">
-<span class="taxonomy-chip">programmable-generation</span><span class="taxonomy-chip">visual-creation</span><span class="taxonomy-chip">mllm</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
@@ -742,10 +566,22 @@ min="2026-08-31" max="2026-10-03"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-29</span>      <span class="item-metric">▲ 382</span>
+<span class="item-date">2026-09-29</span>      <span class="item-metric">▲ 436</span>
 <span class="item-authors">Hao Li 외</span>    </div>
 <p class="item-summary">On-policy distillation (OPD)를 다룬다. RIDE (RL-Induced Direction Extrapolation)를 사용한다. RIDE는 강화학습에 의해 변화된 방향을 표현 공간에서 직접 외삽하여 학생 모델을 훈련시키며, 네 가지 기준에서 RL-훈련된 선생님 모델을 근접하거나 능가한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">on-policy-distillation</span><span class="taxonomy-chip">reinforcement-learning</span><span class="taxonomy-chip">representation-extrapolation</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.34309" target="_blank" rel="noopener">MaLiang-Harness: A Programmable Path to Image and Video Generation</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-28</span>      <span class="item-metric">▲ 405</span>
+<span class="item-authors">Haoyu Zhao 외</span>    </div>
+<p class="item-summary">Program-to-Visual (P2V) 간극을 다룬다. MaLiang-Harness는 MLLM 주도의 시각 생성을 계획, 실행, 시각 피드백으로 조직하는 프레임워크다. GPT-6-Astra는 100% 생성 성공률을 보였으며, 이미지와 비디오 생성의 품질 기준을 대부분 충족했다. 이 연구는 일반 벤치마크의 제한성을 드러냈다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">programmable-generation</span><span class="taxonomy-chip">visual-creation</span><span class="taxonomy-chip">mllm</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
@@ -754,22 +590,20 @@ min="2026-08-31" max="2026-10-03"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-28</span>      <span class="item-metric">▲ 369</span>
+<span class="item-date">2026-09-28</span>      <span class="item-metric">▲ 378</span>
 <span class="item-authors">Haojian Huang 외</span>    </div>
-<p class="item-summary">로봇의 일반적 작업을 위한 in-context learning (ICL)을 다룬다. ICL은 시연과 상호작용을 통해 고정된 신경 매개변수를 활용해 기존 능력을 활용하는 네 가지 가족의 인터페이스를 구분한다. 이 메커니즘은 물체, 환경, 실행 조건이 바뀌어도 가르침을 유지하는 방법을 분석하며, 이를 통해 학습과 물리적 전이, 경험의 이점에 대한 평가 기준을 설정한다.</p>    <div class="item-taxonomy">
-<span class="taxonomy-chip">in-context-learning</span><span class="taxonomy-chip">robotics</span><span class="taxonomy-chip">task-acquisition</span>    </div>
+<p class="item-summary">로봇이 새로운 작업을 이해하고 물리적 행동으로 전환하는 과정을 지원하는 in-context learning(ICL)을 다룬다. ICL은 demonstration과 interaction을 사용해 기존 능력을 활용한다. 네 가지 가족(context-conditioned policies, geometric demonstration transfer, world-model-based control, skill-과 agent-based execution)을 통해 이 과정을 분석하고, 물체, 환경, 실행 조건이 바뀌어도 가르침이 유지되는 방법을 살펴본다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">in-context-learning</span><span class="taxonomy-chip">robotics</span><span class="taxonomy-chip">task-execution</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
-      <a href="https://arxiv.org/abs/2609.33325" target="_blank" rel="noopener">VisionHOPE: Visual Backbones as Self-Modifying Learning Systems</a>
+      <a href="https://arxiv.org/abs/2609.39102" target="_blank" rel="noopener">False Frontiers: Diagnosing and Mitigating Co-Cheating in Self-Evolving Search Agents</a>
     </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-27</span>      <span class="item-metric">▲ 319</span>
-<span class="item-authors">Siran Peng 외</span>    </div>
-<p class="item-summary">Visual backbones의 발전 과정을 다룬다. VisionHOPE는 Nested Learning을 기반으로 5개의 메모리를 통해 시각적 맥락이 쌓이는 동안 학습과 기억이 공동으로 진화하는 첫 번째 self-modifying learning system이다. ImageNet-1K, COCO, ADE20K에서 경쟁력 있는 성과를 보여 self-modifying learning systems의 실용성을 입증한다.</p>    <div class="item-taxonomy">
-<span class="taxonomy-chip">self-modifying-learning</span><span class="taxonomy-chip">visual-backbone</span><span class="taxonomy-chip">nested-learning</span>    </div>
+<span class="item-date">2026-09-30</span>      <span class="item-metric">▲ 354</span>
+<span class="item-authors">Meijia Chen 외</span>    </div>
   </div>
 </div>
 </div>
@@ -777,8 +611,8 @@ min="2026-08-31" max="2026-10-03"
 <footer>
   <div class="footer-inner">
     <dl>
-      <dt>데이터 기준일</dt><dd>2026-10-03</dd>
-      <dt>생성 시각</dt><dd>2026-10-03 12:14 KST</dd>
+      <dt>데이터 기준일</dt><dd>2026-10-04</dd>
+      <dt>생성 시각</dt><dd>2026-10-04 12:04 KST</dd>
     </dl>
     <nav><a href="index.html">최신</a><a href="archive/index.html">지난 뉴스 전체</a></nav>
   </div>

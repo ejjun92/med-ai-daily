@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medical AI Daily — 2026-10-04</title>
+<title>Medical AI Daily — 2026-10-05</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -339,10 +339,10 @@ footer {
   <div class="hero-inner">
     <div class="icon">🧠</div>
     <h1><span class="title-line">Medical AI Daily</span></h1>
-    <div class="subtitle">2026-10-04 — 의료 AI 큐레이션</div>
+    <div class="subtitle">2026-10-05 — 의료 AI 큐레이션</div>
     <div class="stats">
-      <span>게시 1건</span>
-<span>의료영상 AI 1</span>      <span>소스 3개</span>
+      <span>게시 4건</span>
+<span>딥러닝 방법론 2</span><span>의료영상 AI 2</span>      <span>소스 3개</span>
       <span>매일 12:00 KST 업데이트</span>
       <span>중요도 정렬</span>
     </div>
@@ -357,8 +357,8 @@ footer {
     <form class="archive-controls" id="archive-form">
       <label class="visually-hidden" for="archive-date">날짜 선택</label>
       <input class="archive-date" id="archive-date" type="date"
-min="2026-08-31" max="2026-10-04"
-             value="2026-10-04" required>
+min="2026-08-31" max="2026-10-05"
+             value="2026-10-05" required>
       <button class="action-button" type="submit">기록 열기 ↗</button>
     </form>
     <div class="secondary-links">
@@ -375,7 +375,7 @@ min="2026-08-31" max="2026-10-04"
     e.preventDefault();
     var d = document.getElementById('archive-date').value;
     // 오늘치는 아카이브가 아니라 최신 페이지다.
-    if (d === "2026-10-04") { window.location.href = "index.html"; return; }
+    if (d === "2026-10-05") { window.location.href = "index.html"; return; }
     if (d) window.location.href = "archive/" + encodeURIComponent(d) + '.html';
   });
 })();
@@ -512,21 +512,64 @@ min="2026-08-31" max="2026-10-04"
 
 <div class="section">
   <div class="section-header">
-    <h2>🩺 의료영상 AI
-      <span class="count">1</span>
+    <h2>⚙️ 딥러닝 방법론
+      <span class="count">2</span>
     </h2>
+  </div>
+  <div class="subsection">🔍 Explainability &amp; Interpretability</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/8f10a41ac778e8d61d9ca9b32f8c43fba23cccce" target="_blank" rel="noopener">Not all solutions are created equal: An analytical dissociation of functional and representational similarity in deep linear neural networks</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2026-09-30</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Lukas Braun 외 2인</span>    </div>
+    <p class="item-summary">connectionism의 원칙에 따라 인공 및 생물학적 네트워크의 신경 코드를 분석하고 비교한다. 두 층 선형 네트워크와 비선형 네트워크의 수치 시뮬레이션을 사용한다. 네트워크의 표현과 기능은 분리될 수 있으며, 이는 표현의 정렬이 기능적 정렬을 넘어 계산적 이점을 반영한다는 것을 시사한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">functional-similarity</span><span class="taxonomy-chip">representational-similarity</span><span class="taxonomy-chip">linear-networks</span><span class="taxonomy-chip taxonomy-venue">ICML</span>    </div>
+  </div>
+  <div class="subsection">🧩 Multimodal &amp; Self-Supervised Representation</div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/422ca6c5e6713749c1b629249f202f1f292d4699" target="_blank" rel="noopener">Low-Rank Tensor Transitions (LoRT) for Transferable Tensor Regression</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-01-01</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Andong Wang 외 4인</span>    </div>
+    <p class="item-summary">저_rank_텐서_전이(LoRT)를_이용한_이전가능한_텐서_회귀를_다룬다._LoRT는_텐서_회귀의_효율성을_향상시키는_핵심_방법이다._이_방법은_다양한_데이터_셋에서의_회귀_모델의_성능_향상을_보인다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">low-rank-tensor</span><span class="taxonomy-chip">transferable-regression</span><span class="taxonomy-chip taxonomy-venue">ICML</span>    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
+    <h2>🩺 의료영상 AI
+      <span class="count">2</span>
+    </h2>
+  </div>
+  <div class="subsection">🏥 Medical Foundation Models, VLM &amp; Report Generation</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/42535556d6fa176751774b7084f3b282093b026d" target="_blank" rel="noopener">MedRAX: Medical Reasoning Agent for Chest X-ray</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2025-02-04</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Adibvafa Fallahpour 외 4인</span>    </div>
+    <p class="item-summary">흉부 X-레이 해석의 효율성을 높이는 방법을 다룬다. MedRAX는 최신 흉부 X-레이 분석 도구와 다중 모달 언어 모델을 통합한 첫 번째 AI 에이전트를 제시한다. ChestAgentBench라는 2,500개의 복잡한 의료 쿼리를 포함한 벤치마크를 통해, MedRAX는 기존 모델들에 비해 우수한 성능을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">chest-x-ray</span><span class="taxonomy-chip">medical-reasoning</span><span class="taxonomy-chip">multimodal-language-models</span><span class="taxonomy-chip taxonomy-venue">ICML</span>    </div>
   </div>
   <div class="subsection">🧲 Reconstruction, Generation &amp; Benchmark</div>
   <div class="item starred">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/42826585/" target="_blank" rel="noopener">MSRepaint: Multiple Sclerosis Repaint with conditional denoising diffusion implicit model for bidirectional lesion filling and synthesis.</a>    </div>
+<a href="https://pubmed.ncbi.nlm.nih.gov/42828866/" target="_blank" rel="noopener">Cortex-grounded diffusion models for brain image generation.</a>    </div>
     <div class="item-meta">
       <span class="badge">PubMed</span>
-<span class="item-date">2026-09-30</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Jinwei Zhang 외 11인</span>    </div>
-    <p class="item-summary">multiple sclerosis에서 발생하는 lesions이 자동 MRI 분석에 방해되는 문제를 다룬다. MSRepaint는 spatial lesion masks를 조건으로 사용하고, contrast dropout과 repainting mechanism을 통합한 diffusion-based 모델로, lesion filling과 synthesis를 수행한다. MSRepaint는 FSL과 NiftySeg보다 우수한 성능을 보이며, FastSurfer-LIT과 동등한 정확도를 달성하면서 20배 이상 빠른 추론 속도를 제공한다.</p>
+<span class="item-date">2026-09-29</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Fabian Bongratz 외 6인</span>    </div>
+    <p class="item-summary">인공 신경영상 데이터가 실제 데이터셋의 제약을 완화하는 방법을 다룬다. Cor2Vox는 뇌 MRI 생성을 위한 코텍스 기반 프레임워크로, 높은 해상도의 코텍스 표면을 이용해 3D 형태에서 이미지로의 확산 과정을 가이드한다. 33,000개 이상의 스캔 데이터를 기반으로 개발된 통계적 형태 모델을 활용해 새로운 실제 뇌 형태를 생성하고, 세 가지 응용 분야에서 기존 방법을 능가하는 정확도를 보여준다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">multiple-sclerosis</span><span class="taxonomy-chip">lesion-filling</span><span class="taxonomy-chip">diffusion-model</span><span class="taxonomy-chip">synthesis</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+<span class="taxonomy-chip">brain-mri</span><span class="taxonomy-chip">diffusion-models</span><span class="taxonomy-chip">cortical-morphology</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
   </div>
 </div>
 
@@ -554,7 +597,7 @@ min="2026-08-31" max="2026-10-04"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-27</span>      <span class="item-metric">▲ 549</span>
+<span class="item-date">2026-09-27</span>      <span class="item-metric">▲ 561</span>
 <span class="item-authors">EverMind AI</span>    </div>
 <p class="item-summary">대형 언어 모델의 발전에 따라 AI 에이전트는 고립된 도메인 특정 작업에서 장기적이고 다도메인 워크플로로 진화한다. Raven은 오픈소스 멀티 에이전트 생태계로, 특정 모델과 도메인을 위한 모듈식 하네스를 자동으로 생성하고 진화시킨다. 각 실행 가능한 모델-하네스 쌍은 재구성 가능한 지능 단위로 취급된다. 복잡하고 장기적인 작업에서 Raven은 최신 에이전트 시스템을 크게 능가한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">multi-agent-system</span><span class="taxonomy-chip">modular-harnesses</span><span class="taxonomy-chip">composable-intelligence</span>    </div>
@@ -566,10 +609,22 @@ min="2026-08-31" max="2026-10-04"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-29</span>      <span class="item-metric">▲ 436</span>
+<span class="item-date">2026-09-29</span>      <span class="item-metric">▲ 465</span>
 <span class="item-authors">Hao Li 외</span>    </div>
 <p class="item-summary">On-policy distillation (OPD)를 다룬다. RIDE (RL-Induced Direction Extrapolation)를 사용한다. RIDE는 강화학습에 의해 변화된 방향을 표현 공간에서 직접 외삽하여 학생 모델을 훈련시키며, 네 가지 기준에서 RL-훈련된 선생님 모델을 근접하거나 능가한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">on-policy-distillation</span><span class="taxonomy-chip">reinforcement-learning</span><span class="taxonomy-chip">representation-extrapolation</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.38426" target="_blank" rel="noopener">LoopVL: Recurrent Visual Intelligence</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-29</span>      <span class="item-metric">▲ 454</span>
+<span class="item-authors">Zhe Qian 외</span>    </div>
+<p class="item-summary">LoopVL은 Loop Transformers를 시각-언어 모델로 효과적으로 확장할 수 있는지 연구한다. LoopVL은 Module-Loop와 Model-Loop 계산을 사용해 공유 모듈을 통해 통합된 시각-언어 상태를 반복적으로 업데이트한다. LoopVL은 언어 사전 학습, 다중 모달 학습, 후 학습을 통해 처음부터 학습되며, 다양한 비슷한 크기와 더 큰 비순환 모델보다 다중 모달 이해와 시각적 추론 벤치마크에서 우수한 성능을 보여준다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">vision-language</span><span class="taxonomy-chip">recurrent-models</span><span class="taxonomy-chip">multimodal-understanding</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
@@ -578,22 +633,10 @@ min="2026-08-31" max="2026-10-04"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-28</span>      <span class="item-metric">▲ 405</span>
+<span class="item-date">2026-09-28</span>      <span class="item-metric">▲ 410</span>
 <span class="item-authors">Haoyu Zhao 외</span>    </div>
 <p class="item-summary">Program-to-Visual (P2V) 간극을 다룬다. MaLiang-Harness는 MLLM 주도의 시각 생성을 계획, 실행, 시각 피드백으로 조직하는 프레임워크다. GPT-6-Astra는 100% 생성 성공률을 보였으며, 이미지와 비디오 생성의 품질 기준을 대부분 충족했다. 이 연구는 일반 벤치마크의 제한성을 드러냈다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">programmable-generation</span><span class="taxonomy-chip">visual-creation</span><span class="taxonomy-chip">mllm</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-      <a href="https://arxiv.org/abs/2609.36012" target="_blank" rel="noopener">In-Context Learning for Robots: Methods and Applications</a>
-    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-28</span>      <span class="item-metric">▲ 378</span>
-<span class="item-authors">Haojian Huang 외</span>    </div>
-<p class="item-summary">로봇이 새로운 작업을 이해하고 물리적 행동으로 전환하는 과정을 지원하는 in-context learning(ICL)을 다룬다. ICL은 demonstration과 interaction을 사용해 기존 능력을 활용한다. 네 가지 가족(context-conditioned policies, geometric demonstration transfer, world-model-based control, skill-과 agent-based execution)을 통해 이 과정을 분석하고, 물체, 환경, 실행 조건이 바뀌어도 가르침이 유지되는 방법을 살펴본다.</p>    <div class="item-taxonomy">
-<span class="taxonomy-chip">in-context-learning</span><span class="taxonomy-chip">robotics</span><span class="taxonomy-chip">task-execution</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
@@ -602,7 +645,7 @@ min="2026-08-31" max="2026-10-04"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
-<span class="item-date">2026-09-30</span>      <span class="item-metric">▲ 354</span>
+<span class="item-date">2026-09-30</span>      <span class="item-metric">▲ 392</span>
 <span class="item-authors">Meijia Chen 외</span>    </div>
   </div>
 </div>
@@ -611,8 +654,8 @@ min="2026-08-31" max="2026-10-04"
 <footer>
   <div class="footer-inner">
     <dl>
-      <dt>데이터 기준일</dt><dd>2026-10-04</dd>
-      <dt>생성 시각</dt><dd>2026-10-04 12:04 KST</dd>
+      <dt>데이터 기준일</dt><dd>2026-10-05</dd>
+      <dt>생성 시각</dt><dd>2026-10-05 12:16 KST</dd>
     </dl>
     <nav><a href="index.html">최신</a><a href="archive/index.html">지난 뉴스 전체</a></nav>
   </div>

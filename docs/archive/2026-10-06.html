@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medical AI Daily — 아카이브</title>
+<title>Medical AI Daily — 2026-10-06</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -342,7 +342,7 @@ footer {
     <div class="subtitle">2026-10-06 — 의료 AI 큐레이션</div>
     <div class="stats">
       <span>게시 2건</span>
-      <span>소스 3개</span>
+<span>수술영상 1</span><span>의료영상 AI 1</span>      <span>소스 3개</span>
       <span>매일 12:00 KST 업데이트</span>
       <span>중요도 정렬</span>
     </div>
@@ -380,44 +380,248 @@ min="2026-08-31" max="2026-10-06"
   });
 })();
 </script>
+<details class="feed-guide">
+  <summary>분류·중요도·수집 기준</summary>
+  <div class="guide-body">
+    <div class="guide-title">업데이트</div>
+    <div>매일 12:00 KST 전후에 수집·분류를 돌리고 같은 시간대에 이 페이지를 갱신합니다.
+      (arXiv가 논문을 발표·재색인하는 00~01 UTC를 피해 잡은 시각입니다.)</div>
+
+    <div class="guide-title">표시 범위</div>
+    <div>arXiv·PubMed는 최근 30일, Semantic Scholar는 최근 2개 연도의
+      학회 논문집을 봅니다. 이미 실었던 논문은 원장에 기록돼 다시 나오지 않습니다.</div>
+
+    <div class="guide-title">편집 비중</div>
+    <div>하루 40~60건을 목표로,
+뇌신호 AI 30% · 수술영상 26% · 딥러닝 방법론 17% · EHR·임상 시계열 14% · 의료영상 AI 13%      로 배분합니다. 해당 분야에 좋은 논문이 없으면 억지로 채우지 않고,
+      모자란 만큼을 푸터에 "축별 미달"로 적습니다.</div>
+
+    <div class="guide-title">중요도</div>
+    <div class="importance-scale">
+      <div><strong>★★★★★</strong><span>패러다임 전환, 주요 SOTA 갱신, 대형 공개 모델·데이터 릴리스</span></div>
+      <div><strong>★★★★</strong><span>의미 있는 기술 혁신, 주요 연구소 결과, 코드가 공개된 우수 논문</span></div>
+      <div><strong>★★★</strong><span>유용한 개선 — 도구, 데이터셋, 벤치마크, 실용 응용</span></div>
+      <div><strong>★★</strong><span>니치하지만 해당 하위분야에서 참고할 만한 결과</span></div>
+      <div><strong>★</strong><span>관련은 있으나 연구 임팩트가 제한적</span></div>
+    </div>
+
+    <div class="guide-title">연구 분야</div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">👁 fMRI Visual Decoding &amp; Reconstruction</div>
+      <div>fMRI에서 피험자가 본·상상한 이미지·장면을 복원(reconstruction)한다</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">⚡ EEG/MEG Decoding &amp; BCI</div>
+      <div>EEG·MEG에서 자극 내용이나 인지·운동 의도를 읽어낸다. motor imagery, BCI, neurofeedback 포함</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">💬 Brain-to-Language &amp; Multimodal Decoding</div>
+      <div>뇌 신호에서 문장·단어·의미를 생성한다 (speech/text decoding)</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🔗 Cross-Subject Generalization &amp; Neural Alignment</div>
+      <div>디코딩 모델을 학습에 없던 피험자로 일반화(subject-agnostic)하거나, 뇌 표현과 딥러닝 모델 표현을 정렬·비교한다. 다기관 데이터 조화나 피험자 변이 보정 자체가 목적이면 여기가 아니다</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🧬 Brain Signal Representation &amp; Foundation Models</div>
+      <div>EEG·fMRI **원신호 자체**(시계열·볼륨)의 표현학습·자기지도학습·foundation model. 연결성 그래프·커넥톰·메타분석처럼 신호에서 뽑아낸 2차 산물을 다루면 여기가 아니다</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🎬 Surgical Scene Understanding</div>
+      <div>수술 phase/step recognition, action triplet, 행동 인식</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">✂️ Instrument &amp; Anatomy Segmentation</div>
+      <div>수술 도구·해부구조 분할 및 추적</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">📹 Surgical VLP &amp; Foundation Model</div>
+      <div>수술 video-language pretraining, 수술 특화 기반모델</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🦾 Robotic Surgery &amp; Skill Assessment</div>
+      <div>수술 로봇, 술기 평가, 수술 내비게이션</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">📊 Uncertainty Quantification &amp; Calibration</div>
+      <div>불확실성 정량화, 신뢰도 보정, OOD 탐지</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🔍 Explainability &amp; Interpretability</div>
+      <div>XAI, saliency, concept 기반 해석, mechanistic interpretability</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🌐 Foundation Models &amp; Open-Vocabulary Perception</div>
+      <div>open-world/open-vocabulary 검출, 통합 비전 기반모델</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🧩 Multimodal &amp; Self-Supervised Representation</div>
+      <div>멀티모달 임베딩, contrastive/masked 표현학습</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🎨 Generative Modeling &amp; Editing</div>
+      <div>diffusion, 이미지 편집, 생성 제어</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🛡 Robustness &amp; Domain Generalization</div>
+      <div>도메인 적응·일반화, distribution shift, continual learning</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🧾 EHR Sequence Modeling &amp; Patient Trajectory</div>
+      <div>진단·처방·검사 코드 시퀀스의 표현학습, 환자 궤적 모델링. transformer·state-space 등 시퀀스 구조가 기여인 연구</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">📉 Clinical Time Series &amp; Monitoring</div>
+      <div>ICU 생체신호, 다변량 임상 시계열 예측, 조기경보, 불규칙 샘플링 처리</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">📝 Clinical LLM &amp; Note Understanding</div>
+      <div>임상 노트 요약·정보추출, EHR 기반 QA·에이전트, 의무기록 대상 LLM</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">⚕️ Outcome &amp; Risk Prediction</div>
+      <div>재입원·사망·질병 진행 예측, 생존분석, 치료 반응 예측. 영상이 아닌 표·시계열 기반</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🏥 Medical Foundation Models, VLM &amp; Report Generation</div>
+      <div>의료 특화 기반모델, 판독문 생성, 의료 VQA, 임상 LLM</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🫀 Segmentation, Detection &amp; Diagnosis</div>
+      <div>장기·병변 분할/검출, 질환 분류, 예후 예측, screening</div>
+    </div>
+    <div class="guide-source-row">
+      <div class="guide-source-category">🧲 Reconstruction, Generation &amp; Benchmark</div>
+      <div>MRI/CT 재구성, denoising, 의료 데이터셋·평가체계</div>
+    </div>
+
+    <div class="guide-source-row">
+      <div class="guide-source-category">🔭 Frontier AI</div>
+      <div>최근 30일 안에 AI 커뮤니티에서 가장 주목받은 논문
+        (Hugging Face Daily Papers). 의료 관련성을 따지지 않으며, 본문 쿼터와 경쟁하지 않습니다.</div>
+    </div>
+
+    <div class="guide-title">소스 원칙</div>
+    <div>arXiv(프리프린트) · PubMed(의료 저널 5종) · Semantic Scholar(주요 학회 8종)를 함께 봅니다.
+      같은 논문이 여러 소스에 있으면 arXiv ID → DOI → 제목 순으로 합칩니다.
+      초록을 공개하지 않는 소스가 있어, 초록을 못 구한 논문은 감추지 않고
+      "초록 미확보"로 표시해 싣습니다.</div>
+  </div>
+</details>
+
+
 <div class="section">
-  <div class="section-header"><h2>🗂 아카이브 <span class="count">36일</span></h2></div>
-  <div class="item"><div class="item-title"><a href="2026-10-06.html">2026-10-06</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-10-05.html">2026-10-05</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-10-04.html">2026-10-04</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-10-03.html">2026-10-03</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-10-02.html">2026-10-02</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-10-01.html">2026-10-01</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-30.html">2026-09-30</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-29.html">2026-09-29</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-28.html">2026-09-28</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-27.html">2026-09-27</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-26.html">2026-09-26</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-25.html">2026-09-25</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-24.html">2026-09-24</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-23.html">2026-09-23</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-22.html">2026-09-22</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-21.html">2026-09-21</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-20.html">2026-09-20</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-19.html">2026-09-19</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-18.html">2026-09-18</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-17.html">2026-09-17</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-16.html">2026-09-16</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-15.html">2026-09-15</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-14.html">2026-09-14</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-13.html">2026-09-13</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-12.html">2026-09-12</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-11.html">2026-09-11</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-10.html">2026-09-10</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-09.html">2026-09-09</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-08.html">2026-09-08</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-07.html">2026-09-07</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-06.html">2026-09-06</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-05.html">2026-09-05</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-04.html">2026-09-04</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-03.html">2026-09-03</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-09-01.html">2026-09-01</a></div></div>
-  <div class="item"><div class="item-title"><a href="2026-08-31.html">2026-08-31</a></div></div>
+  <div class="section-header">
+    <h2>🔬 수술영상
+      <span class="count">1</span>
+    </h2>
+  </div>
+  <div class="subsection">🎬 Surgical Scene Understanding</div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42830023/" target="_blank" rel="noopener">State-change learning for prediction of future events in endoscopic videos.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-09-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Saurav Sharma 외 3인</span>    </div>
+    <p class="item-summary">endoscopic 비디오에서 미래 이벤트를 예측하는 문제를 다룬다. state-change learning을 통해 surgical future prediction을 구현하며, teacher-student architecture를 사용한다. SFPBench를 통해 다양한 데이터셋에서 우수한 성능을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">state-change-learning</span><span class="taxonomy-chip">surgical-video</span><span class="taxonomy-chip">future-prediction</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
+    <h2>🩺 의료영상 AI
+      <span class="count">1</span>
+    </h2>
+  </div>
+  <div class="subsection">🫀 Segmentation, Detection &amp; Diagnosis</div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://www.semanticscholar.org/paper/be2b7ec66d4f91d778eee99f82a8ded14522874c" target="_blank" rel="noopener">Cross-Sectional and En Face Optical Coherence Tomography of Outer Retinal Morphological Changes Following Retinal Detachment Repair</a>    </div>
+    <div class="item-meta">
+      <span class="badge">Semantic Scholar</span>
+<span class="item-date">2026-10-01</span>      <span class="stars" title="중요도 2/5"><span class="filled">★★</span><span class="empty">★★★</span></span>
+<span class="item-authors">Noha A. Abdul Khaliq 외 5인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <h2>🔭 Frontier AI <span class="count">6</span></h2>
+  </div>
+  <p class="section-description">의료 밖에서 가장 주목받은 AI 논문. 본문 쿼터와 별개로 싣습니다.</p>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.36484" target="_blank" rel="noopener">The Teacher Is a Direction, Not a Destination: Extrapolating RL-Induced Representation Residuals in On-Policy Distillation</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-29</span>      <span class="item-metric">▲ 576</span>
+<span class="item-authors">Hao Li 외</span>    </div>
+<p class="item-summary">On-policy distillation (OPD)를 다룬다. RIDE (RL-Induced Direction Extrapolation)를 사용한다. RIDE는 강화학습에 의해 변화된 방향을 표현 공간에서 직접 외삽하여 학생 모델을 훈련시키며, 네 가지 기준에서 RL-훈련된 선생님 모델을 근접하거나 능가한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">on-policy-distillation</span><span class="taxonomy-chip">reinforcement-learning</span><span class="taxonomy-chip">representation-extrapolation</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.33439" target="_blank" rel="noopener">Raven: The Harness of Harnesses for Composable Agentic Intelligence</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-27</span>      <span class="item-metric">▲ 563</span>
+<span class="item-authors">EverMind AI</span>    </div>
+<p class="item-summary">대형 언어 모델의 발전에 따라 AI 에이전트는 고립된 도메인 특정 작업에서 장기적이고 다도메인 워크플로로 진화한다. Raven은 오픈소스 멀티 에이전트 생태계로, 특정 모델과 도메인을 위한 모듈식 하네스를 자동으로 생성하고 진화시킨다. 각 실행 가능한 모델-하네스 쌍은 재구성 가능한 지능 단위로 취급된다. 복잡하고 장기적인 작업에서 Raven은 최신 에이전트 시스템을 크게 능가한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">multi-agent-system</span><span class="taxonomy-chip">modular-harnesses</span><span class="taxonomy-chip">composable-intelligence</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.39102" target="_blank" rel="noopener">False Frontiers: Diagnosing and Mitigating Co-Cheating in Self-Evolving Search Agents</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-30</span>      <span class="item-metric">▲ 534</span>
+<span class="item-authors">Meijia Chen 외</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.38426" target="_blank" rel="noopener">LoopVL: Recurrent Visual Intelligence</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-29</span>      <span class="item-metric">▲ 467</span>
+<span class="item-authors">Zhe Qian 외</span>    </div>
+<p class="item-summary">LoopVL은 Loop Transformers를 시각-언어 모델로 효과적으로 확장할 수 있는지 연구한다. LoopVL은 Module-Loop와 Model-Loop 계산을 사용해 공유 모듈을 통해 통합된 시각-언어 상태를 반복적으로 업데이트한다. LoopVL은 언어 사전 학습, 다중 모달 학습, 후 학습을 통해 처음부터 학습되며, 다양한 비슷한 크기와 더 큰 비순환 모델보다 다중 모달 이해와 시각적 추론 벤치마크에서 우수한 성능을 보여준다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">vision-language</span><span class="taxonomy-chip">recurrent-models</span><span class="taxonomy-chip">multimodal-understanding</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.34309" target="_blank" rel="noopener">MaLiang-Harness: A Programmable Path to Image and Video Generation</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-28</span>      <span class="item-metric">▲ 411</span>
+<span class="item-authors">Haoyu Zhao 외</span>    </div>
+<p class="item-summary">Program-to-Visual (P2V) 간극을 다룬다. MaLiang-Harness는 MLLM 주도의 시각 생성을 계획, 실행, 시각 피드백으로 조직하는 프레임워크다. GPT-6-Astra는 100% 생성 성공률을 보였으며, 이미지와 비디오 생성의 품질 기준을 대부분 충족했다. 이 연구는 일반 벤치마크의 제한성을 드러냈다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">programmable-generation</span><span class="taxonomy-chip">visual-creation</span><span class="taxonomy-chip">mllm</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2609.36012" target="_blank" rel="noopener">In-Context Learning for Robots: Methods and Applications</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-flagship" title="커뮤니티 주목도">FLAGSHIP</span>
+<span class="item-date">2026-09-28</span>      <span class="item-metric">▲ 388</span>
+<span class="item-authors">Haojian Huang 외</span>    </div>
+<p class="item-summary">로봇이 새로운 작업을 이해하고 물리적 행동으로 전환하는 과정을 지원하는 in-context learning(ICL)을 다룬다. ICL은 demonstration과 interaction을 사용해 기존 능력을 활용한다. 네 가지 가족(context-conditioned policies, geometric demonstration transfer, world-model-based control, skill-과 agent-based execution)을 통해 이 과정을 분석하고, 물체, 환경, 실행 조건이 바뀌어도 가르침이 유지되는 방법을 살펴본다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">in-context-learning</span><span class="taxonomy-chip">robotics</span><span class="taxonomy-chip">task-execution</span>    </div>
+  </div>
 </div>
 </div>
 

@@ -21,23 +21,57 @@ import config
 
 
 def gpu_free_mb() -> Optional[dict[str, int]]:
-    """장별 여유 VRAM(MB). nvidia-smi가 없거나 실패하면 None.
+    """장별 여유 VRAM(MB). nvidia-smi가 없거나 실패하면 None."""
+    got = _query_gpu("memory.free")
+    return {k: v[0] for k, v in got.items()} if got else None
 
-    한 번에 전부 조회한다 — 장마다 따로 부르면 그 사이에 상황이 바뀌어
-    "둘 다 비어 있다"고 판단하고 서로 다른 답을 낼 수 있다.
+
+def gpu_total_mb() -> Optional[dict[str, int]]:
+    """장별 전체 VRAM(MB). util 계산에 쓴다."""
+    got = _query_gpu("memory.total")
+    return {k: v[0] for k, v in got.items()} if got else None
+
+
+def gpu_utilization_for(free_mb: int, total_mb: int) -> float:
+    """실제 여유에 맞춘 gpu_memory_utilization.
+
+    vLLM은 이 값을 **전체** VRAM에 곱해 예산을 잡는다. 전역 상수를 그대로
+    쓰면 장이 반만 비어 있을 때 있지도 않은 메모리를 달라고 해서 KV 캐시
+    할당 단계에서 죽는다 (실측 2026-10-07·08, 그 이틀은 발행이 0건이었다).
+    여유에서 거꾸로 계산하면 남은 만큼만 쓰고 연구 작업을 밀어내지 않는다.
+    """
+    if total_mb <= 0:
+        return config.GPU_MEMORY_UTILIZATION
+    usable = free_mb * config.GPU_FREE_HEADROOM
+    return max(0.0, min(config.GPU_MEMORY_UTILIZATION, usable / total_mb))
+
+
+def _query_gpu(*fields: str) -> Optional[dict[str, list[int]]]:
+    """nvidia-smi로 장별 수치를 **한 번에** 조회한다. 실패하면 None.
+
+    여러 필드를 한 호출로 받는다 — 나눠 부르면 그 사이에 상황이 바뀌어
+    여유와 전체가 서로 다른 시점을 가리키고 util 계산이 어긋난다.
     """
     try:
         out = subprocess.run(
-            ["nvidia-smi", "--query-gpu=index,memory.free",
+            ["nvidia-smi", "--query-gpu=index," + ",".join(fields),
              "--format=csv,noheader,nounits"],
             capture_output=True, text=True, timeout=15)
-        free = {}
+        got: dict[str, list[int]] = {}
         for line in out.stdout.strip().splitlines():
-            idx, mb = (x.strip() for x in line.split(","))
-            free[idx] = int(mb)
-        return free or None
+            idx, *vals = (x.strip() for x in line.split(","))
+            got[idx] = [int(v) for v in vals]
+        return got or None
     except Exception:       # noqa: BLE001
         return None
+
+
+def gpu_memory() -> Optional[dict[str, tuple[int, int]]]:
+    """장별 (여유, 전체) VRAM(MB). 한 호출로 받아 시점을 일치시킨다."""
+    got = _query_gpu("memory.free", "memory.total")
+    if not got:
+        return None
+    return {k: (v[0], v[1]) for k, v in got.items() if len(v) >= 2}
 
 
 def pick_gpu(log=print) -> Optional[str]:
@@ -173,11 +207,27 @@ class LocalLLM:
         # vLLM은 CUDA_VISIBLE_DEVICES를 통해서만 장을 고른다. 이 값을 설정하면
         # 프로세스 안에서 선택한 장이 cuda:0이 된다.
         os.environ["CUDA_VISIBLE_DEVICES"] = dev
+
+        # 예산은 전역 상수가 아니라 **이 장의 실제 여유**에서 계산한다.
+        # 상수를 그대로 쓰면 장이 반만 비어 있을 때 없는 메모리를 요구해
+        # KV 캐시 단계에서 죽는다 (실측 2026-10-07·08: 이틀 발행 0건).
+        free, total = (gpu_memory() or {}).get(dev, (0, 0))
+        util = gpu_utilization_for(free, total)
+        if not total:
+            # 조용히 상수(0.85)로 되돌아가면 10-07·08과 같은 크래시가 나는데
+            # 단서가 하나도 안 남는다. 되돌아가더라도 말은 해야 한다.
+            self.log(f"  [llm] ⚠️  전체 VRAM 조회 실패 — util을 상수 {util:.2f}로 "
+                     "쓴다. 장이 비어 있지 않으면 KV 캐시 할당에서 죽을 수 있다")
+        elif util < config.GPU_MEMORY_UTILIZATION:
+            self.log(f"  [llm] 여유 {free:,}/{total:,}MB — "
+                     f"gpu_memory_utilization을 {util:.2f}로 낮춰 띄운다 "
+                     "(연구 작업을 밀어내지 않는다)")
+
         from vllm import LLM
         t0 = time.time()
         self._llm = LLM(model=config.MODEL_PATH,
                         tensor_parallel_size=config.TENSOR_PARALLEL_SIZE,
-                        gpu_memory_utilization=config.GPU_MEMORY_UTILIZATION,
+                        gpu_memory_utilization=util,
                         max_model_len=config.MAX_MODEL_LEN,
                         seed=config.SEED, trust_remote_code=True)
         self.log(f"  [llm] 모델 로드 {time.time()-t0:.0f}초")

@@ -189,7 +189,15 @@ ARXIV_RETRIES = 4
 # 429는 IP 단위 차단이라 3초로는 안 풀린다. 실측: 2026-09-02~03 이틀 연속
 # 자동 실행이 429로 죽었다 — 전날 수동 조사에서 호출을 너무 많이 했다.
 ARXIV_RATE_LIMIT_BACKOFF_S = 60.0
-ARXIV_PAGE_SIZE = 2000       # max_results 상한
+# 실측(2026-10-03)으로 고른 값이다. max_results=2000은 응답이 4.9MB이고
+# 소요가 호출마다 34~65초로 요동쳐 아래 타임아웃을 넘나든다 — 그게 로그에
+# 찍힌 TimeoutError의 정체다. 500이면 1.2MB·2~11초로 안정권에 들어온다.
+# 페이지가 늘어도 총 시간은 비슷하다(큰 페이지가 그만큼 느리다).
+ARXIV_PAGE_SIZE = 500
+
+# 한 요청의 상한. 측정된 최악(2000건 65초)의 두 배를 둔다. 60초였을 때는
+# 정상 응답이 타임아웃으로 처리되어 재시도를 돌다 소스가 통째로 죽었다.
+ARXIV_TIMEOUT_S = 120
 
 PUBMED_JOURNALS = (
     "Med Image Anal",                        # Medical Image Analysis
@@ -229,8 +237,18 @@ S2_REQUEST_DELAY_S = 1.0
 
 # 소스별 상한 — 전역 단일 상한은 대량 색인된 proceedings 볼륨이
 # 그날 arXiv를 통째로 밀어낼 수 있다 (계획 D-11)
-ARXIV_MAX = 12000      # 30일 창 실측 9,294건(2026-09-01). 여유를 둔다 —
-# 상한에 걸리면 조용히 버려지는 게 아니라 푸터에 표시되지만, 애초에 안 걸리는 게 낫다
+# arXiv API의 **하드 한계**다. start>=10000이면 질의와 무관하게 HTTP 500을
+# 돌려준다 (실측 2026-10-08: start=9500 OK / 10000·10500 모두 500).
+# 이 한계는 상한과 별개로 페이징 자체를 끊어야 한다 — 중복제거로 수집 개수가
+# 오프셋보다 적게 늘면 상한에 못 닿은 채로 start가 10000을 밟는다
+# (실측: 페이지당 중복 1건이면 9,999건에서 start=10000 요청이 나간다).
+ARXIV_START_LIMIT = 10_000
+
+# 30일 창의 실제 분량은 13,239건이다(실측 2026-10-09, opensearch:totalResults).
+# 상한 10,000은 창의 최신 ~22일만 덮는다 — 남는 꼬리는 절삭된다. 매일 도는
+# 동안에는 문제가 없고(오늘 투고분은 오늘 받는다), 절삭이 일어나면 "어디까지
+# 덮었는지"를 성공선으로 기록해 다음 실행이 이어받는다.
+ARXIV_MAX = 10000
 PUBMED_MAX = 2000      # 30일 창 실측 204건 — 여유가 충분하다
 S2_MAX = 3000          # 500이면 MICCAI 한 해(1,008편)도 못 담는다.
 # 학회 논문집은 한 번에 등재되므로 상한이 곧 누락이다
@@ -302,8 +320,18 @@ MODEL_PATH = "Qwen/Qwen2.5-32B-Instruct-AWQ"   # 교체는 이 한 줄 (계획 D
 # 한 장만 쓰는 것은 그대로다 — 여러 장을 동시에 잡으면 연구 작업을 밀어낸다 (원칙 5).
 GPU_DEVICES = ("0", "1", "2", "3")
 TENSOR_PARALLEL_SIZE = 1
-GPU_MEMORY_UTILIZATION = 0.85
-MAX_MODEL_LEN = 8192          # 분류 프롬프트가 분류체계 전문을 담아 ~1.3k 토큰
+# ⚠️ vLLM의 gpu_memory_utilization은 **전체 VRAM 기준**이다. 48GB 장에서
+# 0.85는 41.8GB를 요구한다 — 다른 작업이 22GB를 쓰고 있으면 게이트(24GB)는
+# 통과하는데 vLLM이 KV 캐시를 못 잡고 죽는다 (실측 2026-10-07·08:
+# "여유 27,135MB"로 진입해 ValueError: No available memory for the cache blocks).
+# 그래서 이 값을 그대로 쓰지 않고 실제 여유에서 계산한다(gpu_utilization_for).
+GPU_MEMORY_UTILIZATION = 0.85     # 장이 통째로 비었을 때의 상한
+
+# 분류 프롬프트가 분류체계 전문을 담아 길다. 내리면 KV 캐시가 넉넉해지지만
+# 프롬프트가 안 들어간다 — 실측 2026-10-09 구조적 최악값(초록 절단 상한
+# 2,200자 + 긴 제목): 분류 ASCII 3,241토큰·CJK 5,743토큰, 여기에
+# CLASSIFY_MAX_TOKENS(1024)가 더 붙는다. 4096은 ASCII에서도 넘친다.
+MAX_MODEL_LEN = 8192
 # 같은 입력이면 같은 페이지가 나와야 한다 (원칙 4)
 TEMPERATURE = 0.0
 SEED = 42
@@ -312,11 +340,32 @@ CLASSIFY_BATCH = 200          # 진행 로그를 남기는 단위. vLLM이 내�
 CLASSIFY_MAX_TOKENS = 1024    # 512에서 절삭 발생(골든셋 Meta-CoT) — 실측 후 상향
 SUMMARIZE_MAX_TOKENS = 512    # 상한을 올려도 절삭이 안 줄어든다. 모델이 길게
 # 쓰는 게 아니라, 값을 다 쓴 뒤 종료 토큰 대신 반복 루프에 빠지기 때문이다
-# (실측: 4096 상한에서 원문 50만 자, 그중 쓸모 있는 부분은 앞 360자).
-# 정상 출력이 ~300토큰이므로 512면 충분하고, 폭주는 여기서 잘라 버린다.
-# 잘린 출력은 llm.salvage_json이 되살리고 summarize.trim_to_sentence가 다듬는다.
-# 기동 전 대상 GPU 여유 VRAM이 이 값 미만이면 남의 작업으로 보고 대기·건너뛴다
-GPU_FREE_VRAM_REQUIRED_MB = 24_000
+
+# 여유에서 util을 계산할 때 남겨 둘 몫. 조회 시점과 실제 할당 사이에 다른
+# 작업이 조금 더 잡을 수 있어 꽉 채우면 그 틈에 OOM이 난다.
+GPU_FREE_HEADROOM = 0.90
+
+# 게이트는 util 계산과 **정합해야** 한다. 여유에서 util을 계산하므로 여유가
+# 적으면 뜨기는 하되 KV 캐시가 말라 동시 시퀀스가 1개로 떨어지고, 분류가
+# 몇 배 느려져 GPU를 오래 점유한다. 반대로 게이트를 높이면 아예 못 돈다.
+#
+# ⚠️ 실측 2026-10-09: 이 서버는 4-way 작업이 장당 ~21.5GB를 잡아 네 장 모두
+#    여유가 27GB 선에 고정된다. 게이트를 30,700으로 올렸더니 pick_gpu()가
+#    None을 돌려 **매일 100% 건너뛰는** 상태가 됐다. 느린 성공을 영구 미발행과
+#    바꾸는 셈이라, 하한은 "돌 수 있는 최소"로 잡고 속도는 포기한다.
+#
+# 손으로 계산한 상수를 박지 않고 아래에서 유도한다 — MAX_MODEL_LEN을 건드리면
+# 게이트가 따라와야 하고, 주석 속 산수는 조용히 낡는다.
+GPU_WEIGHTS_MB = 19_000           # Qwen2.5-32B-AWQ 가중치 실측
+KV_BYTES_PER_TOKEN = 262_144      # 64층 × KV헤드 8 × head_dim 128 × 2(K,V) × 2B
+MIN_CONCURRENT_SEQS = 2           # 이 밑은 사실상 순차 처리다
+
+def _kv_mb_per_seq() -> float:
+    return MAX_MODEL_LEN * KV_BYTES_PER_TOKEN / 1e6
+
+GPU_FREE_VRAM_REQUIRED_MB = int(
+    (GPU_WEIGHTS_MB + MIN_CONCURRENT_SEQS * _kv_mb_per_seq())
+    / GPU_FREE_HEADROOM)
 GPU_WAIT_RETRIES = 3
 GPU_WAIT_SECONDS = 300
 

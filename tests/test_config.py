@@ -59,3 +59,20 @@ def test_overflow_factor_actually_lifts_the_ceiling():
         assert raw >= a.bounds[1], (
             f"{a.key}: 천장 원값 {raw} < 최대치 {a.bounds[1]} — FACTOR가 너무 낮다")
         assert a.ceiling > a.bounds[1], f"{a.key}: 천장이 최대치와 같아 재배분 불가"
+
+
+def test_arxiv_cap_respects_api_paging_limit():
+    """arXiv는 start>=10000에서 질의와 무관하게 500을 낸다 (실측 2026-10-08).
+
+    ⚠️ 이 설정 단정만으로는 런타임을 구속하지 못한다 — start는 결과셋
+    오프셋이고 상한은 중복제거 후 개수라 둘이 어긋난다. 실제 보장은
+    test_arxiv_window.py의 test_paging_never_crosses_the_api_start_limit이
+    중복을 주입해 확인한다. 여기서는 두 상수의 정합만 본다.
+    """
+    assert config.ARXIV_MAX <= config.ARXIV_START_LIMIT
+    assert config.ARXIV_PAGE_SIZE <= config.ARXIV_MAX
+
+
+def test_arxiv_timeout_covers_measured_worst_case():
+    """타임아웃 60초였을 때 정상 응답(측정 65초)이 TimeoutError가 됐다."""
+    assert config.ARXIV_TIMEOUT_S >= 120

@@ -144,7 +144,21 @@ def test_takes_card_as_soon_as_one_frees_up(monkeypatch):
     assert engine._wait_for_gpu() == (("2",), 1)
 
 
-# ── 예산 계산 (실측 2026-10-07·08: 이틀 연속 발행 0건) ──────────
+# ── 예산 계산 (실측 2026-10-07·08·11-12: 사흘 모두 발행 0건) ─────
+#
+# vLLM의 available_kv_cache_memory는 total*util에서 "peak_memory"를 뺀
+# 값인데, 이 peak_memory는 우리 프로세스 몫뿐 아니라 **남이 이미 쓰는
+# 몫까지** 포함한다 (vllm/v1/worker/gpu_worker.py determine_available_memory:
+# non_torch_allocations = (total-free) - 우리 torch 할당량). 그래서
+# util*total은 "남의 몫 + 우리가 더 쓸 몫"이어야 한다. 아래 헬퍼로 그
+# "우리가 더 쓸 몫"(own_budget)을 역산해 검증한다 — util 자체의 절대값은
+# 남의 점유량에 따라 올라갈 수도 내려갈 수도 있어 직접 비교할 수 없다.
+def _own_budget_mb(free: int, total: int) -> float:
+    util = llm.gpu_utilization_for(free, total)
+    other_usage = total - free
+    return util * total - other_usage
+
+
 def test_utilization_is_derived_from_free_not_total():
     """vLLM의 gpu_memory_utilization은 전체 VRAM 기준이다.
 
@@ -152,20 +166,25 @@ def test_utilization_is_derived_from_free_not_total():
     게이트(24GB)는 통과하는데 vLLM이 KV 캐시를 못 잡고 죽었다 —
     "ValueError: No available memory for the cache blocks". 그 이틀은
     사이트가 갱신되지 않았다.
+
+    ⚠️ util 자체는 이 상황에서 상수(0.85)보다 **올라간다** — 남이 쓰는
+    22GB까지 total 기준으로 담아야 하기 때문이다(실측 2026-11-12). 낮아
+    지는지가 아니라, 우리가 실제로 쓸 몫(own_budget)이 여유를 넘지 않는지를
+    본다.
     """
     total = 49_140
-    tight = llm.gpu_utilization_for(27_135, total)      # 실측 그 날의 여유
-    assert tight < config.GPU_MEMORY_UTILIZATION, "여유를 반영하지 않았다"
-    assert tight * total <= 27_135, (
-        f"여유 27,135MB보다 많은 {tight * total:,.0f}MB를 요구한다")
+    free = 27_135      # 실측 그 날의 여유
+    own = _own_budget_mb(free, total)
+    assert own <= free * config.GPU_FREE_HEADROOM + 1, (
+        f"여유 {free:,}MB보다 많은 {own:,.0f}MB를 우리 몫으로 요구한다")
 
 
 def test_utilization_keeps_headroom_below_free():
     """꽉 채우면 조회와 할당 사이에 다른 작업이 조금 잡아도 OOM이 난다."""
     total = 49_140
     for free in (24_000, 30_000, 40_000):
-        got = llm.gpu_utilization_for(free, total) * total
-        assert got < free, f"여유 {free}를 그대로 다 쓴다 ({got:.0f})"
+        own = _own_budget_mb(free, total)
+        assert own < free, f"여유 {free}를 그대로 다 쓴다 ({own:.0f})"
 
 
 def test_utilization_on_empty_device_matches_the_global_cap():
@@ -189,8 +208,8 @@ def test_gate_and_utilization_are_consistent():
     유도식을 복제하지 않고 성질만 본다.
     """
     TOTAL = 49_140          # RTX A6000
-    budget = llm.gpu_utilization_for(config.GPU_FREE_VRAM_REQUIRED_MB, TOTAL) * TOTAL
-    seqs = (budget - config.GPU_WEIGHTS_MB) / config._kv_mb_per_seq()
+    own_budget = _own_budget_mb(config.GPU_FREE_VRAM_REQUIRED_MB, TOTAL)
+    seqs = (own_budget - config.GPU_WEIGHTS_MB) / config._kv_mb_per_seq()
     assert seqs >= config.MIN_CONCURRENT_SEQS * 0.95, (
         f"게이트 {config.GPU_FREE_VRAM_REQUIRED_MB:,}MB에서 동시 시퀀스가 "
         f"{seqs:.1f}개 — 하한 {config.MIN_CONCURRENT_SEQS}개에 못 미친다")
@@ -207,6 +226,22 @@ def test_gate_fits_this_server_under_normal_occupancy():
     assert config.GPU_FREE_VRAM_REQUIRED_MB <= OCCUPIED_FREE_MB, (
         f"게이트 {config.GPU_FREE_VRAM_REQUIRED_MB:,}MB가 평시 여유 "
         f"{OCCUPIED_FREE_MB:,}MB를 넘어 아무 장도 못 고른다")
+
+
+def test_tp2_budget_fits_under_11_12_occupancy():
+    """실측 2026-11-12: 장당 여유 ~18.9GB(1장 요구치 미만)에서 tp=2로 떠야 한다.
+
+    이 값으로 실제 vLLM을 띄워봤다가 util 공식의 이중 차감 버그로 크래시가
+    난 바로 그 상황이다 — 공식을 고친 뒤에도 같은 입력으로 동시 시퀀스
+    하한을 채우는지 고정해둔다.
+    """
+    TOTAL = 49_140
+    FREE = 18_917          # 실측 그 날 가장 좁았던 장
+    own_budget = _own_budget_mb(FREE, TOTAL)
+    seqs = (own_budget - config.GPU_WEIGHTS_MB / 2) / (config._kv_mb_per_seq() / 2)
+    assert seqs >= config.MIN_CONCURRENT_SEQS * 0.95, (
+        f"여유 {FREE:,}MB(tp=2)에서 동시 시퀀스가 {seqs:.1f}개 — "
+        f"하한 {config.MIN_CONCURRENT_SEQS}개에 못 미친다")
 
 
 def test_engine_receives_the_derived_utilization_not_the_constant(monkeypatch):
@@ -239,8 +274,11 @@ def test_engine_receives_the_derived_utilization_not_the_constant(monkeypatch):
     expected = llm.gpu_utilization_for(FREE, TOTAL)
     assert seen["gpu_memory_utilization"] == expected, (
         f"엔진이 {seen['gpu_memory_utilization']}을 받았다 (기대 {expected})")
-    assert seen["gpu_memory_utilization"] < config.GPU_MEMORY_UTILIZATION, (
-        "상수를 그대로 넘겼다 — 10-07·08 크래시가 재현된다")
+    # 이 상황에서 계산값은 상수보다 **올라간다** (남이 쓰는 22GB를 total
+    # 기준으로 담아야 해서) — 그래도 상수를 그대로 넘긴 건 아니어야 한다.
+    assert seen["gpu_memory_utilization"] != config.GPU_MEMORY_UTILIZATION, (
+        "상수를 그대로 넘겼다 — 배선이 끊겼다"
+    )
     assert seen["tensor_parallel_size"] == 1
 
 

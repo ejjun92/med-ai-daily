@@ -35,15 +35,26 @@ def gpu_total_mb() -> Optional[dict[str, int]]:
 def gpu_utilization_for(free_mb: int, total_mb: int) -> float:
     """실제 여유에 맞춘 gpu_memory_utilization.
 
-    vLLM은 이 값을 **전체** VRAM에 곱해 예산을 잡는다. 전역 상수를 그대로
-    쓰면 장이 반만 비어 있을 때 있지도 않은 메모리를 달라고 해서 KV 캐시
-    할당 단계에서 죽는다 (실측 2026-10-07·08, 그 이틀은 발행이 0건이었다).
-    여유에서 거꾸로 계산하면 남은 만큼만 쓰고 연구 작업을 밀어내지 않는다.
+    vLLM은 이 값을 **전체** VRAM에 곱한 뒤, 거기서 "이미 쓰인 양"을 뺘서 KV
+    캐시 예산을 잡는다(vllm/v1/worker/gpu_worker.py determine_available_memory:
+    peak_memory += non_torch_allocations, 이 non_torch_allocations가
+    (total−free)에서 자기 torch 할당량을 뺀 값이라 **남이 쓰는 몫까지
+    품는다**). 그래서 util*total은 "남이 이미 쓰는 양 + 우리가 더 쓸 양"의
+    합이어야 한다 — 단순히 여유 비율로 util을 낮추면(실측 2026-11-12,
+    tp=2로 처음 이 분기를 실제로 태워서 드러남) 남의 몫을 두 번 빼는 셈이라
+    KV 캐시 예산이 음수로 떨어져 죽는다. 장이 반만 비어 있을 때 전역 상수를
+    그대로 쓰는 것도 같은 결과다(실측 2026-10-07·08, 그 이틀은 발행이
+    0건이었다) — 이번엔 반대 방향(너무 낮음)으로.
     """
     if total_mb <= 0:
         return config.GPU_MEMORY_UTILIZATION
-    usable = free_mb * config.GPU_FREE_HEADROOM
-    return max(0.0, min(config.GPU_MEMORY_UTILIZATION, usable / total_mb))
+    other_usage_mb = max(0, total_mb - free_mb)
+    # 우리가 실제로 쓸 몫: 장이 비었을 때의 상한(GPU_MEMORY_UTILIZATION)과
+    # 실제 여유(헤드룸 적용)의 더 작은 쪽. 그래야 비었을 때는 종전과 같은
+    # 예산을 쓰고, 좁을 때는 있는 만큼만 요구한다.
+    own_budget_mb = min(config.GPU_MEMORY_UTILIZATION * total_mb,
+                         free_mb * config.GPU_FREE_HEADROOM)
+    return max(0.0, min(1.0, (other_usage_mb + own_budget_mb) / total_mb))
 
 
 def _query_gpu(*fields: str) -> Optional[dict[str, list[int]]]:
@@ -259,10 +270,13 @@ class LocalLLM:
             # 여러 장 중 가장 빡빡한 장에 맞춰야 그 장에서 OOM이 안 난다 —
             # vLLM은 모든 장에 같은 gpu_memory_utilization을 적용한다.
             util = min(gpu_utilization_for(free, total) for free, total in pairs)
-            if util < config.GPU_MEMORY_UTILIZATION:
+            if any(free < total for free, total in pairs):
+                # 장이 비어 있지 않으면 util이 상수보다 **올라간다** — 남이
+                # 이미 쓰는 몫까지 total 기준으로 담아야 하기 때문이다.
                 self.log("  [llm] 여유 " + " / ".join(
                     f"{free:,}/{total:,}MB" for free, total in pairs)
-                    + f" — gpu_memory_utilization을 {util:.2f}로 낮춰 띄운다")
+                    + f" — 다른 작업 사용량을 반영해 gpu_memory_utilization을 "
+                    f"{util:.2f}로 맞춘다")
 
         from vllm import LLM
         t0 = time.time()

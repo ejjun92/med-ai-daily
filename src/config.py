@@ -317,9 +317,7 @@ STAR_MAX = 5
 # ─────────────────────────────────────────────────────────────────
 MODEL_PATH = "Qwen/Qwen2.5-32B-Instruct-AWQ"   # 교체는 이 한 줄 (계획 D-18)
 # 앞에서부터 비어 있는 장을 고른다. 0번이 점유돼 있으면 1→2→3으로 넘어간다.
-# 한 장만 쓰는 것은 그대로다 — 여러 장을 동시에 잡으면 연구 작업을 밀어낸다 (원칙 5).
 GPU_DEVICES = ("0", "1", "2", "3")
-TENSOR_PARALLEL_SIZE = 1
 # ⚠️ vLLM의 gpu_memory_utilization은 **전체 VRAM 기준**이다. 48GB 장에서
 # 0.85는 41.8GB를 요구한다 — 다른 작업이 22GB를 쓰고 있으면 게이트(24GB)는
 # 통과하는데 vLLM이 KV 캐시를 못 잡고 죽는다 (실측 2026-10-07·08:
@@ -363,9 +361,24 @@ MIN_CONCURRENT_SEQS = 2           # 이 밑은 사실상 순차 처리다
 def _kv_mb_per_seq() -> float:
     return MAX_MODEL_LEN * KV_BYTES_PER_TOKEN / 1e6
 
-GPU_FREE_VRAM_REQUIRED_MB = int(
-    (GPU_WEIGHTS_MB + MIN_CONCURRENT_SEQS * _kv_mb_per_seq())
-    / GPU_FREE_HEADROOM)
+def gpu_required_mb_for(tp: int) -> int:
+    """tp장에 나눠 실을 때 장 1개당 필요한 여유 VRAM(MB).
+
+    vLLM 텐서 병렬은 가중치와 KV 캐시를 tp장에 균등히 나눈다 — 장당 몫이
+    1/tp로 줄어든다. Qwen2.5-32B(num_attention_heads=40, num_kv_heads=8)는
+    2·4분할 모두 정수로 나뉜다.
+    """
+    return int(
+        (GPU_WEIGHTS_MB + MIN_CONCURRENT_SEQS * _kv_mb_per_seq()) / tp
+        / GPU_FREE_HEADROOM)
+
+GPU_FREE_VRAM_REQUIRED_MB = gpu_required_mb_for(1)
+# 1장으로 안 되면 넓혀볼 분할 수(작을수록 먼저 — 적게 건드리는 쪽을 우선).
+# 다른 사용자가 메모리를 쓰고 있어도 **메모리가 남는 한** 매일 돌아가게
+# 한다 — 연산까지 비켜주던 것(원칙 5의 원래 형태)보다, 메모리가 있는데도
+# 매일 미발행되는 쪽이 더 비싸다고 판단했다 (결정 2026-11-12, 11/3~11/11
+# 9일 연속 미발행 이후).
+GPU_TP_CANDIDATES = (1, 2, 4)
 GPU_WAIT_RETRIES = 3
 GPU_WAIT_SECONDS = 300
 

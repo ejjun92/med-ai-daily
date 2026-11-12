@@ -1,7 +1,8 @@
 """GPU 선택 — 어느 장을 잡고, 언제 물러나는가.
 
-연구용 GPU를 밀어내지 않는 것이 이 코드의 목적이다 (원칙 5).
-빈 장이 있으면 쓰고, 다 차 있으면 기다렸다가 건너뛴다.
+메모리가 남는 한 매일 돌아가는 쪽을 우선한다 (결정 2026-11-12). 1장
+여유로 되면 1장만 쓰고, 안 되면 나눠서라도 쓴다. 메모리 자체가 끝내
+부족하면 기다렸다가 건너뛴다.
 """
 import config
 import llm
@@ -76,11 +77,54 @@ def test_unknown_card_counts_as_busy(free):
     assert llm.pick_gpu(log=lambda *_: None) is None
 
 
+# ── 분할(TP) 선택 — 1장으로 안 되면 나눠서 쓴다 (결정 2026-11-12) ──
+def test_plan_prefers_single_card_when_it_fits(free):
+    """1장으로 충분하면 나누지 않는다 — 가장 적게 건드린다."""
+    assert llm.pick_gpu_plan(log=lambda *_: None) == (("0",), 1)
+
+
+def test_plan_splits_across_two_cards_when_one_is_not_enough(free):
+    """실측 상황(9일 연속 미발행, 장당 여유 ~19.4GB)을 그대로 재현한다.
+
+    1장 요구치(~25.9GB)에는 못 미치지만 2장(장당 ~12.9GB 요구)으로는
+    남는다 — 이제는 그걸로 돌려야 한다.
+    """
+    OCCUPIED_FREE_MB = 19_400
+    free(g0=OCCUPIED_FREE_MB, g1=OCCUPIED_FREE_MB,
+         g2=OCCUPIED_FREE_MB, g3=OCCUPIED_FREE_MB)
+    assert config.gpu_required_mb_for(1) > OCCUPIED_FREE_MB, "1장 요구치가 이미 낮아 재현이 안 된다"
+    assert llm.pick_gpu_plan(log=lambda *_: None) == (("0", "1"), 2)
+
+
+def test_plan_falls_back_to_four_cards_when_two_is_not_enough(free):
+    """2장도 안 되면 4장까지 넓힌다."""
+    need4 = config.gpu_required_mb_for(4)
+    need2 = config.gpu_required_mb_for(2)
+    assert need4 < need2, "분할이 늘수록 장당 요구치가 줄어야 한다"
+    free(g0=need4, g1=need4, g2=need4, g3=need4)
+    assert llm.pick_gpu_plan(log=lambda *_: None) == (("0", "1", "2", "3"), 4)
+
+
+def test_plan_returns_none_when_even_four_cards_is_not_enough(free):
+    """4장으로 나눠도 안 되면 포기한다 — 없는 메모리를 만들어내지 않는다."""
+    free(g0=BUSY, g1=BUSY, g2=BUSY, g3=BUSY)
+    assert llm.pick_gpu_plan(log=lambda *_: None) is None
+
+
+def test_plan_picks_the_first_qualifying_cards_not_the_emptiest(free):
+    """같은 분할 안에서도 순서를 고정한다 — 예측 가능해야 한다."""
+    need1 = config.gpu_required_mb_for(1)
+    need2 = config.gpu_required_mb_for(2)
+    assert need2 + 1 < need1, "4장 모두 1장 요구치는 못 채우게 설계해야 재현된다"
+    free(g0=need2, g1=need2, g2=need2 + 1, g3=need2 + 1)
+    assert llm.pick_gpu_plan(log=lambda *_: None) == (("0", "1"), 2)
+
+
 # ── 대기 후 건너뛰기 ─────────────────────────────────────────
 def test_waits_then_gives_up(monkeypatch):
     slept = []
     monkeypatch.setattr(llm.time, "sleep", lambda s: slept.append(s))
-    monkeypatch.setattr(llm, "pick_gpu", lambda log=print: None)
+    monkeypatch.setattr(llm, "pick_gpu_plan", lambda log=print: None)
     engine = llm.LocalLLM(log=lambda *_: None)
     assert engine._wait_for_gpu() is None
     assert len(slept) == config.GPU_WAIT_RETRIES, "설정한 횟수만큼 기다려야 한다"
@@ -91,13 +135,13 @@ def test_takes_card_as_soon_as_one_frees_up(monkeypatch):
 
     def flaky(log=print):
         calls["n"] += 1
-        return "2" if calls["n"] > 1 else None
+        return None if calls["n"] <= 1 else (("2",), 1)
 
     monkeypatch.setattr(llm.time, "sleep", lambda s: None)
-    monkeypatch.setattr(llm, "pick_gpu", flaky)
+    monkeypatch.setattr(llm, "pick_gpu_plan", flaky)
     monkeypatch.setattr(llm, "gpu_free_mb", lambda: {"2": 48000})
     engine = llm.LocalLLM(log=lambda *_: None)
-    assert engine._wait_for_gpu() == "2"
+    assert engine._wait_for_gpu() == (("2",), 1)
 
 
 # ── 예산 계산 (실측 2026-10-07·08: 이틀 연속 발행 0건) ──────────
@@ -186,7 +230,7 @@ def test_engine_receives_the_derived_utilization_not_the_constant(monkeypatch):
     monkeypatch.setitem(sys.modules, "vllm", fake)
     # 장이 반만 빈 상황 — 상수를 쓰면 없는 메모리를 요구한다
     FREE, TOTAL = 27_135, 49_140
-    monkeypatch.setattr(llm, "pick_gpu", lambda log=print: "0")
+    monkeypatch.setattr(llm, "pick_gpu_plan", lambda log=print: (("0",), 1))
     monkeypatch.setattr(llm, "gpu_memory", lambda: {"0": (FREE, TOTAL)})
 
     inst = llm.LocalLLM(log=lambda *_: None)
@@ -197,6 +241,7 @@ def test_engine_receives_the_derived_utilization_not_the_constant(monkeypatch):
         f"엔진이 {seen['gpu_memory_utilization']}을 받았다 (기대 {expected})")
     assert seen["gpu_memory_utilization"] < config.GPU_MEMORY_UTILIZATION, (
         "상수를 그대로 넘겼다 — 10-07·08 크래시가 재현된다")
+    assert seen["tensor_parallel_size"] == 1
 
 
 def test_unreadable_total_vram_is_logged_not_silent(monkeypatch):
@@ -211,7 +256,7 @@ def test_unreadable_total_vram_is_logged_not_silent(monkeypatch):
     fake = types.ModuleType("vllm")
     fake.LLM = lambda **kw: None
     monkeypatch.setitem(sys.modules, "vllm", fake)
-    monkeypatch.setattr(llm, "pick_gpu", lambda log=print: "0")
+    monkeypatch.setattr(llm, "pick_gpu_plan", lambda log=print: (("0",), 1))
     monkeypatch.setattr(llm, "gpu_memory", lambda: None)   # 조회 실패
 
     lines = []

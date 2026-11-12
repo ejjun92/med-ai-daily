@@ -95,6 +95,36 @@ def pick_gpu(log=print) -> Optional[str]:
     return None
 
 
+def pick_gpu_plan(log=print) -> Optional[tuple[tuple[str, ...], int]]:
+    """쓸 GPU 조합을 고른다 — (사용할 장들, tensor_parallel_size).
+
+    1장 여유로 충분하면 1장만 쓴다 — 가장 적게 건드린다. 그걸로 안 되면
+    가중치/KV를 나눠 실을 수 있는 최소 장수까지 넓힌다(config.GPU_TP_CANDIDATES
+    순서대로). 다른 사용자가 메모리를 쓰고 있어도 **메모리가 남는 한** 매일
+    돌아가게 한다 (결정 2026-11-12).
+    """
+    dev = pick_gpu(log=log)
+    if dev is not None:
+        return (dev,), 1
+
+    free = gpu_free_mb()
+    if free is None:
+        return None     # pick_gpu가 이미 조회 실패 시 GPU0으로 돌려줬다
+
+    for tp in config.GPU_TP_CANDIDATES:
+        if tp <= 1 or tp > len(config.GPU_DEVICES):
+            continue
+        required = config.gpu_required_mb_for(tp)
+        usable = [d for d in config.GPU_DEVICES if free.get(d, 0) >= required]
+        if len(usable) >= tp:
+            return tuple(usable[:tp]), tp
+
+    log("  [llm] 여유 " + " / ".join(
+        f"GPU{d} {free.get(d, 0):,}MB" for d in config.GPU_DEVICES)
+        + " — 1장으로도, 나눠서도 부족")
+    return None
+
+
 def salvage_json(text: str) -> Optional[dict]:
     """망가진 JSON에서 최대한 많은 필드를 건진다.
 
@@ -172,65 +202,76 @@ def salvage_json(text: str) -> Optional[dict]:
 class LocalLLM:
     """온디맨드 vLLM. 기동 전 GPU 가용성을 확인하고, 끝나면 반드시 반납한다.
 
-    GPU는 연구용이 우선이다 (원칙 5). 대상 GPU가 점유 중이면 남의 작업을
-    밀어내지 않고 대기했다가, 끝내 비지 않으면 그날은 건너뛴다.
+    메모리가 남는 한 매일 돌아가는 쪽을 우선한다. 1장 여유로 되면 1장만
+    쓰고, 안 되면 가중치/KV를 나눠 실을 수 있는 최소 장수까지 넓힌다
+    (결정 2026-11-12) — 끝내 메모리 자체가 부족하면 그날은 건너뛴다.
     """
 
     def __init__(self, log=print):
         self.log = log
         self._llm = None
-        self.device: Optional[str] = None
+        self.device: Optional[tuple[str, ...]] = None
+        self.tensor_parallel_size: Optional[int] = None
         self.last_raw: list[str] = []
 
     # ── 수명주기 ──────────────────────────────────────────────
-    def _wait_for_gpu(self) -> Optional[str]:
-        """쓸 장이 생길 때까지 기다린다. 끝내 없으면 None."""
+    def _wait_for_gpu(self) -> Optional[tuple[tuple[str, ...], int]]:
+        """쓸 조합이 생길 때까지 기다린다. 끝내 없으면 None."""
         for attempt in range(config.GPU_WAIT_RETRIES):
-            dev = pick_gpu(log=self.log)
-            if dev is not None:
-                free = (gpu_free_mb() or {}).get(dev)
-                self.log(f"  [llm] GPU{dev} 선택"
-                         + (f" (여유 {free:,}MB)" if free else ""))
-                return dev
-            self.log(f"  [llm] 연구 작업 중으로 보고 {config.GPU_WAIT_SECONDS}초 대기 "
+            plan = pick_gpu_plan(log=self.log)
+            if plan is not None:
+                devices, tp = plan
+                free = gpu_free_mb() or {}
+                self.log(f"  [llm] GPU{','.join(devices)} 선택 (tp={tp}, 여유 "
+                         + ", ".join(f"{free.get(d, 0):,}MB" for d in devices)
+                         + ")")
+                return plan
+            self.log(f"  [llm] 메모리가 부족해 {config.GPU_WAIT_SECONDS}초 대기 "
                      f"({attempt+1}/{config.GPU_WAIT_RETRIES})")
             time.sleep(config.GPU_WAIT_SECONDS)
         return None
 
     def __enter__(self) -> "LocalLLM":
-        dev = self._wait_for_gpu()
-        if dev is None:
+        plan = self._wait_for_gpu()
+        if plan is None:
             raise RuntimeError(
-                f"GPU {', '.join(config.GPU_DEVICES)}번이 모두 점유 중이라 이번 실행을 "
-                "건너뜁니다. 연구 작업을 밀어내지 않습니다.")
-        self.device = dev
-        # vLLM은 CUDA_VISIBLE_DEVICES를 통해서만 장을 고른다. 이 값을 설정하면
-        # 프로세스 안에서 선택한 장이 cuda:0이 된다.
-        os.environ["CUDA_VISIBLE_DEVICES"] = dev
+                f"GPU {', '.join(config.GPU_DEVICES)}번 모두 1장으로도, 나눠서도 "
+                "메모리가 부족해 이번 실행을 건너뜁니다.")
+        devices, tp = plan
+        self.device = devices
+        self.tensor_parallel_size = tp
+        # vLLM은 CUDA_VISIBLE_DEVICES를 통해서만 장을 고른다. 여러 장을 주면
+        # tensor_parallel_size만큼 그 장들에 나눠 올린다.
+        os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(devices)
 
-        # 예산은 전역 상수가 아니라 **이 장의 실제 여유**에서 계산한다.
+        # 예산은 전역 상수가 아니라 **이 장들의 실제 여유**에서 계산한다.
         # 상수를 그대로 쓰면 장이 반만 비어 있을 때 없는 메모리를 요구해
         # KV 캐시 단계에서 죽는다 (실측 2026-10-07·08: 이틀 발행 0건).
-        free, total = (gpu_memory() or {}).get(dev, (0, 0))
-        util = gpu_utilization_for(free, total)
-        if not total:
+        mem = gpu_memory() or {}
+        pairs = [mem.get(d, (0, 0)) for d in devices]
+        if not mem or any(total == 0 for _, total in pairs):
             # 조용히 상수(0.85)로 되돌아가면 10-07·08과 같은 크래시가 나는데
             # 단서가 하나도 안 남는다. 되돌아가더라도 말은 해야 한다.
+            util = config.GPU_MEMORY_UTILIZATION
             self.log(f"  [llm] ⚠️  전체 VRAM 조회 실패 — util을 상수 {util:.2f}로 "
                      "쓴다. 장이 비어 있지 않으면 KV 캐시 할당에서 죽을 수 있다")
-        elif util < config.GPU_MEMORY_UTILIZATION:
-            self.log(f"  [llm] 여유 {free:,}/{total:,}MB — "
-                     f"gpu_memory_utilization을 {util:.2f}로 낮춰 띄운다 "
-                     "(연구 작업을 밀어내지 않는다)")
+        else:
+            # 여러 장 중 가장 빡빡한 장에 맞춰야 그 장에서 OOM이 안 난다 —
+            # vLLM은 모든 장에 같은 gpu_memory_utilization을 적용한다.
+            util = min(gpu_utilization_for(free, total) for free, total in pairs)
+            if util < config.GPU_MEMORY_UTILIZATION:
+                self.log("  [llm] 여유 " + " / ".join(
+                    f"{free:,}/{total:,}MB" for free, total in pairs)
+                    + f" — gpu_memory_utilization을 {util:.2f}로 낮춰 띄운다")
 
         from vllm import LLM
         t0 = time.time()
         self._llm = LLM(model=config.MODEL_PATH,
-                        tensor_parallel_size=config.TENSOR_PARALLEL_SIZE,
+                        tensor_parallel_size=tp,
                         gpu_memory_utilization=util,
                         max_model_len=config.MAX_MODEL_LEN,
                         seed=config.SEED, trust_remote_code=True)
-        self.log(f"  [llm] 모델 로드 {time.time()-t0:.0f}초")
+        self.log(f"  [llm] 모델 로드 {time.time()-t0:.0f}초 (tp={tp})")
         return self
 
     def __exit__(self, *exc) -> None:

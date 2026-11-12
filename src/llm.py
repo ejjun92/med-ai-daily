@@ -284,7 +284,14 @@ class LocalLLM:
                         tensor_parallel_size=tp,
                         gpu_memory_utilization=util,
                         max_model_len=config.MAX_MODEL_LEN,
-                        seed=config.SEED, trust_remote_code=True)
+                        seed=config.SEED, trust_remote_code=True,
+                        # CUDA 그래프 캡처는 배치 크기별로 따로 메모리를 더
+                        # 잡는다(실측 2026-11-12: KV 캐시 예산은 통과했는데
+                        # compile_or_warm_up_model 단계에서 "CUDA error: out
+                        # of memory"). 공유 GPU에서 여유가 좁을 땐 그 추가분을
+                        # 예측하기 어려워 꺼둔다 — 배치 작업이라 토큰당 속도
+                        # 손실은 감당할 만하다.
+                        enforce_eager=True)
         self.log(f"  [llm] 모델 로드 {time.time()-t0:.0f}초 (tp={tp})")
         return self
 

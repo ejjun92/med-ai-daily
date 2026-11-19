@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medical AI Daily — 2026-11-18</title>
+<title>Medical AI Daily — 2026-11-19</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -339,10 +339,10 @@ footer {
   <div class="hero-inner">
     <div class="icon">🧠</div>
     <h1><span class="title-line">Medical AI Daily</span></h1>
-    <div class="subtitle">2026-11-18 — 의료 AI 큐레이션</div>
+    <div class="subtitle">2026-11-19 — 의료 AI 큐레이션</div>
     <div class="stats">
       <span>게시 40건</span>
-<span>뇌신호 AI 15</span><span>수술영상 1</span><span>딥러닝 방법론 10</span><span>EHR·임상 시계열 7</span><span>의료영상 AI 7</span>      <span>소스 3개</span>
+<span>뇌신호 AI 7</span><span>수술영상 2</span><span>딥러닝 방법론 12</span><span>EHR·임상 시계열 10</span><span>의료영상 AI 9</span>      <span>소스 3개</span>
       <span>매일 12:00 KST 업데이트</span>
       <span>중요도 정렬</span>
     </div>
@@ -357,8 +357,8 @@ footer {
     <form class="archive-controls" id="archive-form">
       <label class="visually-hidden" for="archive-date">날짜 선택</label>
       <input class="archive-date" id="archive-date" type="date"
-min="2026-08-31" max="2026-11-18"
-             value="2026-11-18" required>
+min="2026-08-31" max="2026-11-19"
+             value="2026-11-19" required>
       <button class="action-button" type="submit">기록 열기 ↗</button>
     </form>
     <div class="secondary-links">
@@ -375,7 +375,7 @@ min="2026-08-31" max="2026-11-18"
     e.preventDefault();
     var d = document.getElementById('archive-date').value;
     // 오늘치는 아카이브가 아니라 최신 페이지다.
-    if (d === "2026-11-18") { window.location.href = "index.html"; return; }
+    if (d === "2026-11-19") { window.location.href = "index.html"; return; }
     if (d) window.location.href = "archive/" + encodeURIComponent(d) + '.html';
   });
 })();
@@ -513,483 +513,477 @@ min="2026-08-31" max="2026-11-18"
 <div class="section">
   <div class="section-header">
     <h2>🧠 뇌신호 AI
-      <span class="count">15</span>
+      <span class="count">7</span>
     </h2>
   </div>
-  <div class="subsection">👁 fMRI Visual Decoding &amp; Reconstruction</div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.21907v1" target="_blank" rel="noopener">REEL: Brain-Guided Video Generation and Selection by Reranking Encoder Embeddings with Linear Decoding from fMRI data</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Fabrizio Spera 외 4인</span>    </div>
-    <p class="item-summary">fMRI 신호로부터 비디오를 복원하는 문제를 다룬다. Bayesian-style 제안 및 재순위화 전략을 사용한다. REEL은 CC2017과 BMD 데이터셋에서 비디오 50-way 정확도를 향상시킨다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">brain-decoding</span><span class="taxonomy-chip">fmri</span><span class="taxonomy-chip">video-generation</span><span class="taxonomy-chip">reranking</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.19232v1" target="_blank" rel="noopener">Beyond Alignment: Supervising the Generator for EEG-to-Image Reconstruction</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-14</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Sangmin Jo 외 2인</span>    </div>
-    <p class="item-summary">Visual brain decoding를 다룬다. EEG 신호를 이미지로 재구성하는 데, Representation Alignment(REPA)를 사용하되, EEG-조건화된 생성자가 고정된 목표를 따르는 데 어려움을 겪는다는 것을 발견한다. 이를 해결하기 위해 generation-derived supervision (GDS)를 도입한다. GDS는 정적 이미지-언어 기법을 사용하여 학습된 모델이 시각-언어 모델을 통해 학습된 핵심 방법을 사용한다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">eeg-to-image</span><span class="taxonomy-chip">generation-derived-supervision</span><span class="taxonomy-chip">cross-modal-alignment</span>    </div>
-  </div>
   <div class="subsection">⚡ EEG/MEG Decoding &amp; BCI</div>
-  <div class="item">
+  <div class="item starred">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.20435v1" target="_blank" rel="noopener">iEEG Can Help EEG: Improving Clinical Scalp EEG Analysis through Intracranial Priors</a>    </div>
+<a href="http://arxiv.org/abs/2611.23754v1" target="_blank" rel="noopener">Detect What You Need: Chain-of-Causal Reasoning for 3D Intent Grounding</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Xianglong Bao 외 6인</span>    </div>
-    <p class="item-summary">Scalp EEG 신호의 품질을 향상시키는 방법을 다룬다. iEEG 데이터를 사용해 신호-신호 모델을 학습하고 이를 고정된 cross-modal prior로 활용하는 ReBrain 프레임워크를 제안한다.</p>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Zihao Zhang 외 3인</span>    </div>
+    <p class="item-summary">3D 공간에서 인간의 의도를 정확히 매칭하는 문제를 다룬다. CoCR이라는 인과성에 기반한 함수 종속성 추론 프레임워크를 사용한다. 이 방법은 복잡한 의도를 순서화된 함수 요구사항으로 분해하고, 이를 통해 추론 체인을 형성하여 객체의 적합성을 판단한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">ieeg</span><span class="taxonomy-chip">scalp-eeg</span><span class="taxonomy-chip">cross-modal-transfer</span>    </div>
+<span class="taxonomy-chip">3d-intent-grounding</span><span class="taxonomy-chip">chain-of-causal-reasoning</span><span class="taxonomy-chip">functional-dependency</span><span class="taxonomy-chip taxonomy-venue">NeurIPS 2026</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.20853v1" target="_blank" rel="noopener">Motor Imagery Classification Using Hybrid Cross-Subject Class Mixup and Selective Attention</a>    </div>
+<a href="http://arxiv.org/abs/2611.23856v1" target="_blank" rel="noopener">Beyond Cross-Modal Reconstruction: Participant-Level Evaluation of sEMG-Kinematic Coupling in Post-Stroke Gait</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Jiwon Kim 외 2인</span>    </div>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Rafsan Jany 외 3인</span>    </div>
+    <p class="item-summary">82명의 건강한 참가자와 43명의 뇌졸중 참가자에서 sEMG와 보행 동역학 간의 개인별 신경근 결합을 평가한다. 완전한 소스-모달리티 제거와 교차 참가자 소스 대체를 적용하고, cycle-position-age-sex 템플릿을 사용한다. 결과는 학습 모델이 예측 정확도를 향상시키지 못했으며, 이는 특정 참가자에 대한 임상적 가치가 없다는 것을 나타낸다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">post-stroke-gait</span><span class="taxonomy-chip">semg-kinematic-coupling</span><span class="taxonomy-chip">cross-modal-reconstruction</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.22639v1" target="_blank" rel="noopener">Hierarchical Control of Antiphase Synchronization in Biomorphic Spiking Neural Architectures for Locomotor Control</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Artem Guba 외 4인</span>    </div>
     <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.21040v1" target="_blank" rel="noopener">Towards wearable-scale, transition-aware sleep staging for clinical populations</a>    </div>
+<a href="http://arxiv.org/abs/2611.23619v1" target="_blank" rel="noopener">EEG2MCU: Sensing-to-Execution Co-Design for Wearable EEG Inference</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Suvadeep Maiti 외 2인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.21335v1" target="_blank" rel="noopener">Anchoring Motion, Refining Trajectories: Generalizable Continuous Neural Decoding</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Fanqi Shen 외 8인</span>    </div>
-    <p class="item-summary">뇌 활동이 다양한 시간 스케일에 걸쳐 운동 정보를 인코딩함을 다룬다. AMRT는 두 단계 설계를 사용하여 로컬 운동을 속도 추정을 통해 고정하고, 이를 통해 생성된 궤적을 더 긴 시간 범위에서 정교화한다.</p>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Shoma Yukawa 외 5인</span>    </div>
+    <p class="item-summary">Wearable EEG 추론의 제약을 다룬다. EEG2MCU는 task-aware montage 선택을 통해 전극 수를 최적화하고, INT8 영역만 생성하여 데이터 이동을 최소화한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">neural-decoding</span><span class="taxonomy-chip">continuous-control</span><span class="taxonomy-chip">shared-representation</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.21399v1" target="_blank" rel="noopener">MegNIST, A Benchmark for Non-Invasive Inner Speech Decoding</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Teyun Kwon 외 7인</span>    </div>
-    <p class="item-summary">MegNIST는 내면적 말소리 해독을 위한 벤치마크 데이터셋이다. 12,000개의 시험 데이터를 사용해 단일 참가자가 0부터 9까지의 숫자를 상상하는 것을 자성encephalography(MEG)로 기록한다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">inner-speech-decoding</span><span class="taxonomy-chip">megnist</span><span class="taxonomy-chip">non-invasive-bci</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.21781v1" target="_blank" rel="noopener">Beyond Reconstruction: A Unified Framework for Trustworthy and Explainable EEG Artifact Removal Evaluation</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Phat Lam 외 7인</span>    </div>
-    <p class="item-summary">EEG artifact removal에서 reconstruction metrics의 한계를 다룬다. TriX-EEG라는 three-level framework를 사용한다. 신호 유효성, 제거 신뢰성, 설명 신뢰성 세 가지 측면을 평가하여, 신경 활동 보존과 모델의 설명 가능성을 종합적으로 평가한다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">eeg-artifact-removal</span><span class="taxonomy-chip">trustworthy-evaluation</span><span class="taxonomy-chip">explainable-models</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.20124v1" target="_blank" rel="noopener">QA-CMIF:Accurate and Lightweight Cross-Modal Latent Imputation and Fusion for Fault-Tolerant sEMG-Inertial Hand Gesture Recognition</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-15</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Xinyu Tao 외 3인</span>    </div>
-    <p class="item-summary">sEMG와 관성 측정의 융합에서 발생하는 채널 오류를 해결한다. 각 sEMG 채널을 독립적으로 인코딩하고, 신뢰도를 평가한 후, 손상된 채널을 교정한다. 29명의 참가자에 대한 평가에서, 기존 방법보다 .</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">semg-inertial</span><span class="taxonomy-chip">cross-modal-fusion</span><span class="taxonomy-chip">fault-tolerant-recognition</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.20196v1" target="_blank" rel="noopener">DoF-Query Transformer for Adaptive Fusion of Egocentric Vision and Forearm HD-sEMG in Continuous Hand Kinematics</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-15</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Jiahang Liu 외 6인</span>    </div>
-    <p class="item-summary">20개 손 관절 각도의 연속적인 추정을 다룬다. egocentric RGB 이미지와 128채널 팔뚝 고밀도 표면 전기근위도(HD-sEMG)를 사용하는 Vision Transformer 기반 시각 인코더와 Transformer 기반 EMG 인코더, DoF 쿼리 Transformer를 사용한다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">hand-kinematics</span><span class="taxonomy-chip">vision-transformer</span><span class="taxonomy-chip">emg-encoder</span><span class="taxonomy-chip">dof-query</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.19332v1" target="_blank" rel="noopener">NI-ACT: A Neural Intent Interface for Brain-Embodied Manipulation</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-14</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Yinghao Li 외 6인</span>    </div>
-    <p class="item-summary">NI-ACT는 뇌-몸 상호작용에서 신경의도를 사용하는 계층적 프레임워크를 다룬다. 일시적인 운동피질 신호를 지속적인 의도로 읽고, 시각-운동 정책이 이를 통해 인식-행동 루프를 닫는다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">neural-interface</span><span class="taxonomy-chip">brain-computer-interface</span><span class="taxonomy-chip">embodied-policy</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.20164v1" target="_blank" rel="noopener">Cross-Subject Priors for Maximum a Posteriori Estimation of Latent Structure Influence Models in Motor-Imagery EEG With Few Trials</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-15</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
-<span class="item-authors">Sagnik De 외 1인</span>    </div>
-    <p class="item-summary">두 뇌 반구의 센서모터 리듬이 어떻게 변화하고 상호작용하는지 설명하는 latent structure influence model (LSIM)의 문제를 다룬다. $λ$ pseudo-trials의 기댓값 통계를 사용한 maximum a posteriori (MAP) 추정자를 도입한다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">cross-subject-priors</span><span class="taxonomy-chip">latent-structure-influence-model</span><span class="taxonomy-chip">motor-imagery-eeg</span>    </div>
+<span class="taxonomy-chip">wearable-eeg</span><span class="taxonomy-chip">sensing-to-execution</span><span class="taxonomy-chip">co-design</span>    </div>
   </div>
   <div class="subsection">💬 Brain-to-Language &amp; Multimodal Decoding</div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.20779v1" target="_blank" rel="noopener">EEGProbe: Do Vision-Language Models Really Understand EEG? A Benchmark for Signal-Grounded EEG Signals Evaluation</a>    </div>
+<a href="http://arxiv.org/abs/2611.23111v1" target="_blank" rel="noopener">Event-Based Dynamic Lip Region Estimation During Speech</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Haozhe Zhu 외 5인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-  </div>
-  <div class="subsection">🧬 Brain Signal Representation &amp; Foundation Models</div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.21215v1" target="_blank" rel="noopener">Open-fMIND: A Large-Scale Open-Access fMRI Corpus for Pretraining Brain Foundation Models</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Carlo Alberto Barbano 외 2인</span>    </div>
-    <p class="item-summary">fMRI 데이터 접근의 제약을 해결한다. 322개 OpenNeuro 연구에서 11,379명의 피실험자 데이터를 통일된 프로세스로 전처리하고, 52개의 아틀라스로 분할한다. 2.4백만 개의 timeseries를 제공해 self-supervised brain representation learning의 pretraininging형에서 높은 성능을 보여, 기존 연구와 경쟁력 있는 결과를 보여준다.</p>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Hamze Hammami 외 2인</span>    </div>
+    <p class="item-summary">Event cameras의 높은 시간 해상도와 낮은 전력 소비를 활용한 음성 관련 응용 분야를 다룬다. 전체 event &#39;frame&#39;에서 dense heatmap을 예측하는 two-pathway continuous-time recurrent network (CT-RNN)을 사용한다. 69.5%의 정확도와 2.1번/초의 타겟 스위치로 기존 방법보다 우수한 성능.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">open-access</span><span class="taxonomy-chip">fmri</span><span class="taxonomy-chip">self-supervised</span><span class="taxonomy-chip">pretraining</span>    </div>
+<span class="taxonomy-chip">event-camera</span><span class="taxonomy-chip">lip-region</span><span class="taxonomy-chip">ct-rnn</span>    </div>
   </div>
+  <div class="subsection">🔗 Cross-Subject Generalization &amp; Neural Alignment</div>
   <div class="item starred">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/43038679/" target="_blank" rel="noopener">ASAM: Adaptive cortical surface representation via dynamic local aggregation and hybrid Attention-Mamba global modeling.</a>    </div>
+<a href="https://pubmed.ncbi.nlm.nih.gov/43050378/" target="_blank" rel="noopener">Cross-modality Knowledge Transfer Between fMRI and EEG for Improved Single-modality Alzheimer&#39;s Disease Diagnosis.</a>    </div>
     <div class="item-meta">
       <span class="badge">PubMed</span>
-<span class="item-date">2026-11-12</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Sy Dat Tran 외 2인</span>    </div>
-    <p class="item-summary">정확한 뇌 피질 표면 기하학적 모델링을 다룬다. Transformer와 Mamba 아키텍처를 통합한 ASAM 프레임워크를 사용한다. DMHS와 DFM 모듈을 통해 피질 패치의 최적 수용 필드와 컨텍스트-센시티브 인접 행렬을 생성한다</p>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Xin Lin 외 11인</span>    </div>
+    <p class="item-summary">Alzheimer&#39;s disease의 공간적 및 시간적 뇌 기능 변화를 fMRI와 EEG로 측정한다. fMRI-EEG Knowledge Transfer Network (FE-KTNet)를 사용해 두 모달 간의 지식을 전달하고, 이를 각 모달의 특성에 맞게 재구성한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">cortical-surface</span><span class="taxonomy-chip">transformer</span><span class="taxonomy-chip">mamba</span><span class="taxonomy-chip">neuroimaging</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+<span class="taxonomy-chip">cross-modality</span><span class="taxonomy-chip">fmri-eeg</span><span class="taxonomy-chip">alzheimer&#39;s-diagnosis</span><span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
+  </div>
+  <div class="subsection">🧬 Brain Signal Representation &amp; Foundation Models</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.23549v1" target="_blank" rel="noopener">Quantitative Modeling of Action-Potential-Driven Sodium Dynamics in Neurons: From Sodium Influx to Sodium MRI</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Yongxian Qian</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
   </div>
 </div>
 <div class="section">
   <div class="section-header">
     <h2>🔬 수술영상
-      <span class="count">1</span>
+      <span class="count">2</span>
     </h2>
   </div>
-  <div class="subsection">📹 Surgical VLP &amp; Foundation Model</div>
+  <div class="subsection">🎬 Surgical Scene Understanding</div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.19578v1" target="_blank" rel="noopener">EndoComparer: Comparative Surgical Video Question Answering with Pseudo-Siamese Visual Adaptation and Perceive-then-Compare Reasoning</a>    </div>
+<a href="http://arxiv.org/abs/2611.23781v1" target="_blank" rel="noopener">When accuracy hides risk: risk-controlled confirmation of the critical view of safety under expert disagreement</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-14</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Shi Li 외 10인</span>    </div>
-    <p class="item-summary">수술 교육에서 환자 상태, 기술, 숙련도를 비교하는 것이 중요하며, 이를 위한 시각-언어 모델(VLM)을 제안한다. EndoComparer는 Pseudo-Siamese Visual LoRA(PSVL)와 Perceive-then-Compare chain of thought(PtC-CoT)를 사용하여 수술 동영상을 분석하고, Imageuser0 =</p>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Bowen Xiang 외 2인</span>    </div>
+    <p class="item-summary">자동화된 critical view of safety (CVS) 평가의 정확성 문제를 다룬다. 기존 방법의 오류 집중 문제를 해결하기 위해 certified confirmation, 즉 여러 테스트를 통해 임계값을 선택하는 risk-controlled 모니터링 규칙을 제안한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">surgical-video</span><span class="taxonomy-chip">vision-language-models</span><span class="taxonomy-chip">pseudo-siamese-visual-lora</span>    </div>
+<span class="taxonomy-chip">laparoscopic-cholecystectomy</span><span class="taxonomy-chip">critical-view-of-safety</span><span class="taxonomy-chip">risk-controlled-monitoring</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.23347v1" target="_blank" rel="noopener">SurgCBVR: A Multi-Domain Benchmark for Content-Based Surgical Video-to-Video Retrieval</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Mohammad Eslami 외 8인</span>    </div>
+    <p class="item-summary">수술 동영상의 내용 기반 검색 어려움을 다룬다. SurgCBVR 벤치마크는 8개 공개 데이터셋을 통합하고, 동일 수술 상태와 워크플로 전환을 검색하는 두 단계를 사용한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">surgical-video</span><span class="taxonomy-chip">content-based-retrieval</span><span class="taxonomy-chip">multi-domain-benchmark</span>    </div>
   </div>
 </div>
 <div class="section">
   <div class="section-header">
     <h2>⚙️ 딥러닝 방법론
-      <span class="count">10</span>
+      <span class="count">12</span>
     </h2>
   </div>
-  <div class="subsection">🔍 Explainability &amp; Interpretability</div>
+  <div class="subsection">📊 Uncertainty Quantification &amp; Calibration</div>
   <div class="item starred">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/43043738/" target="_blank" rel="noopener">A Neuro-symbolic Framework under Statistical Relational Learning.</a>    </div>
+<a href="http://arxiv.org/abs/2611.23770v1" target="_blank" rel="noopener">DetectViT: Test-time Backdoor Detection for Vision Transformers via Inter-Head Attention Discrepancy</a>    </div>
     <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Dongran Yu 외 4인</span>    </div>
-    <p class="item-summary">Neuro-symbolic systems의 통합 문제를 다룬다. NSF-SRL은 statistical relational learning을 기반으로, neural predictions와 symbolic reasoning을 통합하는 framework를 사용한다. 다양한 실험을 통해 NSF-SRL의 효과성과 일반화 능력이 입증된다.</p>
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Siquan Huang 외 5인</span>    </div>
+    <p class="item-summary">Vision Transformers (ViTs)의 백도어 공격 문제를 다룬다. 백도어 트리거가 multi-head attention 메커니즘에 미치는 영향을 분석하고, 이를 통해 DetectViT을 제안한다. DetectViT은 주어진 데이터나 모델 출력 없이 작동하며, 네 가지 대표적인 공격에 대해 64-128개의 out-of-distribution 샘플에서  100%의의 정확도를 달성하고, 다양한 시나리오에서 우수한 성능을 보여준다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">neuro-symbolic</span><span class="taxonomy-chip">statistical-relational-learning</span><span class="taxonomy-chip">variational-inference</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
+<span class="taxonomy-chip">vision-transformers</span><span class="taxonomy-chip">backdoor-detection</span><span class="taxonomy-chip">multi-head-attention</span><span class="taxonomy-chip taxonomy-venue">NeurIPS 2026</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22054v1" target="_blank" rel="noopener">A single inference process underlies the behavior and neural circuits of working memory</a>    </div>
+<a href="http://arxiv.org/abs/2611.22227v1" target="_blank" rel="noopener">SOTA or Luck? The Winner&#39;s Curse in LLM Leaderboards</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
 <span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Dongyu Gong 외 2인</span>    </div>
-    <p class="item-summary">작업 기억의 용량, 주의의 효과, 그리고 기억 표현 방식에 대한 논란을 다룬다. MemGP는 연속 함수에 대한 확률적 추론을 통해 작업 기억을 설명하며, 시뮬레이션에서 부하에 따른 정확도 손실, 유지 중의 주의 효과, 그리고 항목 간의 유인과 배제를 재현한다.</p>
+<span class="item-authors">Sikun Xu 외 3인</span>    </div>
+    <p class="item-summary">Public LLM leaderboards의 성능 과대평가 문제를 다룬다. $m$-out-of-$N$ bootstrap을 사용하여 rank-induced bias를 수정한다. 14개 벤치마크에서 0.09~3.86%의 점수 조정을 보이고, RULER를 통해 순위 불확실성을 제공한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">working-memory</span><span class="taxonomy-chip">memgp</span><span class="taxonomy-chip">neural-circuits</span>    </div>
+<span class="taxonomy-chip">leaderboard-bias</span><span class="taxonomy-chip">bootstrap-correction</span><span class="taxonomy-chip">model-ranking</span>    </div>
+  </div>
+  <div class="subsection">🔍 Explainability &amp; Interpretability</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.23648v1" target="_blank" rel="noopener">Toaster: Nonlinear Memory from Cascaded Linear Memories and Target Propagation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Zeman Li 외 6인</span>    </div>
+    <p class="item-summary">Recurrent memories를 다룬다. Toaster는 두 개의 linear memory와 activation layer를 사용하여 nonlinear memory를 구축하고, target propagation으로 hidden layer를 업데이트한다. Toaster는 KDA와 비교해 모든 테스트 크기에서 낮은 손실을 보이고, 1.2B 크기에서는 Titans보다 낮은 perplexity를 기록한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">nonlinear-memory</span><span class="taxonomy-chip">target-propagation</span><span class="taxonomy-chip">delta-rule</span><span class="taxonomy-chip">recurrent-memories</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22210v1" target="_blank" rel="noopener">Sample-efficient Personalization of Large Language Model Alignment with Multidimensional User Preference Data</a>    </div>
+<a href="http://arxiv.org/abs/2611.23749v1" target="_blank" rel="noopener">Modeling LLM Reasoning Dynamics with Structural Representations</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Zhen-Yu Zhang 외 4인</span>    </div>
-    <p class="item-summary">대형 언어 모델(LLM)의 인간 가치와 행동과의 일치를 향상시키는 preference alignment를 다룬다. 저자는 multidimensional preference-guided online direct preference optimization (MPG-DPO)를 제안하며, 이는 사용자의 과거 비교 데이터를 활용해 개인화된 선호도 원뿔을 생성하여 응답 선택을 가이드한다.</p>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Ilia Karpov 외 6인</span>    </div>
+    <p class="item-summary">언어 모델의 추론 동작과 지속 활동 구조를 분석한다. T/E/S 구조를 사용해 텍스트, 현지 이벤트, 활동 구간을 결합한다. 70개 이상의 평가 그룹에서 이벤트와 구간이 다음 결과 예측을 향상시키며, 77.7%의 CPU 추론 시간을 줄이는 데 성공과.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">large-language-model</span><span class="taxonomy-chip">preference-alignment</span><span class="taxonomy-chip">sample-efficiency</span>    </div>
+<span class="taxonomy-chip">llm-reasoning</span><span class="taxonomy-chip">structural-representations</span><span class="taxonomy-chip">budget-allocation</span>    </div>
   </div>
   <div class="subsection">🌐 Foundation Models &amp; Open-Vocabulary Perception</div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22126v1" target="_blank" rel="noopener">Text-Guided Modality Correction for Open-Vocabulary Object Detection</a>    </div>
+<a href="http://arxiv.org/abs/2611.23769v1" target="_blank" rel="noopener">Keep the Reasoning, Read the Image: On-Demand Visual KV for Multi-Turn Reasoning VLMs</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Yu Quan 외 4인</span>    </div>
-    <p class="item-summary">Open-vocabulary object detection의 한계를 다룬다. Text-Guided Modality Correction Network (TMCNet)를 사용한다. COCO-OVD와 LVIS-OVD 데이터셋에서 우수한 성능을 보여, 단순 텍스트 쿼리를 가이드로 사용한 효과를 입증한다.</p>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Ziyi Wang 외 5인</span>    </div>
+    <p class="item-summary">Reasoning vision-language models (VLMs)가 천단위 토큰을 생각한 후에 답변하는 과정에서 이미지 정보가 손실되는 문제를 다룬다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">text-guided</span><span class="taxonomy-chip">modality-correction</span><span class="taxonomy-chip">open-vocabulary</span><span class="taxonomy-chip">object-detection</span>    </div>
+<span class="taxonomy-chip">multi-turn-reasoning</span><span class="taxonomy-chip">visual-kv-cache</span><span class="taxonomy-chip">shelfkv</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22180v1" target="_blank" rel="noopener">CueClash: Frontier Vision-Language Models Judge 3-D Relations Close to the Picture Plane</a>    </div>
+<a href="http://arxiv.org/abs/2611.22273v1" target="_blank" rel="noopener">SARVIA: Fast-Adapting the Strong SAR Foundation Models That Are Already in Your MLLMs</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
 <span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Soham Dan</span>    </div>
-    <p class="item-summary">3-D 관계를 사진이나 지면 레이아웃에서 판단하는 비전-언어 모델(VLM)을 다룬다. CueClash를 사용해 2-D 큐와 3-D 관계를 분리하고, 모델의 정확도를 측정한다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">vision-language-models</span><span class="taxonomy-chip">3d-relations</span><span class="taxonomy-chip">cueclash</span>    </div>
+<span class="item-authors">Yuxuan Li 외 2인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
   </div>
   <div class="subsection">🧩 Multimodal &amp; Self-Supervised Representation</div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22158v1" target="_blank" rel="noopener">Centroid Spectral Coupling: Implicit Alignment and Representation Diversity in Self-Supervised Learning</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">M. Hadi Sepanj 외 3인</span>    </div>
-    <p class="item-summary">Self-Supervised Learning (SSL)에서 증강된 뷰를 정렬하고 표현 다양성을 유지하며 붕괴를 방지하는 문제를 다룬다. Centroid Spectral Coupling (CSC)를 사용한다. CSC는 증강된 뷰 쌍에서 중심점을 생성하고, 그 중심점의 미분산 제2모멘트 행렬을 사용하여 핵심 방법을 적용한다. ImageBind의 초록에 없는 내용을 넣지 않는다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">self-supervised-learning</span><span class="taxonomy-chip">centroid-spectral-coupling</span><span class="taxonomy-chip">representation-diversity</span>    </div>
-  </div>
-  <div class="subsection">🎨 Generative Modeling &amp; Editing</div>
   <div class="item starred">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22148v1" target="_blank" rel="noopener">Long-Context Generation Is a Sampling Problem (When You Turn Up the Heat)</a>    </div>
+<a href="http://arxiv.org/abs/2611.23717v1" target="_blank" rel="noopener">CoScan: Multi-Scale Content-Adaptive Space-Filling Scans for Causal State-Space Image Restoration</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Allen G. Roush 외 4인</span>    </div>
-    <p class="item-summary">언어 모델의 생성 시간이 길어질수록 성능이 저하되는 문제를 다룬다. 다양한 샘플러 방법을 사용하여 고온에서의 성능을 테스트한다. top-nsigma 샘플러가 다른 방법들에 비해 높은 온도에서도 성능을 유지하거나 향상시키는 것으로 나타났다.</p>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Wei Dong 외 5인</span>    </div>
+    <p class="item-summary">효율적인 이미지 복원을 위한 선택적 상태공간 모델(SSMs)의 2D 특징 맵을 1D 토큰 시퀀스로 선형화하는 문제를 다룬다. CoScan은 이미지에 따라 변하는 space-filling 순회를 학습하여 단순화된 컨텍스트를 생성하고, 다중 해상도를 지원하는 self-supervised 학습을 사용한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">long-context-generation</span><span class="taxonomy-chip">sampler-methods</span><span class="taxonomy-chip">temperature-scaling</span><span class="taxonomy-chip taxonomy-venue">NeurIPS 2026</span>    </div>
+<span class="taxonomy-chip">multi-scale</span><span class="taxonomy-chip">content-adaptive</span><span class="taxonomy-chip">state-space-models</span><span class="taxonomy-chip">image-restoration</span><span class="taxonomy-chip taxonomy-venue">NeurIPS 2026</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22028v1" target="_blank" rel="noopener">BATMoS: Budget-Aware Guidance Allocation for Efficient Video Diffusion</a>    </div>
+<a href="http://arxiv.org/abs/2611.23742v1" target="_blank" rel="noopener">Same Rank, Different Needs: Rethinking LoRA Redistribution in Federated Learning</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Zhixu Du 외 4인</span>    </div>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Jinqian Chen 외 2인</span>    </div>
     <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22052v1" target="_blank" rel="noopener">RiDEx: Reward-Informed Directional Exploration for Diffusion Reinforcement Learning</a>    </div>
+<a href="http://arxiv.org/abs/2611.23810v1" target="_blank" rel="noopener">Continual Tool-Space Extension Learning for Multimodal Agents</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Song Yan 외 8인</span>    </div>
-    <p class="item-summary">Reward-based diffusion 모델의 효율적인 탐색 방법을 다룬다. Reward-Informed Directional Exploration (RiDEx)를 사용하여, 탐색을 보상 관련 하위 공간에 집중한다. Stable Diffusion 3.5 Medium에서, RiDEx는 네 가지 태스크에서 가장 높은 최고 보상을 달성하고, H200 GPU 시간을 크게 줄인다.</p>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Jinbae Seo 외 5인</span>    </div>
+    <p class="item-summary">다양한 도구를 사용하는 다중 모달 에이전트의 도구 공간을 확장하는 방법을 다룬다. COTEX는 새로운 도구를 추가하면서 기존 도구의 사용 능력을 유지하는 연속 학습 방법을 제안한다. 두 가지 파라미터 방향을 찾아, 하나는 도구 호출을 트리거하고, 다른 하나는 어떤 도구를 선택하는 데 사용된다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">reward-informed</span><span class="taxonomy-chip">diffusion-reinforcement-learning</span><span class="taxonomy-chip">directional-exploration</span>    </div>
+<span class="taxonomy-chip">multimodal-agents</span><span class="taxonomy-chip">tool-space-extension</span><span class="taxonomy-chip">continual-learning</span>    </div>
+  </div>
+  <div class="subsection">🎨 Generative Modeling &amp; Editing</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.23718v1" target="_blank" rel="noopener">HypoLoop: Revising Weight-Editing Plans from Scientific Feedback</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Mengran Li 외 10인</span>    </div>
+    <p class="item-summary">HypoLoop는 실험적 피드백을 바탕으로 가중치 수정 계획을 제안한다. 고정, 수치 적응, LLM-가이드 정책이 수정 계획을 생성하고, 수치 솔버가 가중치 패치를 계산한다. 22개 과학적 작업에서 실험적 증거가 수정 계획을 개선하고, Burgers에서 22개 과학적 작업에서 실험적 증거가 수정 계획을 개선하고, Burgers에서 수정 계획의 재할당으로 오류가 58.80%와 47.72% 감소한다. DIODE에서는 수정 계획의 전체적인 재VISION이 최종 AbsRel 오류를 10.59% 줄인다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">weight-editing</span><span class="taxonomy-chip">scientific-feedback</span><span class="taxonomy-chip">hypothesis-loop</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22202v1" target="_blank" rel="noopener">An Optimization Framework for Denoising Generation</a>    </div>
+<a href="http://arxiv.org/abs/2611.23750v1" target="_blank" rel="noopener">Beyond Replacement: Levenshtein Editing for Diffusion Language Models</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Shuaidi Wang 외 4인</span>    </div>
+    <p class="item-summary">Levenshtein Editing for Diffusion Language Models (LED)를 통해 ROE의 한계를 극복한다. LED는 삽입과 삭제를 추가하여 생성된 시퀀스를 Levenshtein 스타일로 수정한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">levenshtein-editing</span><span class="taxonomy-chip">diffusion-language-models</span><span class="taxonomy-chip">led-framework</span>    </div>
+  </div>
+  <div class="subsection">🛡 Robustness &amp; Domain Generalization</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.22278v1" target="_blank" rel="noopener">DACE: Diversity-Driven Adversarial Co-Evolution for Robust LLM Safety Alignment</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
 <span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Xinyu Zhou 외 2인</span>    </div>
-    <p class="item-summary">Noise-unconditioned denoising의 단일 점수 학습을 다룬다. multi-scale Gaussian-mixture objectives를 사용하여 ascent의 수렴과 다양성 유지 현상을 증명한다. 실험 결과, 큰 단계 지도 아래에서의 강건성 향상과 일관된 생성 일반화를 보여준다.</p>
+<span class="item-authors">Peng Yu 외 8인</span>    </div>
+    <p class="item-summary">대형 언어 모델(LLMs)의 안전한 정합성을 보장하는 데 어려움이 증가하고 있다. DACE는 공격 전략 붕괴와 방어자의 적응력 상실을 동시에 해결하는 다각도의 공진화 프레임워크를 제시한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">denoising-generation</span><span class="taxonomy-chip">optimization-framework</span><span class="taxonomy-chip">gradient-ascent</span>    </div>
+<span class="taxonomy-chip">adversarial-attack</span><span class="taxonomy-chip">large-language-models</span><span class="taxonomy-chip">safety-alignment</span>    </div>
   </div>
 </div>
 <div class="section">
   <div class="section-header">
     <h2>📈 EHR·임상 시계열
-      <span class="count">7</span>
+      <span class="count">10</span>
     </h2>
   </div>
-  <div class="subsection">📉 Clinical Time Series &amp; Monitoring</div>
-  <div class="item">
+  <div class="subsection">🧾 EHR Sequence Modeling &amp; Patient Trajectory</div>
+  <div class="item starred">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.21137v1" target="_blank" rel="noopener">Scribble Once, Segment the Sequence: Bidirectional Temporal Consistency for Weakly Supervised Segmentation in Echocardiography Sequences</a>    </div>
+<a href="http://arxiv.org/abs/2611.23779v1" target="_blank" rel="noopener">TabBioMed: A Large-Scale Benchmark for Biomedical Tabular Learning</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Vincent Li Weixin 외 2인</span>    </div>
-    <p class="item-summary">긴 초음파 영상 시퀀스의 픽셀 단위 주석 비용을 줄이는 문제를 다룬다. 단일 스케치 주석 프레임을 사용하고 나머지 프레임은 주석 없이 처리하는 약한 감독 프레임워크를 사용한다. 이 방법은 기존의 스케치 감독 방법보다 우수한 성능을 보여, 정확도를 향상시키며, 임상적 적용 가능성을 높인다.</p>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Pau Mateo-Bernadó 외 10인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">weakly-supervised</span><span class="taxonomy-chip">temporal-segmentation</span><span class="taxonomy-chip">echocardiography</span>    </div>
+<span class="taxonomy-chip taxonomy-venue">NeurIPS</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.23700v1" target="_blank" rel="noopener">Auditable Clinical Support with Decision Agents</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Tiancheng Bao 외 11인</span>    </div>
+    <p class="item-summary">급성 환자의 진단 정확도를 높이는 방법을 다룬다. Decision2Care라는 결정 에이전트를 사용하여 EHR 행동에 확률을 할당하고 고정된 규칙을 통해 가장 확률이 높은 행동을 수행한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">decision-agent</span><span class="taxonomy-chip">clinical-support</span><span class="taxonomy-chip">emergency-admissions</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.22826v1" target="_blank" rel="noopener">OICycle: Observe, Infer, and Intervene Cycle for Belief-State Learning in Longitudinal Clinical Decision Making</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Jitindra Fartiyal 외 3인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/43045725/" target="_blank" rel="noopener">Federated modular clinical decision support networks for collaborative learning in resource-limited settings.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-07-28</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Cécile Trottet 외 10인</span>    </div>
+    <p class="item-summary">불완전한 상호운용성(IIO) 문제를 다룬다. FedMoDN, 새로운 연방 모듈러 신경망 구조를 사용한다. 18개 외부 검증 의료 시설에서 평균 AUPRC 0.80을 달성, 기존 모노리thic FL 모델보다 성능이 안정적이고 22% 향상되었다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">federated-learning</span><span class="taxonomy-chip">clinical-decision-support</span><span class="taxonomy-chip">modular-neural-network</span>    </div>
   </div>
   <div class="subsection">📝 Clinical LLM &amp; Note Understanding</div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22069v1" target="_blank" rel="noopener">MedGuardBench: A Patient-Oriented Benchmark for Personalized Guardrail Development</a>    </div>
+<a href="http://arxiv.org/abs/2611.22248v1" target="_blank" rel="noopener">OAK-Mind: Zero-Training Mental Health Change Inference from Passive Sensing via Knowledge-Grounded Multi-Agent LLMs</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
 <span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Sara Khosravi 외 3인</span>    </div>
-    <p class="item-summary">개인에 따른 약물 안전성을 평가하는 문제를 다룬다. patient-conditioned medication guarding과 세 가지 구성 요소를 사용한다. 개발된 모델이 기존 모델보다 정확도가 높고, false alarm을 줄이는 데 성공했다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">patient-conditioned</span><span class="taxonomy-chip">medication-safety</span><span class="taxonomy-chip">personalized-reasoning</span>    </div>
+<span class="item-authors">Yishu Ji 외 5인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22169v1" target="_blank" rel="noopener">Not All Evidence Is Admissible: Evidence Governance for Tool-Augmented Medical Agents</a>    </div>
+<a href="http://arxiv.org/abs/2611.23348v1" target="_blank" rel="noopener">SIGMA: speaker-isolated, symptom-structured multimodal estimation of depression severity from clinical interviews</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
 <span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Runxun Zhang 외 3인</span>    </div>
-    <p class="item-summary">의료 도구의 출력을 증거로 처리하는 문제를 다룬다. 도구 출력을 증거로 판단하기 전에 필터링하는 CIEG(context-independent evidence governance)를 사용한다. 의료 질문 응답, 녹내장 검사, 폐 X선 폐렴 분류에서 높은 정확도를 달성하며, 기존 방법보다 우수한 성능을 보여준다.</p>
+<span class="item-authors">Zhuoyuan Tang 외 10인</span>    </div>
+    <p class="item-summary">임상면담을 통한 우울증 심각도 평가의 자동화를 다룬다. 참가자 발화만을 분리하고, 텍스트, 오디오, 비디오 간의 교차 어텐션을 사용하며, 8개 질문 항목을 공유된 잠재 심각도 특성과 항목별 순서 임계값을 통해 예측한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">evidence-governance</span><span class="taxonomy-chip">tool-augmented-agents</span><span class="taxonomy-chip">medical-question-answering</span>    </div>
+<span class="taxonomy-chip">depression-assessment</span><span class="taxonomy-chip">multimodal-estimation</span><span class="taxonomy-chip">speaker-diarization</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.20643v1" target="_blank" rel="noopener">Safety-Preserving Medical LLM Fine-Tuning via Bilevel Data Selection</a>    </div>
+<a href="https://pubmed.ncbi.nlm.nih.gov/43045746/" target="_blank" rel="noopener">An objective smartphone speech diagnostic aid for adolescent major depressive disorder.</a>    </div>
     <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Ruoxuan Shi 외 4인</span>    </div>
-    <p class="item-summary">대규모 언어 모델(LLMs)을 환자 대면 의료 애플리케이션에 적용하면서 의료 능력을 향상시키면서 환자 위험을 통제하는 것이 주요 과제다. 안전성을 유지하면서 의료 능력을 향상시키는 Bilevel Data Selection (S-BDS) 방법을 사용한다.</p>
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-07-29</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Jiayi Yan 외 11인</span>    </div>
+    <p class="item-summary">중학생의 주요 우울장애(MDD)를 진단하는 스마트폰 기반 음성 모델을 개발하고 검증한다. Whisper-FT 모델이 ComParE-OS-CB 벤치마크를 능가하는 성능을 보여주며, AUROC 0.95와 0.84를 기록한다. 임상적 넷 베네핏을 증명하고, 다양한 인구통계학적 집단에서 안정적인 성능을 보여준다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">medical-llm</span><span class="taxonomy-chip">safety-preserving</span><span class="taxonomy-chip">bilevel-data-selection</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.21053v1" target="_blank" rel="noopener">System 1 agents: a method for local, reliable and fast agentic AI</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Eleftherios Tzanis 외 1인</span>    </div>
-    <p class="item-summary">감성적인 임상 데이터 분석을 자동화할 수 있는 에이전트 인공지능을 다룬다. 도구 호출 시 텍스트 생성 없이 작동하는 System 1 에이전트를 만드는 방법을 제시한다. 결정 컴파일러와 단일 통과 결정 모델을 사용한다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">local-agents</span><span class="taxonomy-chip">biomedical-tools</span><span class="taxonomy-chip">decision-model</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.21218v1" target="_blank" rel="noopener">InclusionMed: Benchmarking AI for Inclusive Healthcare</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors"> The InclusionMed Collaboration</span>    </div>
-    <p class="item-summary">다양한 의료 역할, 작업, 환경에서 의료 AI를 평가하기 위한 InclusionMed를 소개한다. InclusionMed Atlas는 3개 의료 역할과 3개 AI 기능을 조직화하고, 초기에는 4개 공개 벤치마크를 선정한다. InclusionMed-DxFiles를 포함한 5개 벤치마크로, 대형 언어 모델의 성능을 평가하고, 의료, 언어 모델의 의의를 향상시킨다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">inclusive-healthcare</span><span class="taxonomy-chip">medical-ai</span><span class="taxonomy-chip">evaluation-benchmark</span>    </div>
+<span class="taxonomy-chip">smartphone-speech</span><span class="taxonomy-chip">major-depressive-disorder</span><span class="taxonomy-chip">whisper-ft</span>    </div>
   </div>
   <div class="subsection">⚕️ Outcome &amp; Risk Prediction</div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.21571v1" target="_blank" rel="noopener">DynSurvX: Time-Resolved Explanations for Dynamic Survival Predictions</a>    </div>
+<a href="http://arxiv.org/abs/2611.23638v1" target="_blank" rel="noopener">When Do LLMs Model the Right Target? Problem Formulation in High-Stakes Risk Prediction</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Van Tuan Nguyen 외 1인</span>    </div>
-    <p class="item-summary">longitudinal data를 통합한 생존 예측 모델의 해석 가능성을 높이기 위한 DynSurvX를 다룬다. Shapley values를 기반으로 한 hierarchical two-phase strategy를 사용한다.</p>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Jennifer Zhang 외 1인</span>    </div>
+    <p class="item-summary">대형 언어 모델(LLMs)이 고스펙의 의사결정을 위한 예측 문제를 어떻게 정식화하는지 조사한다. LLMs가 코드와 설명을 생성할 때 의사결정 의존성을 고려하는지 평가한다. LLMs는 명시적인 메소드적 지침 없이 문제를 정식화하는 데 신뢰할 수 없다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">dynamic-survival-prediction</span><span class="taxonomy-chip">shapley-values</span><span class="taxonomy-chip">time-resolved-explanations</span>    </div>
+<span class="taxonomy-chip">large-language-models</span><span class="taxonomy-chip">problem-formulation</span><span class="taxonomy-chip">high-stakes-decision-making</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.22612v1" target="_blank" rel="noopener">Right Diagnosis, Unsafe Route: Auditing Clinical AI Decision Trajectories and Corrective Oversight for Validity and Potential Harm</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Guanqiao Chen 외 7인</span>    </div>
+    <p class="item-summary">의료 AI 시스템이 올바른 최종 진단을 내리더라도 중간 과정에서 환자에게 해를 줄 수 있는 결정을 내릴 수 있다는 문제를 다룬다. 트래JECTORY 오디트를 사용하여 실제 입원 기록을 단계별로 재생산하고, 각 시스템이 제공된 증거만으로 결정을 내리는 과정에서 잠시의 잠을 평가하고, 각각의 잠을. 0`,55.2%의 병원 트래JECTORY가 올바른 최종 진단을 내리지만 중간에 중등도 또는 심각한 잠재적 위험을 가진 결정을 내렸으며, 24.8%는 잠재적으로 임상적으로 수용할 수 없는 결정을 내렸다. 올바른 최종 진단은 안전한 트래JECTORY를 보장하지 않으며, 성공적인 수정도 안전한 회복을 보장하지 않는다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">clinical-ai</span><span class="taxonomy-chip">trajectory-audit</span><span class="taxonomy-chip">patient-safety</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/43045729/" target="_blank" rel="noopener">Routine laboratory trajectories predict organ-level complications in cancer.</a>    </div>
+    <div class="item-meta">
+      <span class="badge">PubMed</span>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Jannik Lübberstedt 외 11인</span>    </div>
+    <p class="item-summary">암 치료 중 수집된 정기적인 실험실 패널 데이터를 통해 162가지 치료 관련 합병증을 예측한다. 2,777,595개의 실험실 측정 데이터를 사용한 transformer 모델을 통해 합병증 예측을 수행한다. 이 모델은 1.5-6.1배의 정확률 향상과 함께, 기존 방법보다 우수한 성능을 보여주는 등,  합병증 진단 정확도 향상 없이, 특정 의료적 의의 없이, 0.024-0.070 AUROC 향상을 달성한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">cancer-treatment</span><span class="taxonomy-chip">transformer-model</span><span class="taxonomy-chip">complication-prediction</span>    </div>
   </div>
 </div>
 <div class="section">
   <div class="section-header">
     <h2>🩺 의료영상 AI
-      <span class="count">7</span>
+      <span class="count">9</span>
     </h2>
   </div>
   <div class="subsection">🏥 Medical Foundation Models, VLM &amp; Report Generation</div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.20992v1" target="_blank" rel="noopener">MedJev: A System One Vision-Language Decision Model for Fast and Effective Medical Image Understanding</a>    </div>
+<a href="http://arxiv.org/abs/2611.23808v1" target="_blank" rel="noopener">PReMind: When Personal Memory Meets Visual Hazards</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
-<span class="item-date">2026-11-16</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Fan Zhang 외 7인</span>    </div>
-    <p class="item-summary">의료 이미지 이해에서 비필요한 토큰 생성 문제를 다룬다. MedJev는 의료 이미지, 질문, 후보 답변을 단일 다모달 전달로 직접 결정으로 매핑하는 시스템을 사용한다. 4B 모델은 정확도와 속도에서 각각 7.93% 향상과 6.04배 가속으로 성능, 의료 영역에서의 활용도 높인다.</p>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Yeongtak Oh 외 4인</span>    </div>
+    <p class="item-summary">개인화된 시각-언어 어시스턴트가 물리적 위험을 인식하고 개인 정보를 활용하여 적절한 조언을 제공하는 문제를 다룬다. PReMind-Bench 벤치마크를 사용하여 위험 인식과 개인 정보 활용을 평가하고, PReMind는 강화 학습 프레임워크를 통해 이 두 요소를 동시에 학습한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">vision-language</span><span class="taxonomy-chip">medical-image</span><span class="taxonomy-chip">decision-model</span>    </div>
-  </div>
-  <div class="subsection">🫀 Segmentation, Detection &amp; Diagnosis</div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22189v1" target="_blank" rel="noopener">SRED: Sparse Regional Evidence Distillation Across Magnifications in Whole-Slide Imaging</a>    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Zhiyuan Yang 외 3인</span>    </div>
-    <p class="item-summary">고배율과 저배율의 정밀도와 효율성 사이의 균형 문제를 다룬다. SRED는 20x 특징에서 이벤트 사전을 학습하는 희박한 오토인코더를 사용하여 5x 인코더를 미세 조정한다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">whole-slide-imaging</span><span class="taxonomy-chip">sparse-autoencoder</span><span class="taxonomy-chip">cross-magnification-distillation</span><span class="taxonomy-chip taxonomy-venue">CVPR 2027</span>    </div>
-  </div>
-  <div class="item starred">
-    <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/43043731/" target="_blank" rel="noopener">A Registration-Free and Slope-aware Framework for CBCT-based Dental Implant Planning.</a>    </div>
-    <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Xinquan Yang 외 8인</span>    </div>
-    <p class="item-summary">정확한 데이터에 의존하는 AI 기반 치과 임플란트 계획 문제를 다룬다. RegFreeNet은 정합 없이 비대응 후 임플란트 CBCT 스캔에서 학습하며, Neighboring Distance Perception 모듈과 기울기 예측 분기로 안전한 위치와 기울기를 예측한다.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip">registration-free</span><span class="taxonomy-chip">slope-aware</span><span class="taxonomy-chip">dental-implant-planning</span><span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
+<span class="taxonomy-chip">personalized-assistants</span><span class="taxonomy-chip">vision-language</span><span class="taxonomy-chip">reinforcement-learning</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
-<a href="http://arxiv.org/abs/2611.22124v1" target="_blank" rel="noopener">FrameSeg3D: Learned Local Frames for Segmenting Small Parts on High-Resolution 3D Scans</a>    </div>
+<a href="http://arxiv.org/abs/2611.22652v1" target="_blank" rel="noopener">OmniTongue: A Comprehensive MLLM Benchmark for Automated Tongue Diagnosis in Traditional Chinese Medicine</a>    </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
 <span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Xinwen Zhang 외 2인</span>    </div>
-    <p class="item-summary">고해상도 3D 스캔에서 손톱이나 치아와 같은 작은 부위를 분할하는 세 가지 도전 과제를 다룬다. 전체 스캔을 처리하는 기존 방법들은 각 부위를 너무 굵게 볼 뿐 아니라, 특정 부위를 먼저 찾고 분할하는 방법들은 특정 부위에 대한 지식에 의존한다.</p>
+<span class="item-authors">Liuyi Xu 외 5인</span>    </div>
+    <p class="item-summary">Multimodal Large Language Models (MLLMs)의 Traditional Chinese Medicine (TCM)에서의 혀 진단 가능성 평가를 다룬다. OmniTongue, 1,351개의 전문가 검증 이미지와 21,616개의 지시문 쌍을 통합한 첫 번째 세밀한 Visual Question Answering 벤치를 사용한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">3d-segmentation</span><span class="taxonomy-chip">local-frames</span><span class="taxonomy-chip">high-resolution</span>    </div>
+<span class="taxonomy-chip">traditional-chinese-medicine</span><span class="taxonomy-chip">visual-question-answering</span><span class="taxonomy-chip">tongue-diagnosis</span>    </div>
+  </div>
+  <div class="subsection">🫀 Segmentation, Detection &amp; Diagnosis</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.22380v1" target="_blank" rel="noopener">Leveraging Segmentation Representations for Efficient Classification: A Self-Configuring Framework Based on nnU-Net</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Renjun Cai 외 2인</span>    </div>
+    <p class="item-summary">3D 의료 영상에서 분할과 분류를 위한 자체 구성 프레임워크를 다룬다. 분할 모델에서 학습된 표현을 분류에 재사용하며, 두 가지 정보 공유 전략을 사용한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">self-configuring</span><span class="taxonomy-chip">nnu-net</span><span class="taxonomy-chip">medical-imaging</span><span class="taxonomy-chip">classification</span><span class="taxonomy-chip">segmentation</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.22482v1" target="_blank" rel="noopener">LeViT-UNet++: Towards Balanced Fine-Grained Details and Context for Efficient Medical Image Segmentation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Guoping Xu 외 2인</span>    </div>
+    <p class="item-summary">효율적인 의료 영상 분할을 다룬다. Haar Wavelet Multi-Scale Downsampling (HWMD) 모듈과 depthwise convolution 기반 디코더를 사용한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">medical-image-segmentation</span><span class="taxonomy-chip">wavelet-multi-scale</span><span class="taxonomy-chip">lightweight-architecture</span>    </div>
   </div>
   <div class="subsection">🧲 Reconstruction, Generation &amp; Benchmark</div>
   <div class="item starred">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/43043732/" target="_blank" rel="noopener">One-Step Rectified Flow Reconstruction with Spectral Weighting for Limited-angle Cardiac CT.</a>    </div>
+<a href="https://pubmed.ncbi.nlm.nih.gov/43050382/" target="_blank" rel="noopener">Real-World Spectral Compressive Imaging by Learning a Physics-Informed Forward Model.</a>    </div>
     <div class="item-meta">
       <span class="badge">PubMed</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Shuo Han 외 10인</span>    </div>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Xin Wang 외 6인</span>    </div>
+    <p class="item-summary">CASSI 기술을 활용한 고분광 이미지 획득의 시뮬레이션과 실제 간의 간극을 다룬다. 학습 가능한 물리학 정보 전방 모델(LPFM)을 사용하여 실제 이미징 과정을 모델링한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">spectral-compressive-imaging</span><span class="taxonomy-chip">physics-informed-forward-model</span><span class="taxonomy-chip">rsci-dataset</span><span class="taxonomy-chip taxonomy-venue">TPAMI</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.23670v1" target="_blank" rel="noopener">EyeDiT: Anatomy-Grounded Multi-Modal Eye Generation and Simulation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Yonghan Lee 외 7인</span>    </div>
     <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
-    <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
   </div>
-  <div class="item starred">
+  <div class="item">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/43043730/" target="_blank" rel="noopener">A Robust Physics-Informed Implicit Neural Representation for Speed-of-Sound Image Reconstruction in USCT.</a>    </div>
+<a href="http://arxiv.org/abs/2611.23672v1" target="_blank" rel="noopener">Image-Condition-Controlled Diffusion Network with Large-Scale CT Pretraining for CT-Free Attenuation Correction in Dynamic Cardiac PET</a>    </div>
     <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Zesong Wang 외 7인</span>    </div>
-    <p class="item-summary">초음파 계산 토모그래피(USCT)에서 소리 속도(SOS) 이미지 재구성을 다룬다. POLARIS라는 무감독 연속 신경 필드 역산 프레임워크를 사용한다.</p>
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Zhejia Zhang 외 5인</span>    </div>
+    <p class="item-summary">Positron emission tomography (PET)의 정확한 측정을 위해 필요한 attenuation correction을 다룬다. 10,000개의 chest CT 볼륨을 학습한 Large-scale Unpaired CT-Informed Diffusion (LUCID) 프레임워크를 사용한다. LUCID는 dynamic cardiac PET의 $μ$-map 합성을 통해 정확도와 frame 간 일관성을 향상시킨다. 이 방법은 fMRI와 유사한 의료적 정확도를 갖는 의료적 의의를 갖는다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">physics-informed</span><span class="taxonomy-chip">neural-representation</span><span class="taxonomy-chip">usct</span><span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
+<span class="taxonomy-chip">ct-free-pet</span><span class="taxonomy-chip">diffusion-network</span><span class="taxonomy-chip">attenuation-correction</span>    </div>
   </div>
-  <div class="item starred">
+  <div class="item">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/43043733/" target="_blank" rel="noopener">Towards Generalizable and Robust Virtual Staining via Causal Intervention.</a>    </div>
+<a href="http://arxiv.org/abs/2611.23788v1" target="_blank" rel="noopener">Geometry-bridge flow matching for blind rigid-motion correction in head cone-beam CT</a>    </div>
     <div class="item-meta">
-      <span class="badge">PubMed</span>
-<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
-<span class="item-authors">Weiping Lin 외 5인</span>    </div>
-    <p class="item-summary">병리 조직 염색을 자동화하는 가상 염색 기술의 일반화와 견고성을 향상시키는 방법을 다룬다. 병리와 관련 없는 변동성을 억제하는 인과적 干渉을 통한 훈련 프레임워크를 사용한다.</p>
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-18</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Sungho Yun 외 1인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.22727v1" target="_blank" rel="noopener">SlopeGuard: Towards Generalizable AI-Generated Image Detection via Radial Spectral Slope Guidance</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-17</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Cheng Fu 외 3인</span>    </div>
+    <p class="item-summary">AI 생성 이미지 감지기의 일반화 문제를 다룬다. Radial Spectral Slope를 사용하여 세밀한 변동을 억제하면서 전이 가능한 스펙트럼 경향을 포착한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">causal-intervention</span><span class="taxonomy-chip">virtual-staining</span><span class="taxonomy-chip">pathology-images</span><span class="taxonomy-chip taxonomy-venue">IEEE TMI</span>    </div>
+<span class="taxonomy-chip">ai-generated-image</span><span class="taxonomy-chip">radial-spectral-slope</span><span class="taxonomy-chip">frequency-based-methods</span>    </div>
   </div>
 </div>
 
@@ -1000,27 +994,27 @@ min="2026-08-31" max="2026-11-18"
   <p class="section-description">의료 밖에서 가장 주목받은 AI 논문. 본문 쿼터와 별개로 싣습니다.</p>
   <div class="item">
     <div class="item-title">
-      <a href="https://arxiv.org/abs/2610.36077" target="_blank" rel="noopener">The Trinity:Capability-Driven Recursive Self-Improvement for Multimodal Agents</a>
-    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-      <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
-<span class="item-date">2026-10-26</span>      <span class="item-metric">▲ 160</span>
-<span class="item-authors">Weidong Tang 외</span>    </div>
-<p class="item-summary">다양한 모달성을 가진 작업들의 능력 요구사항을 공유하고, 이를 통해 생성된 환경과 작업을 진화시키는 방법을 다룬다. Creator, Explorer, Evolver의 역할을 통해 세계 생성과 Harness 진화를 연결하는 재귀적 자기 개선 프레임워크인 The Trinity를 사용한다. 28개의 훈련 벤치마크에서 평균 성능을 34점 향상시키고, 18개의 미출현 벤치마크에서도 26점 향상시키는 등 효과를 입증한다.</p>    <div class="item-taxonomy">
-<span class="taxonomy-chip">multimodal-agents</span><span class="taxonomy-chip">recursive-self-improvement</span><span class="taxonomy-chip">capability-driven</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
       <a href="https://arxiv.org/abs/2610.37381" target="_blank" rel="noopener">PDRVLA: A Vision-Language-Action Model with Physical Dynamics Representations</a>
     </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
-<span class="item-date">2026-10-27</span>      <span class="item-metric">▲ 158</span>
+<span class="item-date">2026-10-27</span>      <span class="item-metric">▲ 157</span>
 <span class="item-authors">Hanqing Wang 외</span>    </div>
 <p class="item-summary">Vision--Language--Action (VLA) 모델의 물리적 역학 이해를 개선한다. PDRVLA는 가벼운 물리 역학 모듈을 사용해 비전--언어 특징으로부터 물리 토큰을 추출하고, 이를 통해 온라인 비디오 생성 없이 액션 생성을 조건화한다. 네 가지 시뮬레이션 벤치마크에서 성공률은 LIBERO 99.3%, LIBERO-Plus 89.9%, RoboTwin~2.0 93.6%, SimplerEnv 81.5%를 달성한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">vision-language-action</span><span class="taxonomy-chip">physical-dynamics</span><span class="taxonomy-chip">robotics</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2611.22115" target="_blank" rel="noopener">TeleChat to Xing4: Advancing Frontier Agentic Models on Domestic Chips and Frameworks</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
+<span class="item-date">2026-11-17</span>      <span class="item-metric">▲ 151</span>
+<span class="item-authors">Xingchen AGI Lab 외</span>    </div>
+<p class="item-summary">Xing 4는 TeleChat 계열의 대형 언어 모델로, Ascend 칩과 MindSpore HyperParallel 인프라를 통해 모델 아키텍처와 학습 인프라를 개선한다. 희소 활성화, 어텐션 설계, 모델 깊이와 넓이, 추측적 디코딩을 통해 모델 용량과 계산, 메모리 접근, 실행 오버헤드를 균형 잡는다. 8,192개의 Ascend 910C 카드로 285B 파라미터 모델을 사전 학습하고, TeleGym을 통해 에이전트 실행 플랫폼을 제공한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">large-language-models</span><span class="taxonomy-chip">ascend-chips</span><span class="taxonomy-chip">mindspore-hyperparallel</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
@@ -1029,10 +1023,22 @@ min="2026-08-31" max="2026-11-18"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
-<span class="item-date">2026-11-01</span>      <span class="item-metric">▲ 151</span>
+<span class="item-date">2026-11-01</span>      <span class="item-metric">▲ 148</span>
 <span class="item-authors">Hengyu Liu 외</span>    </div>
 <p class="item-summary">대규모 언어 모델(LLM) 에이전트가 그래픽 코드를 생성하고 반복적으로 개선하는 능력을 다룬다. 다양한 그래픽 작업에 걸친 통합 분류 체계와 인간 연구자에게 도움을 주는 에이전트 문헌 시스템을 제시한다. 이를 통해 새로운 연구 동향을 분석하고, 에이전트와 도구를 조정하거나 인터페이스를 설계하는 등의 개방된 과제를 논의한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">agentic-systems</span><span class="taxonomy-chip">computer-graphics</span><span class="taxonomy-chip">literature-review</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+      <a href="https://arxiv.org/abs/2611.18397" target="_blank" rel="noopener">Gamer: A Generalist Vision-Language-Action Foundation Model for Long-Horizon Real-Time Game Agent</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
+<span class="item-date">2026-11-13</span>      <span class="item-metric">▲ 132</span>
+<span class="item-authors">Run Luo 외</span>    </div>
+<p class="item-summary">복잡한 상호작용 환경에서 장기 과제를 다룬다. perception, memory management, multi-step reasoning을 통합한 end-to-end 아키텍처를 사용한다. Gamer는 다양한 3D 오픈 월드 게임에서 우수한 일반화 능력을 보여주며, 기존 2D 게임 벤치마크에서도 경쟁력 있는 성과를 달성한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">vision-language-action</span><span class="taxonomy-chip">long-horizon-tasks</span><span class="taxonomy-chip">reinforcement-learning</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
@@ -1041,7 +1047,7 @@ min="2026-08-31" max="2026-11-18"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
-<span class="item-date">2026-10-31</span>      <span class="item-metric">▲ 129</span>
+<span class="item-date">2026-10-31</span>      <span class="item-metric">▲ 127</span>
 <span class="item-authors">Yijie Jin 외</span>    </div>
 <p class="item-summary">실시간 장기 동영상 생성의 효율성과 품질 문제를 다룬다. Wave Forcing(WF)는 multi-step denoising를 사용한 연속 동영상 출력을 위한 생성, 학습, 실행을 공동 설계한다. Wan2.1-T2V-1.3B 실험에서 5-step WF는 Rolling Forcing와 비교해 동일한 품질을 유지하면서 더 높은 Dynamic Degree를 달성하고, 4-step WF는 8개 H200 GPU에서 134.8 end-to-end FPS를 달성한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">video-generation</span><span class="taxonomy-chip">wave-forcing</span><span class="taxonomy-chip">streaming-video</span>    </div>
@@ -1053,22 +1059,10 @@ min="2026-08-31" max="2026-11-18"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
-<span class="item-date">2026-11-13</span>      <span class="item-metric">▲ 126</span>
+<span class="item-date">2026-11-13</span>      <span class="item-metric">▲ 127</span>
 <span class="item-authors">Grid Robotics 외</span>    </div>
-<p class="item-summary">GPT-6 Astra의 출시는 agentic robotics이라는 새로운 로봇 공학 패러다임을 나타낸다. 이 시스템은 foundation model을 사용해 open-world embodied tasks를 수행하며, 환경 관찰, 사용자 의도 해석, 작업에 대한 추론, 기술 및 도구 활용, 결과 검증, 전략 수정을 반복한다. 연구팀은 Embodied System 2와 함께 평가 프레임워크를 제안하며, 지속적인 자율성 연구 로드맵을 제시한다.</p>    <div class="item-taxonomy">
+<p class="item-summary">GPT-6 Astra의 출시는 agentic robotics이라는 새로운 로봇 공학 패러다임을 나타낸다. 이 시스템은 foundation model을 사용해 open-world embodied tasks를 수행하며, 환경 관찰, 사용자 의도 해석, 작업에 대한 추론, 기술 및 도구 활용, 결과 검증, 전략 수정을 반복한다. 연구팀은 Embodied System 2와 함께 평가 프레임워크를 제안하고, 지속적인 자율성에 대한 연구 로드맵을 그린다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">agentic-robotics</span><span class="taxonomy-chip">foundation-model</span><span class="taxonomy-chip">evaluation-framework</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-      <a href="https://arxiv.org/abs/2611.18397" target="_blank" rel="noopener">Gamer: A Generalist Vision-Language-Action Foundation Model for Long-Horizon Real-Time Game Agent</a>
-    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-      <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
-<span class="item-date">2026-11-13</span>      <span class="item-metric">▲ 122</span>
-<span class="item-authors">Run Luo 외</span>    </div>
-<p class="item-summary">복잡한 상호작용 환경에서 장기 과제를 다룬다. perception, memory management, multi-step reasoning을 통합한 end-to-end 아키텍처를 사용한다. Gamer는 다양한 3D 오픈 월드 게임에서 우수한 일반화 능력을 보여주며, 기존 2D 게임 벤치마크에서도 경쟁력 있는 성과를 달성한다.</p>    <div class="item-taxonomy">
-<span class="taxonomy-chip">vision-language-action</span><span class="taxonomy-chip">long-horizon-tasks</span><span class="taxonomy-chip">reinforcement-learning</span>    </div>
   </div>
 </div>
 </div>
@@ -1076,8 +1070,8 @@ min="2026-08-31" max="2026-11-18"
 <footer>
   <div class="footer-inner">
     <dl>
-      <dt>데이터 기준일</dt><dd>2026-11-18</dd>
-      <dt>생성 시각</dt><dd>2026-11-18 12:26 KST</dd>
+      <dt>데이터 기준일</dt><dd>2026-11-19</dd>
+      <dt>생성 시각</dt><dd>2026-11-19 12:29 KST</dd>
     </dl>
     <nav><a href="index.html">최신</a><a href="archive/index.html">지난 뉴스 전체</a></nav>
   </div>

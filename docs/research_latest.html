@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medical AI Daily — 2026-11-22</title>
+<title>Medical AI Daily — 2026-11-23</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -339,10 +339,10 @@ footer {
   <div class="hero-inner">
     <div class="icon">🧠</div>
     <h1><span class="title-line">Medical AI Daily</span></h1>
-    <div class="subtitle">2026-11-22 — 의료 AI 큐레이션</div>
+    <div class="subtitle">2026-11-23 — 의료 AI 큐레이션</div>
     <div class="stats">
-      <span>게시 2건</span>
-<span>EHR·임상 시계열 1</span><span>의료영상 AI 1</span>      <span>소스 3개</span>
+      <span>게시 40건</span>
+<span>뇌신호 AI 3</span><span>수술영상 5</span><span>딥러닝 방법론 13</span><span>EHR·임상 시계열 8</span><span>의료영상 AI 11</span>      <span>소스 3개</span>
       <span>매일 12:00 KST 업데이트</span>
       <span>중요도 정렬</span>
     </div>
@@ -357,8 +357,8 @@ footer {
     <form class="archive-controls" id="archive-form">
       <label class="visually-hidden" for="archive-date">날짜 선택</label>
       <input class="archive-date" id="archive-date" type="date"
-min="2026-08-31" max="2026-11-22"
-             value="2026-11-22" required>
+min="2026-08-31" max="2026-11-23"
+             value="2026-11-23" required>
       <button class="action-button" type="submit">기록 열기 ↗</button>
     </form>
     <div class="secondary-links">
@@ -375,7 +375,7 @@ min="2026-08-31" max="2026-11-22"
     e.preventDefault();
     var d = document.getElementById('archive-date').value;
     // 오늘치는 아카이브가 아니라 최신 페이지다.
-    if (d === "2026-11-22") { window.location.href = "index.html"; return; }
+    if (d === "2026-11-23") { window.location.href = "index.html"; return; }
     if (d) window.location.href = "archive/" + encodeURIComponent(d) + '.html';
   });
 })();
@@ -512,40 +512,490 @@ min="2026-08-31" max="2026-11-22"
 
 <div class="section">
   <div class="section-header">
+    <h2>🧠 뇌신호 AI
+      <span class="count">3</span>
+    </h2>
+  </div>
+  <div class="subsection">👁 fMRI Visual Decoding &amp; Reconstruction</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26949v1" target="_blank" rel="noopener">Serial Dependence Emerges from Optimizing Vision for Noise Robustness</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Hiroshi Higashi 외 2인</span>    </div>
+    <p class="item-summary">시각 인식의 최근 과거에 의해 동적으로 형성되는 현상인 연속 종속성을 다룬다. Gaussian 노이즈로 오염된 자연 동영상을 재구성하는 데 사용되는 순환 오토인코더(CNN 인코더, ConvGRU 메모리 모듈, CNN 디코더)를 훈련한다. 메모리를 사용하는 모델이 재구성 오류를useruseruseruser50~250자를 넘지 않도록 요약을 작성해야 합니다. 이전의 요청에 대한 정확한 요약을 제공하겠습니다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">serial-dependence</span><span class="taxonomy-chip">recurrent-autoencoders</span><span class="taxonomy-chip">noise-robustness</span>    </div>
+  </div>
+  <div class="subsection">⚡ EEG/MEG Decoding &amp; BCI</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27029v1" target="_blank" rel="noopener">Mind World Models: Joint Learning of Motor EEG Representations and Action-Conditioned World Dynamics</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Weikang Qiu 외 4인</span>    </div>
+    <p class="item-summary">EEG에서의 motor decoding을 다룬다. Mind World Model (MWM)과 Lateralization-Aware Transformer (LAT)를 사용한다. 9개의 분류와 7개의 회귀 작업에서 각각 5.9%와 16.2% 향상된 성능을 보인다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">motor-decoding</span><span class="taxonomy-chip">eeg-representation</span><span class="taxonomy-chip">world-model</span>    </div>
+  </div>
+  <div class="subsection">🔗 Cross-Subject Generalization &amp; Neural Alignment</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26913v1" target="_blank" rel="noopener">Surface Cues Over Structure: Probing LLM Behavior on Brain Connectivity Graphs</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Prapti Roy 외 1인</span>    </div>
+    <p class="item-summary">Attention-Deficit/Hyperactivity Disorder (ADHD) 진단을 위한 resting-state functional connectivity를 다룬다. LLMs의 예측이 subject-specific connectivity에 기반하는지, 아니면 surface-level cues에 의해 결정되는지 분석한다. 실험 결과, LLMs의 예측은 주로 모델의 내재된 class bias와 프롬프트의 표면 형식에 의해 결정되며, 실제 연결성 증거는 잘 반영하지 못다는 것을 확인한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">llm-behavior</span><span class="taxonomy-chip">brain-connectivity</span><span class="taxonomy-chip">adhd-diagnosis</span>    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
+    <h2>🔬 수술영상
+      <span class="count">5</span>
+    </h2>
+  </div>
+  <div class="subsection">🎬 Surgical Scene Understanding</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27101v1" target="_blank" rel="noopener">EgoSurgHands: An Egocentric 3D Hand Pose Dataset &amp; Benchmark for Open Surgery Training</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Ankit Pal 외 6인</span>    </div>
+    <p class="item-summary">3D 추적을 활용한 수술 기술 평가, AR 안내, 로봇 학습을 위한 실제 수술자의 손 포즈 추정 문제를 다룬다. 다중 센서 안경을 사용해 캡처된 EgoSurgHands 데이터셋을 통해 학습한다. 다양한 모델 평가 결과, JointTransformer가 가장 높은 성능을 보여 14.95 mm의 오류를 기록했으며, 이 데이터은 다양한 모델의 성능 향상을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">surgical-training</span><span class="taxonomy-chip">3d-hand-pose</span><span class="taxonomy-chip">egocentric-dataset</span><span class="taxonomy-chip taxonomy-venue">NeurIPS 2026</span>    </div>
+  </div>
+  <div class="subsection">✂️ Instrument &amp; Anatomy Segmentation</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26734v1" target="_blank" rel="noopener">INCISE: Training-Free In-Context Segmentation of Surgical Videos</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Yifan Xu 외 7인</span>    </div>
+    <p class="item-summary">수술 동영상 분석에서 비용이 큰 전문가 라벨링을 줄이는 방법을 다룬다. INCISE는 몇 개의 주석이 달린 참조 영상을 사용해 대상 동영상을 분할하는 훈련 없는 in-context segmentation 프레임워크를 제안한다. 1.7%의 훈련 프레임만 참조로 선택하고 주석을 달아 672%의 훈련 프레임만 참조로 선택하고 주석을 달아 67.2%의 평균 mIoU를 달성하고, 최고의 SOTA 미세 조정 방법을 9.2점 앞선다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">in-context-segmentation</span><span class="taxonomy-chip">surgical-videos</span><span class="taxonomy-chip">training-free</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27183v1" target="_blank" rel="noopener">GEG-SAM: Gaze Exploration-Guided Segment Anything Model for Weakly Supervised Polyp Segmentation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Ao Wang 외 8인</span>    </div>
+    <p class="item-summary">내시경 의사의 시선 기록을 활용해 약한 감독 하에 다reads결핵을 구분한다. Gaze Exploration-Guided Segment Anything Model (GEG-SAM)은 시선의 시간적 동태와 공간적 구조를 모델링하고, 이를 시선에 따른 시각적 컨텍스트와 결합하여 SAM의 사전 학습된 이미지 특징을 수정한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">gaze-exploration</span><span class="taxonomy-chip">polyp-segmentation</span><span class="taxonomy-chip">weakly-supervised</span>    </div>
+  </div>
+  <div class="subsection">🦾 Robotic Surgery &amp; Skill Assessment</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27179v1" target="_blank" rel="noopener">Inject, Encode, Navigate: Feature-Wise Time Injection for Rectified Flow with Bidirectional Feature Encoding</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Xiaogang Wang 외 4인</span>    </div>
+    <p class="item-summary">vision-model-based 로봇 네비게이션의 효율성 향상을 다룬다. rectified flow와 bidirectional Mamba-based visual encoder를 사용하며, feature-wise timestep conditioning을 통해 시각 임베딩을 조정한다. 다양한 데이터셋에서 기존 방법보다 우수한 성능을 보인다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">feature-wise-time-injection</span><span class="taxonomy-chip">rectified-flow</span><span class="taxonomy-chip">bidirectional-encoding</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26865v1" target="_blank" rel="noopener">FlowScope: 3D Scene Flow Pretraining Improves Surgical Robot Policies</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">John J. Han 외 6인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
+    <h2>⚙️ 딥러닝 방법론
+      <span class="count">13</span>
+    </h2>
+  </div>
+  <div class="subsection">📊 Uncertainty Quantification &amp; Calibration</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26945v1" target="_blank" rel="noopener">Spectral Estimation with Deformed Decompression</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Siavash Ameli 외 3인</span>    </div>
+    <p class="item-summary">대규모 모델의 고유값 스펙트럼을 추론하는 문제를 다룬다. Deformed Decompression (DD) 프레임워크를 사용하여 동반 행렬의 Stieltjes 변환을 이용한 방향적 진화를 통해 스펙트럼 분해 문제를 재구성한다. 다양한 무작위 행렬 예제에서 DD가 복잡한 스펙트럼 특성을 성공적으로 나타내어, 복잡한 시스를 처리하는 정확도 향상.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">spectral-estimation</span><span class="taxonomy-chip">deformed-decompression</span><span class="taxonomy-chip">stieltjes-transform</span><span class="taxonomy-chip taxonomy-venue">NeurIPS 2026</span>    </div>
+  </div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26978v1" target="_blank" rel="noopener">Affine-Image Propagation for Tight and Scalable Neural Network Verification</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Hong-Ming Chiu 외 3인</span>    </div>
+    <p class="item-summary">ℓ₂ 적대적 공격에 대한 신경망 인증의 정확성과 확장성을 향상시키는 방법을 다룬다. affine-image SDP-CROWN이라는 새로운 경계 전파 방법을 사용한다. 이 방법은 기존 방법보다 17%에서 63.5%까지 인증 정확도를 향상시킨다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">neural-network-verification</span><span class="taxonomy-chip">affine-image-sdp-crown</span><span class="taxonomy-chip">bound-propagation</span><span class="taxonomy-chip taxonomy-venue">NeurIPS 2026</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27056v1" target="_blank" rel="noopener">A Continuous Relaxation of Quantization-Aware Training</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Kartikeya Bhardwaj 외 6인</span>    </div>
+    <p class="item-summary">2비트 이하의 채널별 양자화 문제를 다룬다. 훈련 중 점진적으로 비트폭을 변경하는 RelaxQAT를 제안한다. 시각 및 자연어 처리 작업에서 최고의 QAT 방법보다 각각 평균 6.3%, 7.7%의 정확도 향상을 보인다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">quantization-aware-training</span><span class="taxonomy-chip">low-bit-quantization</span><span class="taxonomy-chip">relaxqat</span>    </div>
+  </div>
+  <div class="subsection">🔍 Explainability &amp; Interpretability</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26972v1" target="_blank" rel="noopener">When Perception Collides with Priors: Diagnosing Modal Polarization in Video Understanding Models</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Yao Tong 외 5인</span>    </div>
+    <p class="item-summary">Multimodal Large Language Models의 비ideo 이해력에서 발생하는 Modal Polarization 문제를 다룬다. TheaterBench라는 벤치마크를 사용해, 모델들이 시각적 증거와 내재된 사전 지식 사이에서 균형을 잃는 실패 패턴을 조사한다. 실험 결과, 현존하는 최고 모델들이 이 문제를 심각하게 겪으며, 이를 해결하기 위한 새로운 접근법이 필요하다는 것을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">multimodal-language-models</span><span class="taxonomy-chip">video-understanding</span><span class="taxonomy-chip">modal-polarization</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26975v1" target="_blank" rel="noopener">Run One, Get Two: Near-Free Streaming Safety Checks for Local LLMs</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Soheil Zibakhsh 외 2인</span>    </div>
+    <p class="item-summary">Local LLM 어시스턴트의 디코딩 과정에서 메모리 대역폭에 의해 제한되는 문제를 다룬다. ToRA라는 어댑터를 사용해 생성기의 디코딩 단계에서 추가 행으로 두 번째 모델을 실행한다. Qwen3-0.6B에서 ToRA는 전용 스트리밍 가드와 동일하거나 더 높은 F1 점수를 기록하며, 비슷한 비용으로 11.1% 더 정확한 결과를 제공한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">local-llm</span><span class="taxonomy-chip">streaming-safety</span><span class="taxonomy-chip">adapter-model</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27070v1" target="_blank" rel="noopener">$R^2$: Recognizing and Reducing Redundant Visual Tool Use</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Yilin Zhao 외 2인</span>    </div>
+    <p class="item-summary">시각 도구의 사용이 다중 모달 추론을 향상시킬 수 있지만, 도구의 효과는 샘플에 따라 다르다는 문제를 다룬다. $R^2$ 프레임워크는 샘플-레벨의 CAT 분석과 VFD 메트릭을 사용하여 도구 사용의 중복을 인식하고 줄인다. RA-GRPO는 도구 호출의 평균 수를 2가 벤치마크 정확도를 유지하면서 12.39% 줄이고, 도구 활용 범주별 정확도를 3.35% 포인트 향상시킨다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">vision-language</span><span class="taxonomy-chip">tool-utilization</span><span class="taxonomy-chip">redundancy-reduction</span>    </div>
+  </div>
+  <div class="subsection">🌐 Foundation Models &amp; Open-Vocabulary Perception</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26917v1" target="_blank" rel="noopener">What Does the Visual Encoder Buy? Visual Information Gain in Encoder-Free Multimodal Pretraining</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Zhixuan Ge 외 2인</span>    </div>
+    <p class="item-summary">visual-language 모델이 visual encoder 없이도 작동할 수 있는지 검토한다. visual information gain (VIG)을 사용하여 global과 layout 정보를 분석한다. encoder-free 모델은 layout 정보를 획득하며, pretrained encoder의 이점은 특히 이미지 내 텍스트 인식 능력에 있다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">visual-encoder</span><span class="taxonomy-chip">multimodal-pretraining</span><span class="taxonomy-chip">visual-information-gain</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26936v1" target="_blank" rel="noopener">SecretAgent: A Multi-Agent Framework for Privacy Protection against Vision Language Models</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Minda Zhao 외 2인</span>    </div>
+    <p class="item-summary">Vision-language models(VLMs)로부터 개인 정보를 보호하는 방법을 다룬다. SecretAgent는 LLM 에이전트가 시각적 증거를 찾아 비가시적 변형을 적용하고, 외관 검토 에이전트가 가시적 결함을 거절하는 다중 에이전트 프레임워크를 사용한다. 실험 결과, SecretAgent는 기존 방법보다 이미지 품질을 크게 향상으로 유지하면서 개인정보 보호를 제공한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">multi-agent</span><span class="taxonomy-chip">privacy-protection</span><span class="taxonomy-chip">vision-language-models</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26994v1" target="_blank" rel="noopener">SceneRuler: Measuring Physical Quantities in Video via Minimal Sufficient Reconstruction</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Yumeng He 외 4인</span>    </div>
+    <p class="item-summary">동영상에서 물체의 크기, 속도, 거리 등 물리량을 측정하는 방법을 다룬다. 각 질문에 대해 필요한 최소한의 물리적 장면을 재구성하고, 물리 법칙을 통해 측정하는 Minimal Sufficient Reconstruction을 사용한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">video-language</span><span class="taxonomy-chip">physical-reasoning</span><span class="taxonomy-chip">minimal-sufficient-reconstruction</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27064v1" target="_blank" rel="noopener">Dynamic Token Merging for Efficient Vision-Language Models</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Chris Gu 외 4인</span>    </div>
+    <p class="item-summary">Vision-language models이 이미지를 수백 개의 시각 토큰으로 표현하는 문제를 다룬다. Dynamic Token Merging(DTM)은 가벼운 delete gate를 사용해 토큰을 삭제하고, 훈련 중에는 differential attention bias로 작용하며 추론 시 실제로 토큰을 제거한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">vision-language</span><span class="taxonomy-chip">dynamic-token-merging</span><span class="taxonomy-chip">efficient-transformers</span>    </div>
+  </div>
+  <div class="subsection">🧩 Multimodal &amp; Self-Supervised Representation</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26954v1" target="_blank" rel="noopener">Learning Video Foresight Reasoning from Unlabeled Videos via On-Policy Self-Distillation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Jingchen Sun 외 9인</span>    </div>
+    <p class="item-summary">비디오에서 미래 이벤트를 예측하는 문제를 다룬다. 과거-미래 비디오 쌍을 이용한 on-policy self-distillation 프레임워크와 foresight 스코어를 통해 결정 관련 정보를 학습한다. Future-OPSD는 open-ended 예측과 closed-ended 계획에서 각각 최대 14.2점과 15.9점의 성능 햗.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">video-foresight-reasoning</span><span class="taxonomy-chip">on-policy-self-distillation</span><span class="taxonomy-chip">contrastive-privilege-advantage</span>    </div>
+  </div>
+  <div class="subsection">🎨 Generative Modeling &amp; Editing</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27074v1" target="_blank" rel="noopener">Hindsight Forcing: Learning Better History from the Future in Autoregressive Video Diffusion</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Haonan An 외 5인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+  </div>
+  <div class="subsection">🛡 Robustness &amp; Domain Generalization</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26940v1" target="_blank" rel="noopener">CENTRY: A Probabilistic Latent-State Model for Continual AI Risk Estimation, Monitoring, and Regulation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Bonny Banerjee 외 1인</span>    </div>
+    <p class="item-summary">AI 시스템의 안전성 문제를 다룬다. CENTRY는 데이터셋, 하드웨어, 모델/알고리즘에서 발생하는 위험을 모델링하고, 이를 통해 지속적인 위험 추정, 모니터링, 규제를 가능하게 하는 확률적 프레임워크를 사용한다. 이 프레임워크는 연속적인 확률 추론, 온라인 위험 추정, 그리고 적응형 학습을 통한 정확도 향상을 포함하며, 다양한 실험 결과로 안전성, 학습, 추론, 운영에 대한 형식적 보장을 제공한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">probabilistic-model</span><span class="taxonomy-chip">continual-risk-estimation</span><span class="taxonomy-chip">latent-variable</span>    </div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-header">
     <h2>📈 EHR·임상 시계열
-      <span class="count">1</span>
+      <span class="count">8</span>
     </h2>
   </div>
   <div class="subsection">🧾 EHR Sequence Modeling &amp; Patient Trajectory</div>
   <div class="item">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/43064096/" target="_blank" rel="noopener">MultiNSDE: treatment-aware neural SDEs for generative modeling of real and counterfactual patient trajectories.</a>    </div>
+<a href="http://arxiv.org/abs/2611.27007v1" target="_blank" rel="noopener">Scalable Evaluation of Medical AI using Evidence-based Practice Recommendations</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Teya Bergamaschi 외 11인</span>    </div>
+    <p class="item-summary">다양한 임상 상황과 치료 단계를 통해 의료 AI를 체계적으로 평가하는 방법을 다룬다. 436개의 BMJ Best Practice 임상 단행본에서 구조화된 임상 기준과 의사결정 트리를 추출하고 검증하는 자동 파이프라인을 개발한다. 이 방법은 3,200개의 다양한 임상 시나리오를 평가하고, 특히 질병 진단 정확도를 향상한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">medical-ai</span><span class="taxonomy-chip">evidence-based-practice</span><span class="taxonomy-chip">automated-pipeline</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27028v1" target="_blank" rel="noopener">Toward a digital twin of the ICU patient: Forecasting and treatment response in a generative event model</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Zhuoyang Lyu 외 4인</span>    </div>
+    <p class="item-summary">중환자실 환자의 경과와 치료 반응을 예측하는 디지털 트윈을 다룬다. 79M 파라미터의 decoder-only transformer인 TWICE를 127,332명의 환자 데이터로 학습시켰다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">digital-twin</span><span class="taxonomy-chip">icu-patient</span><span class="taxonomy-chip">generative-event-model</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/43067619/" target="_blank" rel="noopener">ECG foundation models for cardiovascular screening in a cohort of young competitive athletes.</a>    </div>
     <div class="item-meta">
       <span class="badge">PubMed</span>
-<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Diego Valderrama 외 5인</span>    </div>
-    <p class="item-summary">고차원적 정적 및 장기적 임상 데이터를 생성하는 방법을 다룬다. MultiNSDE는 treatment-와 placebo-관련 동역학을 구분하여 실제와 카운터팩트 환자 경로를 생성한다. 신경퇴행성 질환 데이터셋에서 임상적으로 가능한 경로를 재현하고, 치료 효과를 유지한 합성 데이터를 생성한다.</p>
+<span class="item-date">2026-11-21</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Christian Goelz 외 4인</span>    </div>
+    <p class="item-summary">AI를 활용한 심장 검진이 스포츠 의학을 발전시키는 데 중요한 역할을 할 수 있다는 것을 다룬다. 세 가지 모델(ECG-FM, HuBERT-ECG, ECGFounder)을 PhysioNet/CinC 2021 데이터셋으로 튜닝하고, 43개의 고급 선수 ECG 데이터로 테스트한다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip">neural-sde</span><span class="taxonomy-chip">synthetic-data</span><span class="taxonomy-chip">counterfactual-outcomes</span>    </div>
+<span class="taxonomy-chip">ecg-screening</span><span class="taxonomy-chip">foundation-models</span><span class="taxonomy-chip">athletes</span>    </div>
+  </div>
+  <div class="subsection">📉 Clinical Time Series &amp; Monitoring</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27206v1" target="_blank" rel="noopener">LingSante-Pulse: Unified Physiological Pretraining through Random-Feature Prediction and Cross-Modal Alignment</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Linxiao Yang 외 7인</span>    </div>
+    <p class="item-summary">다양한 생리 신호의 부분적으로 겹치는 모달성을 활용하여 정보를 추출하는 문제를 다룬다. LingSante-Pulse는 공유된 신호 조건 인코더와 쌍방향 교차 모달 정렬, 구조화된 무작위 특성 예측, 마스킹된 웨이브폼 재구성 기법을 사용한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">physiological-pretraining</span><span class="taxonomy-chip">cross-modal-alignment</span><span class="taxonomy-chip">random-feature-prediction</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27065v1" target="_blank" rel="noopener">COMPASS: Cross-modal Observation with Multi-Path Adaptive Stopping and Selection for Early Time Series Classification</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Cheng-En Chung 외 3인</span>    </div>
+    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26849v1" target="_blank" rel="noopener">Scoliosis5K: Multimodal Gait Analysis via Clip-Conditioned RGB-Silhouette Fusion</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Zizhao Peng 외 5인</span>    </div>
+    <p class="item-summary">색상 걷기 동영상에서 명확한 이진 실루엣이 척추측만증 관련 보행 분류에 어떤 기여를 하는지 조사한다. RGB 영상, 이진 실루엣, 2D 포즈를 결합하는 Scoliosis5K 데이터셋을 사용한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">multimodal-gait-analysis</span><span class="taxonomy-chip">clip-conditioned</span><span class="taxonomy-chip">rgb-silhouette-fusion</span>    </div>
+  </div>
+  <div class="subsection">📝 Clinical LLM &amp; Note Understanding</div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26806v1" target="_blank" rel="noopener">MedicalRSI: Medical Recursive Self-Improving Agents via Clinical Model-Harness Co-Evolution</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Ziqing Wang 외 3인</span>    </div>
+    <p class="item-summary">대형 언어 모델(LLMs) 기반 의료 에이전트의 경험을 활용한 지속적인 성능 향상을 다룬다. MedicalRSI는 의료 에이전트와 그 개선 전략을 동시에 훈련하는 Clinical Model-Harness Co-Evolution 프레임워크를 사용한다. 다양한 벤치마크와 LLM 백본에서 기존 방법을 능가하며, 새로운 워크, Luser50~250자로 요약해야 합니다. 이전 요청을 다시 정리하겠습니다. 아래 JSON 형식으로 요약해주세요. 초록 내용을 바탕으로 자연스러운 문장으로 요약해주세요. 초록 내용을 바탕으로 자연스러운 문장으로 요약해주세요. 초록 내용을 바탕으로 자연스러운 문장으로 요약해주세요. 초록 내용을 바탕으로 자연스러운 문장으로 요약해주세요. 초록 내용을 바탕으로 자연스러운 문장으로 요약해주세요.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">medical-agents</span><span class="taxonomy-chip">recursive-self-improvement</span><span class="taxonomy-chip">clinical-model-harness</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26914v1" target="_blank" rel="noopener">Multi-Tier Edge Triage: Optimizing Latency for Safe Clinical Agents</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Joshua Broyde 외 1인</span>    </div>
+    <p class="item-summary">기업 의료 워크플로우에서 생성형 AI 에이전트를 배포할 때 필요한 다차원 안전 및 준수 정책을 다룬다. Multi-Tier Edge Triage라는 안전 필터링 구조를 사용한다. 이 구조는 Tier-1 시퀀스 분류기를 사용해 명확한 쿼리를 즉시 처리하고, 애매한 쿼리만 Tier-2 클라우드user
+ JSONuser fine-tuning을 통해 98.90%의 정확도를 달성하고, 클라우드 LLM보다 14배 빠르다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">multi-tier-edge-triage</span><span class="taxonomy-chip">clinical-agents</span><span class="taxonomy-chip">safety-screening</span>    </div>
   </div>
 </div>
 <div class="section">
   <div class="section-header">
     <h2>🩺 의료영상 AI
-      <span class="count">1</span>
+      <span class="count">11</span>
     </h2>
   </div>
-  <div class="subsection">🫀 Segmentation, Detection &amp; Diagnosis</div>
+  <div class="subsection">🏥 Medical Foundation Models, VLM &amp; Report Generation</div>
   <div class="item">
     <div class="item-title">
-<a href="https://pubmed.ncbi.nlm.nih.gov/43063796/" target="_blank" rel="noopener">Ordinal conformal partial-label prediction for medical image grading.</a>    </div>
+<a href="http://arxiv.org/abs/2611.27102v1" target="_blank" rel="noopener">One state, many questions: Opsis gives a frontier model typed eyes for pathology</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Zhixuan Ge 외 1인</span>    </div>
+    <p class="item-summary">189개의 유방 병리 보고서 질문에 대해 정확도 0.50~0.66인 기존 모델을 개선한다. Opsis는 동결된 병리 인코더 위에 타이핑된 질문 인터페이스를 사용한다. Opsis-S를 사용해 질문을 통해 답변하는 방법은 정확도를 0.78~0.79로 높이고, 복잡한 질문에 대한 정확도를 향상시킨다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">pathology-report</span><span class="taxonomy-chip">typed-question-interface</span><span class="taxonomy-chip">frontier-models</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27158v1" target="_blank" rel="noopener">FM4SAR-Bench 1.0: Towards A Fair Benchmark for Evaluating Foundation Models for SAR Image Interpretation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Mingyao Chen 외 11인</span>    </div>
+    <p class="item-summary">SAR 이미지 해석에 있어 기반 모델의 다양성과 비교 불가능성을 다룬다. 다섯 등급, 여섯 차원, 세밀한 기준을 포함한 계층적 평가 프레임워크를 사용한다. 76개의 VFMs와 40개의 VLMs에 대한 체계적인 메타분석을 통해, SAR 전용 VLMs가 혼합 멀티모달 모델보다 우수하지 않음을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">foundation-models</span><span class="taxonomy-chip">sar-image-interpretation</span><span class="taxonomy-chip">evaluation-framework</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26794v1" target="_blank" rel="noopener">Beyond Final Answers: Interpretable Tumor Immune Microenvironment Reasoning from H&amp;E and mIF</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Yixuan Duan 외 3인</span>    </div>
+    <p class="item-summary">tumor immune microenvironment (TIME)의 readouts를 다룬다. HERMES는 H&amp;E와 mIF를 결합하여 clinical guidelines에 따른 단계별 추론을 수행하고, 각 단계의 정확성을 확인하는 process reward로 학습한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">tumor-immune-microenvironment</span><span class="taxonomy-chip">multimodal-evidence-supervision</span><span class="taxonomy-chip">hermes</span>    </div>
+  </div>
+  <div class="subsection">🫀 Segmentation, Detection &amp; Diagnosis</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27050v1" target="_blank" rel="noopener">Towards Text-Mask Consistency in Medical Image Segmentation</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Jie Gui 외 3인</span>    </div>
+    <p class="item-summary">의료 영상 분할에서 텍스트와 마스크의 일관성 문제를 다룬다. Cluster-aware Contrastive Learning과 Bidirectional Complementary Attention Module을 사용한다. C2Seg는 텍스트-마스크 일관성과 분할 정확도를 향상시킨다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">medical-image-segmentation</span><span class="taxonomy-chip">vision-language-models</span><span class="taxonomy-chip">text-mask-consistency</span><span class="taxonomy-chip taxonomy-venue">ICLR 2026</span>    </div>
+  </div>
+  <div class="subsection">🧲 Reconstruction, Generation &amp; Benchmark</div>
+  <div class="item starred">
+    <div class="item-title">
+<a href="https://pubmed.ncbi.nlm.nih.gov/43067067/" target="_blank" rel="noopener">DAF: Deterministic affinity-guided latent flow for flexible many-to-many multiphase liver MRI synthesis.</a>    </div>
     <div class="item-meta">
       <span class="badge">PubMed</span>
-<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
-<span class="item-authors">Lie Ju 외 6인</span>    </div>
-    <p class="item-summary missing">요약 생성 실패 — 원문에서 확인하세요.</p>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 5/5"><span class="filled">★★★★★</span><span class="empty"></span></span>
+<span class="item-authors">Shunjie Dong 외 8인</span>    </div>
+    <p class="item-summary">동적 대조강화 자기공명영상(DCE-MRI)을 비대조 이미지로부터 합성하는 문제를 다룬다. DAF는 multi-scale 특징을 추출하고 adaptive affinity fusion을 통해 latent space에서 flow-based 합성을 수행한다. LMRxDiag 데이터셋에서 NC-to-DP 합성은 26.69 dB PSNR과 92.04% SSIM를 달성했으며, 독립 판독자들은 합성 이미지와 실제 MRI 사이에 큰 차이를 느꼈다.</p>
     <div class="item-taxonomy">
-<span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+<span class="taxonomy-chip">dce-mri</span><span class="taxonomy-chip">liver-mri</span><span class="taxonomy-chip">latent-flow</span><span class="taxonomy-chip taxonomy-venue">MedIA</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27057v1" target="_blank" rel="noopener">Learning 3D MRI Representations with Generative Adversarial Networks</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Sujeet Lahane 외 4인</span>    </div>
+    <p class="item-summary">3D MRI 이미지의 표현 학습을 다룬다. Convolutional Neural Networks (CNNs)와 Generative Adversarial Networks (GANs)를 사용하여 3D 볼륨의 재구성 작업을 개선한다. R2RG는 3D MRI 데이터셋에서 우수한 성능을 보이며, Parkinson&#39;s와 Alzheimer&#39;s 질병 분류에서 대조 기반 방법을 능가한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">3d-mri</span><span class="taxonomy-chip">generative-adversarial-networks</span><span class="taxonomy-chip">representation-learning</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.27161v1" target="_blank" rel="noopener">Real-Anchored Complementary Evidence for Generalizable AI-Generated Image Detection</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-20</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Wenpeng Mu 외 4인</span>    </div>
+    <p class="item-summary">진화하는 생성 모델이 제시하는 도전을 다룬다. 진정한 사진의 규칙성을 기반으로 Real-Anchored Complementary Evidence (RACE)를 제안한다. RACE는 96.59%의 평균 AUROC를 달성하며, 특히 5개의 out-of-domain 벤치마크에서 97.18%의 성능을 보여준다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">image-detection</span><span class="taxonomy-chip">generative-models</span><span class="taxonomy-chip">real-anchored-evidence</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26703v1" target="_blank" rel="noopener">MambaSplit: Severity-Robust and Inference-Efficient Semantic Unmixing of Fluorescence Microscopy Image Data</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Aman Kukde 외 5인</span>    </div>
+    <p class="item-summary">fluorescence microscopy에서 구조물의 분리 제한을 해결한다. MambaSplit은 hierarchical state-space encoder와 convolutional decoder를 사용해 큰 타일에서 context를 선형 시간에 캡처하고, 두 채널을 한 번에 예측한다. 다섯 데이터셋과 아홉 혼합 비율에서 최고의 RI-PSNR을 달성하며, 가장 강력한 베이스라인보다  .95.9배 더 빠르게 수행한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">fluorescence-microscopy</span><span class="taxonomy-chip">semantic-unmixing</span><span class="taxonomy-chip">state-space-encoder</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26867v1" target="_blank" rel="noopener">SonoAtlasWorld: Anatomy-Grounded Ultrasound World Models for Wide-Range Scanning</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Zheyuan Zhang 외 7인</span>    </div>
+    <p class="item-summary">로봇 초음파 정책 학습을 위한 대규모 데이터 생성과 반복 가능한 평가 환경을 다룬다. SonoAtlasWorld는 3D 해부학적 자산을 기반으로 한 초음파 세계 모델로, CT에서 추출된 해부학적 상태를 기반으로 프robe 동작을 결정한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">ultrasound</span><span class="taxonomy-chip">world-models</span><span class="taxonomy-chip">anatomy-grounded</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26907v1" target="_blank" rel="noopener">A High-Compression Transformer VAE for Efficient and Controllable 3D Medical Image Generation with Diffusion Transformers</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 4/5"><span class="filled">★★★★</span><span class="empty">★</span></span>
+<span class="item-authors">Bo Liu 외 6인</span>    </div>
+    <p class="item-summary">3D 의료 영상 생성을 위한 효율적이고 제어 가능한 방법을 다룬다. Transformer VAE와 다중 모달 확산을 결합하여 BrainTumor-256K 데이터셋에서 학습한다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">medical-image-generation</span><span class="taxonomy-chip">transformer-vae</span><span class="taxonomy-chip">diffusion-transformers</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
+<a href="http://arxiv.org/abs/2611.26758v1" target="_blank" rel="noopener">ConRef: Auditing Reference Reliability in 2D/3D Registration Benchmarks</a>    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+<span class="item-date">2026-11-19</span>      <span class="stars" title="중요도 3/5"><span class="filled">★★★</span><span class="empty">★★</span></span>
+<span class="item-authors">Jianfeng Yue 외 5인</span>    </div>
+    <p class="item-summary">정확한 2D/3D 등록이 수술 내비게이션에 중요함을 다룬다. ConRef는 다중 X-ray 관찰을 활용해 추가 참조 자세를 추정하고, 불확실성을 측정하며, X-ray 아웃라이어를 식별한다. BeadPhant 데이터셋에서 ConRef는 0.08-0.12mm의 오차를 보였으며, 의학적 정확도를 높인 정확도를 보였다.</p>
+    <div class="item-taxonomy">
+<span class="taxonomy-chip">2d-3d-registration</span><span class="taxonomy-chip">reference-reliability</span><span class="taxonomy-chip">medical-imaging</span>    </div>
   </div>
 </div>
 
@@ -568,12 +1018,24 @@ min="2026-08-31" max="2026-11-22"
   </div>
   <div class="item">
     <div class="item-title">
+      <a href="https://arxiv.org/abs/2611.18397" target="_blank" rel="noopener">Gamer: A Generalist Vision-Language-Action Foundation Model for Long-Horizon Real-Time Game Agent</a>
+    </div>
+    <div class="item-meta">
+      <span class="badge">arXiv</span>
+      <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
+<span class="item-date">2026-11-13</span>      <span class="item-metric">▲ 154</span>
+<span class="item-authors">Run Luo 외</span>    </div>
+<p class="item-summary">복잡한 상호작용 환경에서 장기 과제를 다룬다. perception, memory management, multi-step reasoning을 통합한 end-to-end 아키텍처를 사용한다. Gamer는 다양한 3D 오픈 월드 게임에서 우수한 일반화 능력을 보여주며, 기존 2D 게임 벤치마크에서도 경쟁력 있는 성과를 달성한다.</p>    <div class="item-taxonomy">
+<span class="taxonomy-chip">vision-language-action</span><span class="taxonomy-chip">long-horizon-tasks</span><span class="taxonomy-chip">reinforcement-learning</span>    </div>
+  </div>
+  <div class="item">
+    <div class="item-title">
       <a href="https://arxiv.org/abs/2611.01860" target="_blank" rel="noopener">Advances in Agentic Computer Graphics</a>
     </div>
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
-<span class="item-date">2026-11-01</span>      <span class="item-metric">▲ 148</span>
+<span class="item-date">2026-11-01</span>      <span class="item-metric">▲ 149</span>
 <span class="item-authors">Hengyu Liu 외</span>    </div>
 <p class="item-summary">대규모 언어 모델(LLM) 에이전트가 그래픽 코드를 생성하고 반복적으로 개선하는 능력을 다룬다. 다양한 그래픽 작업에 걸친 통합 분류 체계와 인간 연구자에게 도움을 주는 에이전트 문헌 시스템을 제시한다. 이를 통해 새로운 연구 동향을 분석하고, 에이전트와 도구를 조정하거나 인터페이스를 설계하는 등의 개방된 과제를 논의한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">agentic-systems</span><span class="taxonomy-chip">computer-graphics</span><span class="taxonomy-chip">literature-review</span>    </div>
@@ -585,22 +1047,10 @@ min="2026-08-31" max="2026-11-22"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
-<span class="item-date">2026-11-18</span>      <span class="item-metric">▲ 148</span>
+<span class="item-date">2026-11-18</span>      <span class="item-metric">▲ 149</span>
 <span class="item-authors">Yuhe Liu 외</span>    </div>
 <p class="item-summary">Jeveration는 System One 모델을 사용해 고품질 이미지를 단일 순방향 패스에서 생성하는 방법을 다룬다. 이 모델은 동결된 비전-언어 모델을 기반으로, 시각-언어 지식을 이미지 생성에 재활용한다. 글로벌 일관성을 유지하기 위해 모든 위치를 공유된 랜덤 상태에 조건화한다. 실험 결과, Jeveration은 512x512 이미지를 78ms에 생성하며, 기존 통합 모델보다 최대 122배 빠르다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">vision-language</span><span class="taxonomy-chip">image-generation</span><span class="taxonomy-chip">holistic-prediction</span>    </div>
-  </div>
-  <div class="item">
-    <div class="item-title">
-      <a href="https://arxiv.org/abs/2611.18397" target="_blank" rel="noopener">Gamer: A Generalist Vision-Language-Action Foundation Model for Long-Horizon Real-Time Game Agent</a>
-    </div>
-    <div class="item-meta">
-      <span class="badge">arXiv</span>
-      <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
-<span class="item-date">2026-11-13</span>      <span class="item-metric">▲ 147</span>
-<span class="item-authors">Run Luo 외</span>    </div>
-<p class="item-summary">복잡한 상호작용 환경에서 장기 과제를 다룬다. perception, memory management, multi-step reasoning을 통합한 end-to-end 아키텍처를 사용한다. Gamer는 다양한 3D 오픈 월드 게임에서 우수한 일반화 능력을 보여주며, 기존 2D 게임 벤치마크에서도 경쟁력 있는 성과를 달성한다.</p>    <div class="item-taxonomy">
-<span class="taxonomy-chip">vision-language-action</span><span class="taxonomy-chip">long-horizon-tasks</span><span class="taxonomy-chip">reinforcement-learning</span>    </div>
   </div>
   <div class="item">
     <div class="item-title">
@@ -609,7 +1059,7 @@ min="2026-08-31" max="2026-11-22"
     <div class="item-meta">
       <span class="badge">arXiv</span>
       <span class="tier tier-major" title="커뮤니티 주목도">MAJOR</span>
-<span class="item-date">2026-11-13</span>      <span class="item-metric">▲ 136</span>
+<span class="item-date">2026-11-13</span>      <span class="item-metric">▲ 138</span>
 <span class="item-authors">Grid Robotics 외</span>    </div>
 <p class="item-summary">GPT-6 Astra의 출시는 agentic robotics이라는 새로운 로봇 공학 패러다임을 나타낸다. 이 시스템은 foundation model을 사용해 open-world embodied tasks를 수행하며, 환경 관찰, 사용자 의도 해석, 작업에 대한 추론, 기술 및 도구 활용, 결과 검증, 전략 수정을 반복한다. 연구팀은 Embodied System 2와 함께 평가 프레임워크를 제안하며, 지속적인 자율성 연구 로드맵을 제시한다.</p>    <div class="item-taxonomy">
 <span class="taxonomy-chip">agentic-robotics</span><span class="taxonomy-chip">foundation-model</span><span class="taxonomy-chip">evaluation-framework</span>    </div>
@@ -632,8 +1082,8 @@ min="2026-08-31" max="2026-11-22"
 <footer>
   <div class="footer-inner">
     <dl>
-      <dt>데이터 기준일</dt><dd>2026-11-22</dd>
-      <dt>생성 시각</dt><dd>2026-11-22 12:08 KST</dd>
+      <dt>데이터 기준일</dt><dd>2026-11-23</dd>
+      <dt>생성 시각</dt><dd>2026-11-23 12:13 KST</dd>
     </dl>
     <nav><a href="index.html">최신</a><a href="archive/index.html">지난 뉴스 전체</a></nav>
   </div>
